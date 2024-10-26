@@ -20,46 +20,60 @@
 
 AboutDialog *new_about_dialog(void)
 {
-    AboutDialog *instance = NULL;
+    AboutDialog *instance = g_malloc(sizeof(AboutDialog));
+
+    if(!instance)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        return NULL;
+    }
+
+    instance->dialog = gtk_about_dialog_new();
+
+    if (!instance->dialog)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_free(instance);
+        return NULL;
+    }
+
+    gtk_about_dialog_set_name(GTK_ABOUT_DIALOG(instance->dialog), TEXT_NAME_ABOUT_DIALOG);
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(instance->dialog), TEXT_VERSION_ABOUT_DIALOG);
+    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COPYRIGHT_ABOUT_DIALOG);
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COMMENTS_ABOUT_DIALOG);
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(instance->dialog), TEXT_WEBSITE_ABOUT_DIALOG);
 
     const gchar *logo = get_resource_file(LOGO_FILE_NAME_ABOUT_DIALOG);
 
-    instance = g_malloc(sizeof(AboutDialog));
-
-    if(instance)
+    if (logo)
     {
-        instance->dialog = gtk_about_dialog_new();
+        GdkPixbuf *pixbuf = cpixbuf(logo);
 
-        gtk_about_dialog_set_name(GTK_ABOUT_DIALOG(instance->dialog), TEXT_NAME_ABOUT_DIALOG);
-        gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(instance->dialog), TEXT_VERSION_ABOUT_DIALOG);
-        gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COPYRIGHT_ABOUT_DIALOG);
-        gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COMMENTS_ABOUT_DIALOG);
-        gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(instance->dialog), TEXT_WEBSITE_ABOUT_DIALOG);
-
-        if (logo)
+        if (pixbuf)
         {
-            gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(instance->dialog), cpixbuf(logo));
-            g_free(logo);
+            gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(instance->dialog), pixbuf);
+            g_object_unref(pixbuf);
+        }
+        else
+        {
+            g_warning(WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
         }
 
-        g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(gtk_widget_hide), instance->dialog);
+        g_free(logo);
     }
     else
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_warning(WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
     }
+
+    g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(gtk_widget_hide), instance->dialog);
 
     return instance;
 }
 
 void show_about_dialog(AboutDialog *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->dialog)
+    if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_show(instance->dialog);
     }
@@ -67,12 +81,7 @@ void show_about_dialog(AboutDialog *instance)
 
 void hide_about_dialog(AboutDialog *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->dialog)
+    if (instance && instance->dialog && gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_hide(instance->dialog);
     }
@@ -80,11 +89,13 @@ void hide_about_dialog(AboutDialog *instance)
 
 void destroy_about_dialog(AboutDialog *instance)
 {
-    if (instance == NULL)
+    if (instance)
     {
-        return;
-    }
+        if (instance->dialog)
+        {
+            gtk_widget_destroy(instance->dialog);
+        }
 
-    gtk_widget_destroy(instance->dialog);
-    g_free(instance);
+        g_free(instance);
+    }
 }

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "rpiclient.h"
+#include "home/home.h"
 #include "exit/exit_dialog.h"
 #include "about/about_dialog.h"
 
@@ -45,10 +45,10 @@ gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 
     if (exit_code == 0)
     {
-        return (FALSE);
+        return FALSE;
     }
 
-    return (TRUE);
+    return TRUE;
 }
 
 void on_show_about(GtkWidget *widget, gpointer data)
@@ -76,26 +76,9 @@ int main(int argc, char *argv[])
     /*        G_CALLBACK(destroy), NULL*/
     /*    );*/
 
-    gtk_signal_connect(
-        GTK_OBJECT(app->window),
-        "delete_event",
-        GTK_SIGNAL_FUNC(delete_event),
-        NULL
-    );
-
-    g_signal_connect(
-        G_OBJECT(app->menu_bar->menu_help_submenu_about),
-        "activate",
-        G_CALLBACK(on_show_about),
-        NULL
-    );
-
-    g_signal_connect(
-        G_OBJECT(app->window),
-        "destroy",
-        G_CALLBACK(on_exit_called),
-        NULL
-    );
+    g_signal_connect(GTK_OBJECT(app->window), "delete_event", GTK_SIGNAL_FUNC(delete_event), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
+    g_signal_connect( G_OBJECT(app->window), "destroy", G_CALLBACK(on_exit_called), NULL);
 
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 

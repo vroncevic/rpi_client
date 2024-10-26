@@ -20,31 +20,51 @@
 
 ExitDialog *new_exit_dialog(GtkWidget *parent)
 {
-    ExitDialog *instance = NULL;
-
     if (parent == NULL)
     {
         g_warning(WARNING_LOG_FAILED_PARENT_EXIT_DIALOG);
-        return instance;
+        return NULL;
     }
 
-    instance = g_malloc(sizeof(ExitDialog));
+    ExitDialog *instance = g_malloc(sizeof(ExitDialog));
 
-    if (instance)
-    {
-        instance->dialog = gtk_dialog_new_with_buttons(
-            TITLE_EXIT_DIALOG, GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT,
-            GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL
-        );
-
-        instance->content_area = gtk_dialog_get_content_area(GTK_DIALOG(instance->dialog));
-        instance->label = gtk_label_new(TEXT_LABEL_EXIT_DIALOG);
-        gtk_container_add(GTK_CONTAINER(instance->content_area), instance->label);
-    }
-    else
+    if (!instance)
     {
         g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        return NULL;
     }
+
+    instance->dialog = gtk_dialog_new_with_buttons(
+        TITLE_EXIT_DIALOG, GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL
+    );
+
+    if (!instance->dialog)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        g_free(instance);
+        return NULL;
+    }
+
+    instance->content_area = gtk_dialog_get_content_area(GTK_DIALOG(instance->dialog));
+
+    if (!instance->content_area)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        destroy_exit_dialog(instance);
+        return NULL;
+    }
+
+    instance->label = gtk_label_new(TEXT_LABEL_EXIT_DIALOG);
+
+    if (!instance->label)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        destroy_exit_dialog(instance);
+        return NULL;
+    }
+
+    gtk_container_add(GTK_CONTAINER(instance->content_area), instance->label);
 
     return instance;
 }
@@ -56,7 +76,7 @@ gint show_exit_dialog(ExitDialog *instance)
         return (0);
     }
 
-    if (instance->dialog)
+    if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_show(instance->dialog);
         gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
@@ -67,7 +87,7 @@ gint show_exit_dialog(ExitDialog *instance)
             return (0);
         }
 
-        gtk_widget_hide(instance->dialog);
+        hide_exit_dialog(instance);
     }
 
     return (-1);
@@ -75,12 +95,7 @@ gint show_exit_dialog(ExitDialog *instance)
 
 void hide_exit_dialog(ExitDialog *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->dialog)
+    if (instance && instance->dialog && gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_hide(instance->dialog);
     }
@@ -88,13 +103,13 @@ void hide_exit_dialog(ExitDialog *instance)
 
 void destroy_exit_dialog(ExitDialog *instance)
 {
-    if (instance == NULL)
+    if (instance)
     {
-        return;
-    }
+        if (instance->dialog)
+        {
+            gtk_widget_destroy(instance->dialog);
+        }
 
-    gtk_widget_destroy(instance->label);
-    gtk_widget_destroy(instance->content_area);
-    gtk_widget_destroy(instance->dialog);
-    g_free(instance);
+        g_free(instance);
+    }
 }
