@@ -20,43 +20,69 @@
 
 HelpWindow *new_help_window(void)
 {
-    HelpWindow *instance = NULL;
-    const gchar *icon = get_resource_file(ICON_HELP_WINDOW);
-    instance = g_malloc(sizeof(HelpWindow));
+    HelpWindow *instance = g_malloc(sizeof(HelpWindow));
 
-    if (instance)
-    {
-        instance->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-        instance->image_slider = new_image_slider();
-        gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
-        gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_HELP_WINDOW, HEIGHT_HELP_WINDOW);
-        gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_HELP_WINDOW);
-        gtk_window_set_icon(GTK_WINDOW(instance->window), cpixbuf(icon));
-        gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
-        gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
-        gtk_container_add(GTK_CONTAINER(instance->window), instance->image_slider);
-    }
-    else
+    if (!instance)
     {
         g_warning(WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        return NULL;
     }
+
+    instance->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+    if (!instance->window)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        destroy_help_window(instance);
+        return NULL;
+    }
+
+    instance->image_slider = new_image_slider();
+
+    if (!instance->image_slider)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        destroy_help_window(instance);
+        return NULL;
+    }
+
+    gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
+    gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_HELP_WINDOW, HEIGHT_HELP_WINDOW);
+    gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_HELP_WINDOW);
+
+    const gchar *icon = get_resource_file(ICON_HELP_WINDOW);
 
     if (icon)
     {
+        GdkPixbuf *pixbuf = cpixbuf(icon);
+
+        if (pixbuf)
+        {
+            gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
+            g_object_unref(pixbuf);
+        }
+        else
+        {
+            g_warning(WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW);
+        }
+            
         g_free(icon);
     }
+    else
+    {
+        g_warning(WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW);
+    }
+
+    gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
+    gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
+    gtk_container_add(GTK_CONTAINER(instance->window), instance->image_slider);
 
     return instance;
 }
 
 void show_help_window(HelpWindow *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->window)
+    if (instance && instance->window && !gtk_widget_get_visible(instance->window))
     {
         gtk_widget_show(instance->window);
     }
@@ -64,12 +90,7 @@ void show_help_window(HelpWindow *instance)
 
 void hide_help_window(HelpWindow *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->window)
+    if (instance && instance->window && gtk_widget_get_visible(instance->window))
     {
         gtk_widget_hide(instance->window);
     }
@@ -77,12 +98,18 @@ void hide_help_window(HelpWindow *instance)
 
 void destroy_help_window(HelpWindow *instance)
 {
-    if (instance == NULL)
+    if (instance)
     {
-        return;
-    }
+        if (instance->image_slider)
+        {
+            destroy_image_slider(instance->image_slider);
+        }
 
-    destroy_image_slider(instance->image_slider);
-    gtk_widget_destroy(instance->window);
-    g_free(instance);
+        if (instance->window)
+        {
+            gtk_widget_destroy(instance->window);
+        }
+
+        g_free(instance);
+    }
 }
