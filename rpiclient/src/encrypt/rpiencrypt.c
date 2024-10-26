@@ -23,9 +23,11 @@ gchar *rpi_encrypt(const gchar *in, gint shift)
     gint i;
     gint input_length = strlen(in);
     gchar *out = malloc((input_length + 1) * sizeof(*out));
+
     for (i = 0; i < input_length; i++)
     {
         gchar c = in[i];
+
         if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
         {
             c = tolower(c);
@@ -36,6 +38,7 @@ gchar *rpi_encrypt(const gchar *in, gint shift)
             out[i] = in[i] + shift;
         }
     }
+
     out[input_length] = '\0';
     return out;
 }

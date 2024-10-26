@@ -18,10 +18,9 @@
  */
 #pragma once
 
-#include "resource.h"
+#include "../resource/resource.h"
 
-#define CHECK_TYPE(typeOne, typeTwo) { \
-	#typeOne == #typeTwo ? 0 : 1}
+#define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
 
 #define START_REQ "start:"
 #define END_REQ ":end"
