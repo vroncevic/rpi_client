@@ -47,6 +47,9 @@
 #define WIDTH_BUTTON_HBOX_SETTINGS (70)
 #define HEIGHT_BUTTON_HBOX_SETTINGS (30)
 #define SPACING_HBOX_SETTINGS (3)
+#define WARNING_LOG_FAILED_MALLOC_SETTINGS_WINDOW "Failed to allocate memory for settings window\n"
+#define WARNING_LOG_FAILED_PIXBUF_SETTINGS_WINDOW "Failed to create pixbuf from settings icon.\n"
+#define WARNING_LOG_FAILED_RESOURCE_SETTINGS_WINDOW "Failed to get resource path for settings icon\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings window complex widget
