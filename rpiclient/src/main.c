@@ -77,8 +77,8 @@ int main(int argc, char *argv[])
     /*    );*/
 
     g_signal_connect(GTK_OBJECT(app->window), "delete_event", GTK_SIGNAL_FUNC(delete_event), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
-    g_signal_connect( G_OBJECT(app->window), "destroy", G_CALLBACK(on_exit_called), NULL);
+    g_signal_connect(GTK_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
+    g_signal_connect(GTK_OBJECT(app->window), "destroy", G_CALLBACK(on_exit_called), NULL);
 
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 

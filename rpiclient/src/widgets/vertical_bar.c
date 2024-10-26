@@ -29,19 +29,24 @@ static void gtk_vb_paint(GtkWidget *widget);
 GtkType gtk_vb_get_type(void)
 {
     static GtkType gtk_vb_type = 0;
+
     if (!gtk_vb_type)
     {
-        static const GtkTypeInfo gtk_vb_info = {
+        static const GtkTypeInfo gtk_vb_info =
+        {
             "GtkVB",
             sizeof(GtkVB),
             sizeof(GtkVBClass),
-            (GtkClassInitFunc)gtk_vb_class_init,
-            (GtkObjectInitFunc)gtk_vb_init,
+            (GtkClassInitFunc) gtk_vb_class_init,
+            (GtkObjectInitFunc) gtk_vb_init,
             NULL,
             NULL,
-            (GtkClassInitFunc)NULL};
+            (GtkClassInitFunc) NULL
+        };
+
         gtk_vb_type = gtk_type_unique(GTK_TYPE_WIDGET, &gtk_vb_info);
     }
+
     return gtk_vb_type;
 }
 
@@ -92,10 +97,7 @@ static void gtk_vb_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 
     if (GTK_WIDGET_REALIZED(widget))
     {
-        gdk_window_move_resize(
-            widget->window,
-            allocation->x, allocation->y,
-            allocation->width, allocation->height);
+        gdk_window_move_resize(widget->window, allocation->x, allocation->y, allocation->width, allocation->height);
     }
 }
 
@@ -131,8 +133,7 @@ static gboolean gtk_vb_expose(GtkWidget *widget, GdkEventExpose *event)
 
 static void gtk_vb_paint(GtkWidget *widget)
 {
-    cairo_t *cr;
-    cr = gdk_cairo_create(widget->window);
+    cairo_t *cr = gdk_cairo_create(widget->window);
     cairo_translate(cr, 0, 7);
     cairo_set_source_rgb(cr, 0, 0, 0);
     cairo_paint(cr);
@@ -151,24 +152,25 @@ static void gtk_vb_paint(GtkWidget *widget)
         {
             cairo_set_source_rgb(cr, 0.2, 0.4, 0);
         }
+
         cairo_rectangle(cr, 8, i * 4, 30, 3);
         cairo_rectangle(cr, 42, i * 4, 30, 3);
         cairo_fill(cr);
     }
+
     cairo_destroy(cr);
 }
 
-void gtk_vb_destroy(GtkObject *object)
-{
-    GtkVB *vb;
-    GtkVBClass *klass;
-    g_return_if_fail(object != NULL);
-    g_return_if_fail(GTK_IS_VB(object));
-    vb = GTK_VB(object);
-    klass = gtk_type_class(gtk_widget_get_type());
-
-    if (GTK_OBJECT_CLASS(klass)->destroy)
+void gtk_vb_destroy(GtkObject *instance)
+{ 
+    if (instance && GTK_IS_VB(instance))
     {
-        (*GTK_OBJECT_CLASS(klass)->destroy)(object);
+        GtkVB *vb = GTK_VB(instance);
+        GtkVBClass *klass = gtk_type_class(gtk_widget_get_type());
+
+        if (GTK_OBJECT_CLASS(klass)->destroy)
+        {
+            (*GTK_OBJECT_CLASS(klass)->destroy)(instance);
+        }
     }
 }

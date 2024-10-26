@@ -18,7 +18,7 @@
  */
 #pragma once
 
-#include "resource.h"
+#include "../resource/resource.h"
 
 G_BEGIN_DECLS
 
@@ -26,23 +26,38 @@ G_BEGIN_DECLS
 #define GTK_VB_CLASS(klass) GTK_CHECK_CLASS_CAST(klass, gtk_vb_get_type(), GtkVBClass)
 #define GTK_IS_VB(obj) GTK_CHECK_TYPE(obj, gtk_vb_get_type())
 
-typedef struct _GtkVB GtkVB;
-typedef struct _GtkVBClass GtkVBClass;
-
-struct _GtkVB
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Vertical bar complex widget
+///   widget - Gtk about dialog widget
+///   sel - 
+typedef struct
 {
     GtkWidget widget;
     gint sel;
-};
+} GtkVB;
 
-struct _GtkVBClass
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Vertical bar complex widget class
+///   parent_class - Gtk widget parent class
+typedef struct
 {
     GtkWidgetClass parent_class;
-};
+} GtkVBClass;
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Construct complex widget vertical bar
+/// @return Vertical bar complex widget pointer
 GtkWidget *gtk_vb_new(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Set state to vertical bar complex widget
+/// @param vb is pointer to complex widget vertical bar
+/// @param num is 
 void gtk_vb_set_state(GtkVB *vb, gint num);
-void gtk_vb_set_sel(GtkVB *vb, gint sel);
-void gtk_vb_destroy(GtkObject *object);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Destroy vertical bar complex widget
+/// @param instance is pointer to complex widget vertical bar
+void gtk_vb_destroy(GtkObject *instance);
 
 G_END_DECLS
