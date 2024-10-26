@@ -108,8 +108,10 @@ void destroy_exit_dialog(ExitDialog *instance)
         if (instance->dialog)
         {
             gtk_widget_destroy(instance->dialog);
+            instance->dialog = NULL;
         }
 
         g_free(instance);
+        instance = NULL;
     }
 }

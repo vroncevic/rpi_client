@@ -94,8 +94,10 @@ void destroy_about_dialog(AboutDialog *instance)
         if (instance->dialog)
         {
             gtk_widget_destroy(instance->dialog);
+            instance->dialog = NULL;
         }
 
         g_free(instance);
+        instance = NULL;
     }
 }

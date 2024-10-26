@@ -103,13 +103,16 @@ void destroy_help_window(HelpWindow *instance)
         if (instance->image_slider)
         {
             destroy_image_slider(instance->image_slider);
+            instance->image_slider = NULL;
         }
 
         if (instance->window)
         {
             gtk_widget_destroy(instance->window);
+            instance->window = NULL;
         }
 
         g_free(instance);
+        instance = NULL;
     }
 }

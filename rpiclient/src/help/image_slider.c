@@ -111,8 +111,13 @@ void destroy_image_slider(ImageSlider *instance)
         if (instance->fixed)
         {
             gtk_widget_destroy(instance->fixed);
+            instance->fixed = NULL;
+            instance->image = NULL;
+            instance->button_left = NULL;
+            instance->button_right = NULL;
         }
 
         g_free(instance);
+        instance = NULL;
     }
 }
