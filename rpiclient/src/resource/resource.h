@@ -33,7 +33,10 @@
 extern ServerParameters *server_parameters;
 extern GThreadParameters *gthread_parameters;
 extern gchar *resource_dir_path;
+extern gchar *config_dir_path;
 
 GdkPixbuf *cpixbuf(const gchar *file_path);
 gchar *get_resource_dir(void);
 gchar *get_resource_file(const gchar *file_name);
+gchar *get_config_dir(void);
+gchar *get_config_file(const gchar *file_name);

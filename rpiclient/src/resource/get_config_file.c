@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * settings_write.c
+ * get_config_file.c
  * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -16,32 +16,9 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "settings_config.h"
+#include "resource.h"
 
-gint settings_write(SettingsConfig* config_settings)
+gchar *get_config_file(const gchar *file_name)
 {
-    gchar *res_dir = g_strjoin(NULL, g_get_current_dir(), RPIC_RES_CONFIG, NULL);
-    FILE *pf1 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_1, NULL), "wb");
-    FILE *pf2 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_2, NULL), "wb");
-    FILE *pf3 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_3, NULL), "wb");
-
-    if (pf1 == NULL || pf2 == NULL || pf3 == NULL)
-    {
-        fclose(pf1);
-        fclose(pf2);
-        fclose(pf3);
-        return -1;
-    }
-
-    fputs(config_settings->no_prompt, pf1);
-    fflush(pf1);
-    fclose(pf1);
-    fputs(config_settings->ip_address, pf2);
-    fflush(pf2);
-    fclose(pf2);
-    fputs(config_settings->port_number, pf3);
-    fflush(pf3);
-    fclose(pf3);
-
-    return 0;
+    return g_strjoin(NULL, config_dir_path, RPIC_RES_CONFIG, NULL);
 }

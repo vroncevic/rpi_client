@@ -24,6 +24,7 @@
 /*ServerParameters *server_parameters;*/
 /*GThreadParameters *gthread_parameters;*/
 gchar *resource_dir_path = NULL;
+gchar *config_dir_path = NULL;
 Home *app = NULL;
 ExitDialog *exit_dlg = NULL;
 AboutDialog *about_dlg = NULL;
@@ -62,6 +63,7 @@ int main(int argc, char *argv[])
     // gdk_threads_init();
     // gdk_threads_enter();
     resource_dir_path = get_resource_dir();
+    config_dir_path = get_config_dir();
 
     gtk_init(&argc, &argv);
 
