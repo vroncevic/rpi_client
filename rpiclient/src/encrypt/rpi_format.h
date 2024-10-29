@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpiformat.c
+ * rpi_format.h
  * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -21,7 +21,6 @@
 #include "../resource/resource.h"
 
 #define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
-
 #define START_REQ "start:"
 #define END_REQ ":end"
 #define SEPARATOR ":"
@@ -42,12 +41,31 @@
 		}                                         \
 	}
 
+#define WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT "Missing input sequence for decrypt\n"
+#define WARNING_LOG_FAILED_MISSING_IN_SEQ_ENC_ENCRYPT "Missing input sequence for encrypt\n"
+#define WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT "Failed to allocate memory for decrypt output\n"
+#define WARNING_LOG_FAILED_MALLOC_ENC_ENCRYPT "Failed to allocate memory for encrypt output\n"
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief About dialog complex widget
+///   dialog - Gtk about dialog widget
 typedef struct
 {
 	gchar *pins[USED_CHANNELS];
 	gchar *channels[USED_CHANNELS];
 	gchar channel_data[USED_CHANNELS];
-} RPIFormat;
+} RPIChannels;
 
-/*gchar* rpi_encrypt(const gchar* in, gint shift);*/
-/*gchar* rpi_decrypt(const gchar* in, gint shift);*/
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Encrypt input data sequence
+/// @param in is pointer to input data sequence for encrpt operation
+/// @param shift is shift value
+/// @return encrypted data sequence
+gchar* rpi_encrypt(const gchar* in, guint shift);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Decrypt input data sequence
+/// @param in is pointer to input data sequence for decrpt operation
+/// @param shift is shift value
+/// @return decrypted data sequence
+gchar* rpi_decrypt(const gchar* in, guint shift);

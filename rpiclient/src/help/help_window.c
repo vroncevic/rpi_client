@@ -67,10 +67,12 @@ HelpWindow *new_help_window(void)
         }
             
         g_free(icon);
+        icon = NULL;
     }
     else
     {
         g_warning(WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW);
+        icon = NULL;
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);

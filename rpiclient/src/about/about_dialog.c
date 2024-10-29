@@ -60,10 +60,12 @@ AboutDialog *new_about_dialog(void)
         }
 
         g_free(logo);
+        logo = NULL;
     }
     else
     {
         g_warning(WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
+        logo = NULL;
     }
 
     g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(gtk_widget_hide), instance->dialog);

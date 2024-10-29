@@ -21,43 +21,92 @@
 Home *new_home(void)
 {
     // RPI_INIT();
-    Home *instance = NULL;
-    const gchar *icon = get_resource_file("icon.png");
-    instance = g_malloc(sizeof(Home));
+    Home *instance = g_malloc(sizeof(Home));
     
-    if(instance)
+    if(!instance)
     {
-        instance->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-        gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
-        gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_RPICLIENT_WINDOW, HEIGHT_RPICLIENT_WINDOW);
-        gtk_window_set_icon(GTK_WINDOW(instance->window), cpixbuf(icon));
-        gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_RPICLIENT_WINDOW);
-        gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
-        gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_RPICLIENT_WINDOW);
-        instance->vbox = gtk_vbox_new(FALSE, 0);
-        instance->menu_bar = new_menu_bar();
-        instance->frame_home = new_home_frame();
-        gtk_box_pack_start(GTK_BOX(instance->vbox), instance->menu_bar, FALSE, FALSE, 3);
-        gtk_box_pack_start(GTK_BOX(instance->vbox), instance->frame_home, FALSE, FALSE, 0);
-        gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
+        g_warning(WARNING_LOG_FAILED_MALLOC_HOME);
+        return NULL;
     }
 
-    if(icon)
+    instance->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+    if (!instance->window)
     {
-        g_free(icon);
+        g_warning(WARNING_LOG_FAILED_MALLOC_WINDOW_HOME);
+        destroy_home(instance);
+        return NULL;
     }
+
+    gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
+    gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_WINDOW_HOME, HEIGHT_WINDOW_HOME);
+
+    const gchar *icon = get_resource_file("icon.png");
+
+    if (icon)
+    {
+        GdkPixbuf *pixbuf = cpixbuf(icon);
+
+        if (pixbuf)
+        {
+            gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
+            g_object_unref(pixbuf);
+        }
+        else
+        {
+            g_warning(WARNING_LOG_FAILED_PIXBUF_HOME);
+        }
+
+        g_free(icon);
+        icon = NULL;
+    }
+    else
+    {
+        g_warning(WARNING_LOG_FAILED_RESOURCE_HOME);
+        icon = NULL;
+    }
+
+    gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_WINDOW_HOME);
+    gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
+    gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_WINDOW_HOME);
+
+    instance->vbox = gtk_vbox_new(FALSE, 0);
+
+    if (!instance->vbox)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_VBOX_HOME);
+        destroy_home(instance);
+        return NULL;
+    }
+
+    instance->menu_bar = new_menu_bar();
+
+    if (!instance->menu_bar)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR_HOME);
+        destroy_home(instance);
+        return NULL;
+    }
+
+    instance->frame_home = new_home_frame();
+
+    if (!instance->frame_home)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_HOME_FRAME_HOME);
+        destroy_home(instance);
+        return NULL;
+    }
+
+    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->menu_bar, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->frame_home, FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
 
     return instance;
 }
 
 void show_home(Home *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->window)
+    if (instance && instance->window && !gtk_widget_get_visible(instance->window))
     {
         gtk_widget_show(instance->window);
     }
@@ -65,12 +114,7 @@ void show_home(Home *instance)
 
 void hide_home(Home *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->window)
+    if (instance && instance->window && gtk_widget_get_visible(instance->window))
     {
         gtk_widget_hide(instance->window);
     }
@@ -78,14 +122,27 @@ void hide_home(Home *instance)
 
 void destroy_home(Home *instance)
 {
-    if (instance == NULL)
+    if (instance)
     {
-        return;
-    }
+        if (instance->frame_home)
+        {
+            destroy_home_frame(instance->frame_home);
+            instance->frame_home = NULL;
+        }
 
-    destroy_home_frame(instance->frame_home);
-    gtk_widget_destroy(instance->menu_bar);
-    gtk_widget_destroy(instance->vbox);
-    gtk_widget_destroy(instance->window);
-    g_free(instance);
+        if (instance->menu_bar)
+        {
+            destroy_menu_bar(instance->menu_bar);
+            instance->menu_bar = NULL;
+        }
+
+        if (instance->window)
+        {
+            gtk_widget_destroy(instance->window);
+            instance->window = NULL;
+        }
+
+        g_free(instance);
+        instance = NULL;
+    }
 }

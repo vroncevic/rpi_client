@@ -19,7 +19,9 @@
 			"rpichannelget.h": "c",
 			"resource.h": "c",
 			"rpifile.h": "c",
-			"help_window.h": "c"
+			"help_window.h": "c",
+			"home.h": "c",
+			"settings_config.h": "c"
 		}
 	}
 }

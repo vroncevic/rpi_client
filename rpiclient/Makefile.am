@@ -4,7 +4,7 @@
 ## @brief  Process this file with automake to produce Makefile.in
 ##
 
-SUBDIRS = src po
+SUBDIRS = src po rc
 
 dist_doc_DATA = \
 	README \

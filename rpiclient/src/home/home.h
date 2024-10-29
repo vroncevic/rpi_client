@@ -20,14 +20,27 @@
 
 #include "menu_bar.h"
 #include "home_frame.h"
-#include "settings_config.h"
-#include "rpiformat.h"
+#include "../settings/settings_config.h"
+#include "../encrypt/rpi_format.h"
 
-#define TITLE_RPICLIENT_WINDOW "RPIClient v1.0"
-#define WIDTH_RPICLIENT_WINDOW (250)
-#define HEIGHT_RPICLIENT_WINDOW (450)
-#define CONTAINER_BORDER_WIDTH_RPICLIENT_WINDOW (2)
+#define TITLE_WINDOW_HOME "RPIClient v1.0"
+#define WIDTH_WINDOW_HOME (250)
+#define HEIGHT_WINDOW_HOME (450)
+#define CONTAINER_BORDER_WIDTH_WINDOW_HOME (2)
+#define WARNING_LOG_FAILED_MALLOC_HOME "Failed to allocate memory for home\n"
+#define WARNING_LOG_FAILED_MALLOC_WINDOW_HOME "Failed to allocate memory for home window\n"
+#define WARNING_LOG_FAILED_PIXBUF_HOME "Failed to create pixbuf from home icon.\n"
+#define WARNING_LOG_FAILED_RESOURCE_HOME "Failed to get resource path for home icon\n"
+#define WARNING_LOG_FAILED_MALLOC_VBOX_HOME "Failed to allocate memory for vertial box home\n"
+#define WARNING_LOG_FAILED_MALLOC_MENU_BAR_HOME "Failed to allocate memory for menu bar home\n"
+#define WARNING_LOG_FAILED_MALLOC_HOME_FRAME_HOME "Failed to allocate memory for frame home\n"
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief About dialog complex widget
+///   window - Gtk window widget for home
+///   vbox - Gtk vertial box widget for home
+///   menu_bar - Complex widget for menu bar
+///   frame_home - Complex widget for home frame
 typedef struct
 {
     GtkWidget *window;
@@ -36,7 +49,22 @@ typedef struct
     HomeFrame *frame_home;
 } Home;
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Construct complex widget home
+/// @return About dialog complex widget pointer
 Home *new_home(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Show home complex widget
+/// @param instance is pointer to complex widget home
 void show_home(Home *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Hide home complex widget
+/// @param instance is pointer to complex widget home
 void hide_home(Home *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Destroy home complex widget
+/// @param instance is pointer to complex widget home
 void destroy_home(Home *instance);

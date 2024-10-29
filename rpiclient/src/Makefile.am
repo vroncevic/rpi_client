@@ -41,8 +41,8 @@ rpiclient_SOURCES = \
     home/rpiclient_spinbutton_signal_connect.c \
     home/rpiclient_vbar_signal_connect.c \
     about/about_dialog.c \
-    encrypt/rpiencrypt.c \
-    encrypt/rpidecrypt.c \
+    encrypt/rpi_encrypt.c \
+    encrypt/rpi_decrypt.c \
     exit/exit_dialog.c \
     help/help_window.c \
     help/image_slider.c \
@@ -50,6 +50,8 @@ rpiclient_SOURCES = \
     resource/cpixbuf.c \
     resource/get_resource_dir.c \
     resource/get_resource_file.c \
+    resource/get_config_dir.c \
+    resource/get_config_file.c \
     settings/settings_window.c \
     settings/settings_read.c \
     settings/settings_write.c \

@@ -29,6 +29,7 @@ GdkPixbuf *cpixbuf(const gchar *file_path)
     {
         fprintf(stderr, "%s\n", error->message);
         g_error_free(error);
+        error = NULL;
     }
 
     return pixbuf;

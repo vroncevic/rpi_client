@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpiencrypt.c
+ * rpi_decrypt.c
  * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -16,26 +16,44 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "rpiformat.h"
+#include "rpi_format.h"
 
-gchar *rpi_encrypt(const gchar *in, gint shift)
+gchar *rpi_decrypt(const gchar *in, guint shift)
 {
-    gint i;
+    if (!in)
+    {
+        g_warning(WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT);
+        return NULL;
+    }
+
     gint input_length = strlen(in);
     gchar *out = malloc((input_length + 1) * sizeof(*out));
 
-    for (i = 0; i < input_length; i++)
+    if (!out)
     {
-        gchar c = in[i];
+        g_warning(WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT);
+        return NULL;
+    }
 
-        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+    for (int i = 0; i < input_length; i++)
+    {
+        gchar character = in[i];
+
+        if ((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z'))
         {
-            c = tolower(c);
-            out[i] = ((c - 'a') + shift) % 26 + 'a';
+            character = tolower(character);
+
+            if ((character = character - 'a' - shift) < 0)
+            {
+                character += 26;
+            }
+
+            out[i] = character % 26 + 'a';
+            out[i] = toupper(out[i]);
         }
         else
         {
-            out[i] = in[i] + shift;
+            out[i] = in[i] - shift;
         }
     }
 
