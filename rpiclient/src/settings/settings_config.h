@@ -22,15 +22,31 @@
 
 #define SET_NOPROMPT "no-prompt:disable"
 #define SET_PROMPT "no-prompt:enable"
-#define CONFIG_FILE_1 "/config/sc1.config"
-#define CONFIG_FILE_2 "/config/sc2.config"
-#define CONFIG_FILE_3 "/config/sc3.config"
+#define CONFIGURATION_FILE_PROMPT "/config/prompt.config"
+#define CONFIGURATION_FILE_SERVER_ADDRESS "/config/server_address.config"
+#define CONFIGURATION_FILE_SERVER_PORT "/config/server_port.config"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ "Failed to get prompt config file path for read\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ "Failed to get server address config file path for read\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ "Failed to get server port config file path for read\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ "Failed to open prompt config file for read\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ "Failed to open server address config file for read\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ "Failed to open server port config file for read\n"
+#define WARNING_LOG_FAILED_MALLOC_SETTINGS_READ "Failed to allocate memory for settings configuration for read\n"
+#define WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE "Missing setting parameter for write\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE "Failed to get prompt config file path for write\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE "Failed to get server address config file path for write\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE "Failed to get server port config file path for write\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE "Failed to open prompt config file for write\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE "Failed to open server address config file for write\n"
+#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE "Failed to open server port config file for write\n"
+#define SUCCESS_SETTINGS_CONFIGURATION 0
+#define FAILED_SETTINGS_CONFIGURATION 1
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings configuration structure
-///   no_prompt - 
-///   ip_address - 
-///   port_number - 
+///   no_prompt - Configuration point for prompt
+///   ip_address - Configuration point for server ip address
+///   port_number - Configuration point for server port number
 typedef struct
 {
     gchar *no_prompt;
@@ -40,11 +56,16 @@ typedef struct
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Write settings configuration to file
-/// @param config is settings configuration to be written
+/// @param instance is pointer to settings configuration to be written
 /// @return Integer status
-gint settings_write(SettingsConfig* config);
+gint settings_write(SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Read configuration from files
 /// @return Settings configuration structure pointer
 SettingsConfig* settings_read(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Free settings configuration memory
+/// @param instance is pointer to settings configuration to be free
+void settings_free(SettingsConfig* instance);

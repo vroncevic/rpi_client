@@ -18,30 +18,86 @@
  */
 #include "settings_config.h"
 
-gint settings_write(SettingsConfig* config_settings)
+gint settings_write(SettingsConfig* instance)
 {
-    gchar *res_dir = g_strjoin(NULL, g_get_current_dir(), RPIC_RES_CONFIG, NULL);
-    FILE *pf1 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_1, NULL), "wb");
-    FILE *pf2 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_2, NULL), "wb");
-    FILE *pf3 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_3, NULL), "wb");
-
-    if (pf1 == NULL || pf2 == NULL || pf3 == NULL)
+    if (!instance)
     {
-        fclose(pf1);
-        fclose(pf2);
-        fclose(pf3);
-        return -1;
+        g_warning(WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE);
+        return FAILED_SETTINGS_CONFIGURATION;
     }
 
-    fputs(config_settings->no_prompt, pf1);
-    fflush(pf1);
-    fclose(pf1);
-    fputs(config_settings->ip_address, pf2);
-    fflush(pf2);
-    fclose(pf2);
-    fputs(config_settings->port_number, pf3);
-    fflush(pf3);
-    fclose(pf3);
+    gchar *prompt_config = get_config_file(CONFIGURATION_FILE_PROMPT);
 
-    return 0;
+    if (!prompt_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE);
+        return FAILED_SETTINGS_CONFIGURATION;
+    }
+
+    gchar *server_address_config = get_config_file(CONFIGURATION_FILE_SERVER_ADDRESS);
+
+    if (!server_address_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE);
+        g_free(prompt_config);
+        return FAILED_SETTINGS_CONFIGURATION;
+    }
+
+    gchar *server_port_config = get_config_file(CONFIGURATION_FILE_SERVER_PORT);
+
+    if (!server_port_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        return FAILED_SETTINGS_CONFIGURATION;
+    }
+
+    FILE *file_prompt_config = fopen(prompt_config, "wb");
+
+    if (!file_prompt_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        g_free(server_port_config);
+        return FAILED_SETTINGS_CONFIGURATION;
+    }
+
+    FILE *file_server_address_config = fopen(server_address_config, "wb");
+
+    if (!file_server_address_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        g_free(server_port_config);
+        fclose(file_prompt_config);
+        return FAILED_SETTINGS_CONFIGURATION;
+    }
+
+    FILE *file_server_port_config = fopen(server_port_config, "wb");
+
+    if (!file_server_port_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        g_free(server_port_config);
+        fclose(file_prompt_config);
+        fclose(file_server_address_config);
+        return FAILED_SETTINGS_CONFIGURATION;
+    }
+
+    fputs(instance->no_prompt, file_prompt_config);
+    fflush(file_prompt_config);
+    fputs(instance->ip_address, file_server_address_config);
+    fflush(file_server_address_config);
+    fputs(instance->port_number, file_server_port_config);
+    fflush(file_server_port_config);
+    fclose(file_prompt_config);
+    fclose(file_server_address_config);
+    fclose(file_server_port_config);
+
+    return SUCCESS_SETTINGS_CONFIGURATION;
 }

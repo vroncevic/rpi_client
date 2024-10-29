@@ -18,52 +18,99 @@
  */
 #include "settings_config.h"
 
-SettingsConfig* settings_read()
+SettingsConfig* settings_read(void)
 {
-    SettingsConfig* configuration = NULL;
-    FILE *pf1 = NULL;
-    FILE *pf2 = NULL;
-    FILE *pf3 = NULL;
-    gint status = 0;
+    gchar *prompt_config = get_config_file(CONFIGURATION_FILE_PROMPT);
 
-    gchar *res_dir = g_strjoin(NULL, g_get_current_dir(), RPIC_RES_CONFIG, NULL);
-    pf1 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_1, NULL), "rb");
-    pf2 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_2, NULL), "rb");
-    pf3 = fopen(g_strjoin(NULL, res_dir, CONFIG_FILE_3, NULL), "rb");
-
-    if (pf1 == NULL || pf2 == NULL || pf3 == NULL)
+    if (!prompt_config)
     {
-        fclose(pf1);
-        fclose(pf2);
-        fclose(pf3);
-        status = 1;
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ);
+        return NULL;
     }
 
-    if (status == 0)
-    {
-        gchar tmp[17];
-        fscanf(pf1, "%s", (gchar *)&tmp);
-        g_print("%s\n", tmp);
-        configuration->no_prompt = (gchar *) malloc(strlen(tmp));
-        strcpy(configuration->no_prompt, tmp);
-        fclose(pf1);
-        fscanf(pf2, "%s", (gchar *)&tmp);
-        g_print("%s\n", tmp);
-        configuration->ip_address = (gchar *) malloc(strlen(tmp));
-        strcpy(configuration->ip_address, tmp);
-        fclose(pf2);
-        fscanf(pf3, "%s", (gchar *)&tmp);
-        g_print("%s\n", tmp);
-        configuration->port_number = (gchar *) malloc(strlen(tmp));
-        strcpy(configuration->port_number, tmp);
-        fclose(pf3);
+    gchar *server_address_config = get_config_file(CONFIGURATION_FILE_SERVER_ADDRESS);
 
-        return configuration;
+    if (!server_address_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ);
+        g_free(prompt_config);
+        return NULL;
     }
 
-    configuration->no_prompt = SET_PROMPT;
-    configuration->ip_address = "127.0.0.1";
-    configuration->port_number = "8000";
+    gchar *server_port_config = get_config_file(CONFIGURATION_FILE_SERVER_PORT);
 
-    return configuration;
+    if (!server_port_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        return NULL;
+    }
+
+    FILE *file_prompt_config = fopen(prompt_config, "rb");
+
+    if (!file_prompt_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        g_free(server_port_config);
+        return NULL;
+    }
+
+    FILE *file_server_address_config = fopen(server_address_config, "rb");
+
+    if (!file_server_address_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        g_free(server_port_config);
+        fclose(file_prompt_config);
+        return NULL;
+    }
+
+    FILE *file_server_port_config = fopen(server_port_config, "rb");
+
+    if (!file_server_port_config)
+    {
+        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        g_free(server_port_config);
+        fclose(file_prompt_config);
+        fclose(file_server_address_config);
+        return NULL;
+    }
+
+    SettingsConfig* instance = g_malloc(sizeof(SettingsConfig));
+
+    if (!instance)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_free(prompt_config);
+        g_free(server_address_config);
+        g_free(server_port_config);
+        fclose(file_prompt_config);
+        fclose(file_server_address_config);
+        fclose(file_server_port_config);
+        return NULL;
+    }
+
+    gchar tmp[17];
+    fscanf(file_prompt_config, "%16s", tmp);
+    instance->no_prompt = g_strdup(tmp);
+    fscanf(file_server_address_config, "%16s", tmp);
+    instance->ip_address = g_strdup(tmp);
+    fscanf(file_server_port_config, "%16s", tmp);
+    instance->port_number = g_strdup(tmp);
+
+    g_free(prompt_config);
+    g_free(server_address_config);
+    g_free(server_port_config);
+    fclose(file_prompt_config);
+    fclose(file_server_address_config);
+    fclose(file_server_port_config);
+
+    return instance;
 }
