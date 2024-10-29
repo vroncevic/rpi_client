@@ -17,7 +17,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "channel_control.h"
-#include "vertical_bar.h"
+#include "../widgets/vertical_bar.h"
 
 ChannelControl *new_channel_control(gint channel_id)
 {
@@ -27,10 +27,10 @@ ChannelControl *new_channel_control(gint channel_id)
     {
         instance->control_channel_vertical_bar = gtk_vb_new();
         gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, TOOLTIP_VERTICAL_BAR(channel_id));
-        instance->control_channel_scale = gtk_vcontrol_channel_scale_new_with_range(MIN_VALUE_SCALE, MAX_VALUE_SCALE, STEP_VALUE_SCALE);
+        // instance->control_channel_scale = gtk_vcontrol_channel_scale_new_with_range(MIN_VALUE_SCALE, MAX_VALUE_SCALE, STEP_VALUE_SCALE);
         gtk_widget_set_tooltip_text(instance->control_channel_scale, TOOLTIP_SCALE(channel_id));
         gtk_range_set_inverted(GTK_RANGE(instance->control_channel_scale), TRUE);
-        gtk_control_channel_scale_set_value_pos(GTK_SCALE(instance->control_channel_scale), GTK_POS_TOP);
+        // gtk_control_channel_scale_set_value_pos(GTK_SCALE(instance->control_channel_scale), GTK_POS_TOP);
         gtk_widget_set_size_request(instance->control_channel_scale, WIDTH_SCALE, HEIGHT_SCALE);
         instance->control_channel_spinner_adjustment = (GtkAdjustment *) gtk_adjustment_new(
             VALUE_SPINNER_ADJUSTMENT, LOWER_SPINNER_ADJUSTMENT,

@@ -7,8 +7,7 @@
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	$(RPICLIENT_CFLAGS)
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\"
 
 AM_CFLAGS = \
 	-Wall \
@@ -29,6 +28,8 @@ rpiclient_SOURCES = \
     home/home_frame.c \
     home/menu_bar.c \
     home/read_socket.c \
+    home/channel_status.c \
+    home/channel_control.c \
     home/rpiclient_about_signal_connect.c \
     home/rpiclient_channel_signal_connect.c \
     home/rpiclient_connect_signal_connect.c \
@@ -60,16 +61,6 @@ rpiclient_SOURCES = \
 
 GTK_CFLAGS = $(shell pkg-config --cflags gtk+-2.0)
 GTK_LIBS = $(shell pkg-config --libs gtk+-2.0)
-
-rpiclient_DATA = \
-    resource/images/1.png \
-    resource/images/2.png \
-    resource/images/3.png \
-    resource/images/4.png \
-    resource/images/5.png \
-    resource/images/blanko.png \
-    resource/images/icon.png \
-    resource/images/logo.png
 
 # Remove pkg directory on uninstall
 uninstall-local:

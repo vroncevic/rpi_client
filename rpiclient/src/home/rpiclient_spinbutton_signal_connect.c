@@ -16,23 +16,23 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "rpiclient.h"
+// #include "rpiclient.h"
 
-void rpiclient_spinbutton_signal_connect(Home *rpiclient_ptr)
-{
-    if (rpiclient_ptr)
-    {
-        g_signal_connect(
-            G_OBJECT(rpiclient_ptr->ch1->spinbuton), "value_changed",
-            G_CALLBACK(set_value_sc), (gpointer)rpiclient_ptr->ch1->control_channel_scale);
-    }
-}
+// void rpiclient_spinbutton_signal_connect(Home *rpiclient_ptr)
+// {
+//     if (rpiclient_ptr)
+//     {
+//         g_signal_connect(
+//             G_OBJECT(rpiclient_ptr->ch1->spinbuton), "value_changed",
+//             G_CALLBACK(set_value_sc), (gpointer)rpiclient_ptr->ch1->control_channel_scale);
+//     }
+// }
 
-void set_value_sc(GtkWidget *widget, gpointer data)
-{
-    GtkWidget *spinbuton = (GtkWidget *)widget;
-    GtkRange *range = (GtkRange *)data;
-    gtk_range_set_value(
-        range,
-        (gdouble)gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbuton)));
-}
+// void set_value_sc(GtkWidget *widget, gpointer data)
+// {
+//     GtkWidget *spinbuton = (GtkWidget *)widget;
+//     GtkRange *range = (GtkRange *)data;
+//     gtk_range_set_value(
+//         range,
+//         (gdouble)gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbuton)));
+// }

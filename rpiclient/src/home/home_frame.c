@@ -67,8 +67,7 @@ HomeFrame *new_home_frame(void)
             x_pos_label += SHIFT_X_POSITION_GET;
         }
 
-        gint i;
-        gint x_pos_vbar = START_X_POSITION_VERTICAL_BAR_SET;
+        x_pos_vbar = START_X_POSITION_VERTICAL_BAR_SET;
         gint x_pos_control_channel_scale = START_X_POSITION_SCALE_SET;
         gint x_pos_spiner_button = START_X_POSITION_SPINER_BUTTON_SET;
         gint x_pos_control_channel_gpio_check_box = START_X_POSITION_ACTIVATE_GPIO_SET;

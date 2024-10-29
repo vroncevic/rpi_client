@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "rpiclient.h"
+// #include "rpiclient.h"
 
-void rpiclient_disconnect_signal_connect(Home *rpiclient_ptr)
-{
-    if (rpiclient_ptr)
-    {
-        g_signal_connect(
-            G_OBJECT(rpiclient_ptr->disconnect), "activate",
-            G_CALLBACK(MakeDisconnection), NULL);
-    }
-}
+// void rpiclient_disconnect_signal_connect(Home *rpiclient_ptr)
+// {
+//     if (rpiclient_ptr)
+//     {
+//         g_signal_connect(
+//             G_OBJECT(rpiclient_ptr->disconnect), "activate",
+//             G_CALLBACK(MakeDisconnection), NULL);
+//     }
+// }
 
-void MakeDisconnection(GtkWidget *widget)
-{
-}
+// void MakeDisconnection(GtkWidget *widget)
+// {
+// }

@@ -17,7 +17,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "channel_status.h"
-#include "vertical_bar.h"
+#include "../widgets/vertical_bar.h"
 
 ChannelStatus *new_channel_status(gint channel_id)
 {

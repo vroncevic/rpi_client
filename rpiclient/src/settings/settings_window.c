@@ -138,8 +138,8 @@ SettingsWindow *new_settings_window(void)
     }
 
     gtk_entry_set_max_length(GTK_ENTRY(instance->entry_address), MAX_LENGTH_ENTRY_ADDRESS);
-    gint len = GTK_ENTRY(instance->entry_address)->text_length;
-    instance->cur_pos_address = len;
+    gint len_address = GTK_ENTRY(instance->entry_address)->text_length;
+    instance->cur_pos_address = len_address;
     gtk_editable_insert_text(GTK_EDITABLE(instance->entry_address), TEXT_EXAMPLE_ENTRY_ADDRESS, NEW_TEXT_LENGTH_ENTRY_ADDRESS, &(instance->cur_pos_address));
     gtk_editable_select_region(GTK_EDITABLE(instance->entry_address), START_POSITION_ENTRY_ADDRESS, GTK_ENTRY(instance->entry_address)->text_length);
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_address), instance->entry_address);
@@ -163,8 +163,8 @@ SettingsWindow *new_settings_window(void)
     }
 
     gtk_entry_set_max_length(GTK_ENTRY(instance->entry_port), MAX_LENGTH_ENTRY_PORT);
-    gint len = GTK_ENTRY(instance->entry_port)->text_length;
-    instance->cur_pos_port = len;
+    gint len_port = GTK_ENTRY(instance->entry_port)->text_length;
+    instance->cur_pos_port = len_port;
     gtk_editable_insert_text(GTK_EDITABLE(instance->entry_port), TEXT_EXAMPLE_ENTRY_PORT, NEW_TEXT_LENGTH_ENTRY_PORT, &(instance->cur_pos_port));
     gtk_editable_select_region(GTK_EDITABLE(instance->entry_port), START_POSITION_ENTRY_PORT, GTK_ENTRY(instance->entry_port)->text_length);
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_port), instance->entry_port);
