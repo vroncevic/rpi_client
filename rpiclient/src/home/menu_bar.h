@@ -26,6 +26,7 @@
 #define TEXT_MENU_OPTION_SUBMENU_CONNECT_MENU_BAR "Connect"
 #define TEXT_MENU_OPTION_SUBMENU_DISCONNECT_MENU_BAR "Disconnect"
 #define TEXT_MENU_SETTINGS_MENU_BAR "Settings"
+#define TEXT_MENU_SETTINGS_SUBMENU_GENERAL_MENU_BAR "General"
 #define TEXT_MENU_SETTINGS_SUBMENU_NETWORK_MENU_BAR "Network"
 #define TEXT_MENU_HELP_MENU_BAR "Help"
 #define TEXT_MENU_HELP_SUBMENU_HELP_MENU_BAR "Help"
@@ -49,13 +50,18 @@ typedef struct
 {
 	GtkWidget *menu_bar;
 	GtkWidget *menu_file;
+	GtkWidget *menu_file_item;
 	GtkWidget *menu_file_submenu_exit;
 	GtkWidget *menu_option;
+	GtkWidget *menu_option_item;
 	GtkWidget *menu_option_submenu_connect;
 	GtkWidget *menu_option_submenu_disconnect;
 	GtkWidget *menu_settings;
+	GtkWidget *menu_settings_item;
+	GtkWidget *menu_settings_submenu_general;
 	GtkWidget *menu_settings_submenu_network;
 	GtkWidget *menu_help;
+	GtkWidget *menu_help_item;
 	GtkWidget *menu_help_submenu_help;
 	GtkWidget *menu_help_submenu_about;
 } MenuBar;
