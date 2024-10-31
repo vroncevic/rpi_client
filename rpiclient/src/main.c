@@ -55,23 +55,15 @@ int main(int argc, char *argv[])
     // gdk_threads_enter();
 
     gtk_init(&argc, &argv);
-
     resource_dir_path = get_resource_dir();
     config_dir_path = get_config_dir();
     app = new_home();
     exit_dlg = new_exit_dialog(app->window);
     about_dlg = new_about_dialog();
-
     show_home(app);
-
-    /*    g_signal_connect(*/
-    /*        G_OBJECT(rpiclient_ptr->quit), "button-press-event",*/
-    /*        G_CALLBACK(destroy), NULL*/
-    /*    );*/
-
     g_signal_connect(G_OBJECT(app->window), "delete_event", G_CALLBACK(delete_event), NULL);
-    // g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
 
+    // g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 
     gtk_main();

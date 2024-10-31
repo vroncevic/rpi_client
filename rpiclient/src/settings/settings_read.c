@@ -33,7 +33,7 @@ SettingsConfig* settings_read(void)
     if (!server_address_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ);
-        g_free(prompt_config);
+        g_free((gpointer)prompt_config);
         return NULL;
     }
 
@@ -42,8 +42,8 @@ SettingsConfig* settings_read(void)
     if (!server_port_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ);
-        g_free(prompt_config);
-        g_free(server_address_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
         return NULL;
     }
 
@@ -52,9 +52,9 @@ SettingsConfig* settings_read(void)
     if (!file_prompt_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ);
-        g_free(prompt_config);
-        g_free(server_address_config);
-        g_free(server_port_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
         return NULL;
     }
 
@@ -63,9 +63,9 @@ SettingsConfig* settings_read(void)
     if (!file_server_address_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ);
-        g_free(prompt_config);
-        g_free(server_address_config);
-        g_free(server_port_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
         fclose(file_prompt_config);
         return NULL;
     }
@@ -75,9 +75,9 @@ SettingsConfig* settings_read(void)
     if (!file_server_port_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ);
-        g_free(prompt_config);
-        g_free(server_address_config);
-        g_free(server_port_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
         fclose(file_prompt_config);
         fclose(file_server_address_config);
         return NULL;
@@ -88,9 +88,9 @@ SettingsConfig* settings_read(void)
     if (!instance)
     {
         g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
-        g_free(prompt_config);
-        g_free(server_address_config);
-        g_free(server_port_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
         fclose(file_prompt_config);
         fclose(file_server_address_config);
         fclose(file_server_port_config);
@@ -105,9 +105,9 @@ SettingsConfig* settings_read(void)
     fscanf(file_server_port_config, "%16s", tmp);
     instance->port_number = g_strdup(tmp);
 
-    g_free(prompt_config);
-    g_free(server_address_config);
-    g_free(server_port_config);
+    g_free((gpointer)prompt_config);
+    g_free((gpointer)server_address_config);
+    g_free((gpointer)server_port_config);
     fclose(file_prompt_config);
     fclose(file_server_address_config);
     fclose(file_server_port_config);

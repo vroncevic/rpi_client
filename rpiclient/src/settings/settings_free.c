@@ -24,19 +24,19 @@ void settings_free(SettingsConfig *instance)
     {
         if (instance->no_prompt)
         {
-            g_free(instance->no_prompt);
+            g_free((gpointer)instance->no_prompt);
             instance->no_prompt = NULL;
         }
 
         if (instance->ip_address)
         {
-            g_free(instance->ip_address);
+            g_free((gpointer)instance->ip_address);
             instance->ip_address = NULL;
         }
 
         if (instance->port_number)
         {
-            g_free(instance->port_number);
+            g_free((gpointer)instance->port_number);
             instance->port_number = NULL;
         }
 

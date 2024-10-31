@@ -39,7 +39,7 @@ gint settings_write(SettingsConfig* instance)
     if (!server_address_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE);
-        g_free(prompt_config);
+        g_free((gpointer)prompt_config);
         return FAILED_SETTINGS_CONFIGURATION;
     }
 
@@ -48,8 +48,8 @@ gint settings_write(SettingsConfig* instance)
     if (!server_port_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE);
-        g_free(prompt_config);
-        g_free(server_address_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
         return FAILED_SETTINGS_CONFIGURATION;
     }
 
@@ -58,9 +58,9 @@ gint settings_write(SettingsConfig* instance)
     if (!file_prompt_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE);
-        g_free(prompt_config);
-        g_free(server_address_config);
-        g_free(server_port_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
         return FAILED_SETTINGS_CONFIGURATION;
     }
 
@@ -69,9 +69,9 @@ gint settings_write(SettingsConfig* instance)
     if (!file_server_address_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE);
-        g_free(prompt_config);
-        g_free(server_address_config);
-        g_free(server_port_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
         fclose(file_prompt_config);
         return FAILED_SETTINGS_CONFIGURATION;
     }
@@ -81,9 +81,9 @@ gint settings_write(SettingsConfig* instance)
     if (!file_server_port_config)
     {
         g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE);
-        g_free(prompt_config);
-        g_free(server_address_config);
-        g_free(server_port_config);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
         fclose(file_prompt_config);
         fclose(file_server_address_config);
         return FAILED_SETTINGS_CONFIGURATION;
