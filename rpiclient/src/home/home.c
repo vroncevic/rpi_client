@@ -98,7 +98,7 @@ Home *new_home(void)
     }
 
     gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->menu_bar->menu_bar), FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->frame_home->vpaned), FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->frame_home->frame_home), FALSE, FALSE, 0);
     gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
 
     return instance;

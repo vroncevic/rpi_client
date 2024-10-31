@@ -4,6 +4,8 @@
 ## @brief  Process this file with automake to produce Makefile.in
 ##
 
+AM_SUBDIRS = home about encrypt exit help info resource settings warning
+
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
