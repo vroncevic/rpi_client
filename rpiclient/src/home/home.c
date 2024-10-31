@@ -22,7 +22,7 @@ Home *new_home(void)
 {
     // RPI_INIT();
     Home *instance = g_malloc(sizeof(Home));
-    
+
     if(!instance)
     {
         g_warning(WARNING_LOG_FAILED_MALLOC_HOME);
@@ -40,7 +40,6 @@ Home *new_home(void)
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
     gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_WINDOW_HOME, HEIGHT_WINDOW_HOME);
-
     const gchar *icon = get_resource_file("icon.png");
 
     if (icon)
@@ -69,7 +68,6 @@ Home *new_home(void)
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_WINDOW_HOME);
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_WINDOW_HOME);
-
     instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     if (!instance->vbox)

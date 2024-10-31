@@ -49,7 +49,6 @@ HelpWindow *new_help_window(void)
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
     gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_HELP_WINDOW, HEIGHT_HELP_WINDOW);
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_HELP_WINDOW);
-
     const gchar *icon = get_resource_file(ICON_HELP_WINDOW);
 
     if (icon)

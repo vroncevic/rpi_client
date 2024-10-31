@@ -20,10 +20,6 @@
 
 #include <gtk/gtk.h>
 
-#define TOOLTIP_VERTICAL_BAR(num) "Channel " #num
-#define TOOLTIP_SCALE(num) "Set Channel " #num
-#define TOOLTIP_SPINNER_BUTTON(num) "Set level at channel " #num
-#define TOOLTIP_CHECK_BOX_GPIO(num) "Active GPIO " #num
 #define WIDTH_SCALE (50)
 #define HEIGHT_SCALE (180)
 #define MIN_VALUE_SCALE (0.0)
@@ -37,7 +33,6 @@
 #define PAGE_SIZE_SPINNER_ADJUSTMENT (0.0)
 #define CLIMB_RATE_SPINNER_BUTTON (1.0)
 #define DIGITS_SPINNER_BUTTON (0)
-#define TEXT_CHECK_BOX_GPIO(num) "GPIO " #num
 #define WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(id, msg) "Failed to allocate memory for channel control " #id " " #msg "\n"
 
 //////////////////////////////////////////////////////////////////////////////

@@ -71,11 +71,6 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
 gint show_exit_dialog(ExitDialog *instance)
 {
-    if (instance == NULL)
-    {
-        return (0);
-    }
-
     if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_show(instance->dialog);

@@ -30,7 +30,9 @@ ChannelControl *new_channel_control(gint channel_id)
     }
 
     // instance->control_channel_vertical_bar = GTK_VB(gtk_vb_new());
-    // gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, TOOLTIP_VERTICAL_BAR(channel_id));
+    // gchar tooltip_text_vbar[10] = {0};
+    // snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel %d", channel_id);
+    // gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, tooltip_text_vbar);
 
     instance->control_channel_scale = gtk_scale_new_with_range(GTK_ORIENTATION_VERTICAL, MIN_VALUE_SCALE, MAX_VALUE_SCALE, STEP_VALUE_SCALE);
 
@@ -41,7 +43,9 @@ ChannelControl *new_channel_control(gint channel_id)
         return NULL;
     }
 
-    gtk_widget_set_tooltip_text(instance->control_channel_scale, TOOLTIP_SCALE(channel_id));
+    gchar tooltip_text_scale[14] = {0};
+    snprintf(tooltip_text_scale, sizeof(tooltip_text_scale), "Set Channel %d", channel_id);
+    gtk_widget_set_tooltip_text(instance->control_channel_scale, tooltip_text_scale);
     gtk_range_set_inverted(GTK_RANGE(instance->control_channel_scale), TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(instance->control_channel_scale), GTK_POS_TOP);
     gtk_widget_set_size_request(instance->control_channel_scale, WIDTH_SCALE, HEIGHT_SCALE);
@@ -61,8 +65,13 @@ ChannelControl *new_channel_control(gint channel_id)
         return NULL;
     }
 
-    gtk_widget_set_tooltip_text(instance->control_channel_spinner_button, TOOLTIP_SPINNER_BUTTON(channel_id));
-    instance->control_channel_gpio_check_box = gtk_check_button_new_with_label(TEXT_CHECK_BOX_GPIO(channel_id));
+    gchar tooltip_text_spinner[23] = {0};
+    snprintf(tooltip_text_spinner, sizeof(tooltip_text_spinner), "Set level at channel %d", channel_id);
+    gtk_widget_set_tooltip_text(instance->control_channel_spinner_button, tooltip_text_spinner);
+
+    gchar text_check_box[7] = {0};
+    snprintf(text_check_box, sizeof(text_check_box), "GPIO %d", channel_id);
+    instance->control_channel_gpio_check_box = gtk_check_button_new_with_label(text_check_box);
 
     if (!instance->control_channel_gpio_check_box)
     {
@@ -71,7 +80,9 @@ ChannelControl *new_channel_control(gint channel_id)
         return NULL;
     }
 
-    gtk_widget_set_tooltip_text(instance->control_channel_gpio_check_box, TOOLTIP_CHECK_BOX_GPIO(channel_id));
+    gchar tooltip_text_check_box[14] = {0};
+    snprintf(tooltip_text_check_box, sizeof(tooltip_text_check_box), "Active GPIO %d", channel_id);
+    gtk_widget_set_tooltip_text(instance->control_channel_gpio_check_box, tooltip_text_check_box);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->control_channel_gpio_check_box), FALSE);
 
     return instance;

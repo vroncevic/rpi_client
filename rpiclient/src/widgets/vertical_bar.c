@@ -24,55 +24,65 @@ static void gtk_vb_get_preferred_width(GtkWidget *widget, gint *minimum_width, g
 static void gtk_vb_get_preferred_height(GtkWidget *widget, gint *minimum_height, gint *natural_height);
 static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr);
 
-void gtk_vb_set_state(GtkVB *vb, gint num) {
+void gtk_vb_set_state(GtkVB *vb, gint num)
+{
     vb->sel = num;
     gtk_widget_queue_draw(GTK_WIDGET(vb));
 }
 
-GtkWidget *gtk_vb_new(void) {
+GtkWidget *gtk_vb_new(void)
+{
     return g_object_new(gtk_vb_get_type(), NULL);
 }
 
-static void gtk_vb_class_init(GtkVBClass *klass) {
+static void gtk_vb_class_init(GtkVBClass *klass)
+{
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
     widget_class->get_preferred_width = gtk_vb_get_preferred_width;
     widget_class->get_preferred_height = gtk_vb_get_preferred_height;
     widget_class->draw = gtk_vb_draw;
 }
 
-static void gtk_vb_init(GtkVB *vb) {
-    vb->sel = 0; // Initialize selection value
+static void gtk_vb_init(GtkVB *vb)
+{
+    vb->sel = 0;
 }
 
-static void gtk_vb_get_preferred_width(GtkWidget *widget, gint *minimum_width, gint *natural_width) {
+static void gtk_vb_get_preferred_width(GtkWidget *widget, gint *minimum_width, gint *natural_width)
+{
     *minimum_width = 80;
     *natural_width = 80;
 }
 
-static void gtk_vb_get_preferred_height(GtkWidget *widget, gint *minimum_height, gint *natural_height) {
-    *minimum_height = 200; // Minimum height
-    *natural_height = 200; // Natural height
+static void gtk_vb_get_preferred_height(GtkWidget *widget, gint *minimum_height, gint *natural_height)
+{
+    *minimum_height = 200;
+    *natural_height = 200;
 }
 
-static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr) {
-    // Clear background
-    cairo_set_source_rgb(cr, 1, 1, 1); // White background
+static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr)
+{
+    cairo_set_source_rgb(cr, 1, 1, 1);
     cairo_paint(cr);
-    
+
     gint height = gtk_widget_get_allocated_height(widget);
     gint pos = GTK_VB(widget)->sel;
-    gint rect_count = pos / 5; // Determine how many rectangles to fill
+    gint rect_count = pos / 5;
 
-    for (gint i = 0; i < 20; i++) {
-        if (i < rect_count) {
-            cairo_set_source_rgb(cr, 0.6, 1.0, 0); // Filled color
-        } else {
-            cairo_set_source_rgb(cr, 0.2, 0.4, 0); // Empty color
+    for (gint i = 0; i < 20; i++)
+    {
+        if (i < rect_count)
+        {
+            cairo_set_source_rgb(cr, 0.6, 1.0, 0);
         }
-        cairo_rectangle(cr, 10, height - (i * 10) - 10, 60, 8); // Vertical rectangles
+        else
+        {
+            cairo_set_source_rgb(cr, 0.2, 0.4, 0);
+        }
+
+        cairo_rectangle(cr, 10, height - (i * 10) - 10, 60, 8);
         cairo_fill(cr);
     }
 
-    return FALSE; // Indicate the event has not been fully handled
+    return FALSE;
 }
-

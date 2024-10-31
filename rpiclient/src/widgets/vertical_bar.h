@@ -25,12 +25,14 @@ G_BEGIN_DECLS
 #define GTK_VB(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), gtk_vb_get_type(), GtkVB))
 #define GTK_IS_VB(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), gtk_vb_get_type()))
 
-typedef struct {
+typedef struct
+{
     GtkDrawingArea parent_instance;
     gint sel;
 } GtkVB;
 
-typedef struct {
+typedef struct
+{
     GtkDrawingAreaClass parent_class;
 } GtkVBClass;
 

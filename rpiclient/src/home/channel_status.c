@@ -29,7 +29,9 @@ ChannelStatus *new_channel_status(gint channel_id)
         return NULL;
     }
 
-    instance->activate_channel_check_box = gtk_check_button_new_with_label(TEXT_CHECK_BOX_CHANNEL(channel_id));
+    gchar status_checkbox[10] = {0};
+    snprintf(status_checkbox, sizeof(status_checkbox), "Channel %d", channel_id);
+    instance->activate_channel_check_box = gtk_check_button_new_with_label(status_checkbox);
 
     if (!instance->activate_channel_check_box)
     {
@@ -38,13 +40,19 @@ ChannelStatus *new_channel_status(gint channel_id)
         return NULL;
     }
 
-    gtk_widget_set_tooltip_text(instance->activate_channel_check_box, TOOLTIP_CHECK_BOX_CHANNEL(channel_id));
+    gchar tooltip_text_checkbox[19] = {0};
+    snprintf(tooltip_text_checkbox, sizeof(tooltip_text_checkbox), "Activate Channel %d", channel_id);
+    gtk_widget_set_tooltip_text(instance->activate_channel_check_box, tooltip_text_checkbox);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->activate_channel_check_box), FALSE);
 
     // instance->status_channel_vertical_bar = GTK_VB(gtk_vb_new());
-    // gtk_widget_set_tooltip_text(instance->status_channel_vertical_bar, TOOLTIP_VERTICAL_BAR(channel_id));
+    // gchar tooltip_text_vbar[10] = {0};
+    // snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel  %d", channel_id);
+    // gtk_widget_set_tooltip_text(instance->status_channel_vertical_bar, tooltip_text_vbar);
 
-    instance->status_channel_label = gtk_label_new(TEXT_LABEL(channel_id));
+    gchar status_label[14] = {0};
+    snprintf(status_label, sizeof(status_label), "CH%d Status: 0", channel_id);
+    instance->status_channel_label = gtk_label_new(status_label);
 
     if (!instance->status_channel_label)
     {

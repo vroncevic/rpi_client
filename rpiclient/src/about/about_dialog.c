@@ -42,7 +42,6 @@ AboutDialog *new_about_dialog(void)
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COPYRIGHT_ABOUT_DIALOG);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COMMENTS_ABOUT_DIALOG);
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(instance->dialog), TEXT_WEBSITE_ABOUT_DIALOG);
-
     const gchar *logo = get_resource_file(LOGO_FILE_NAME_ABOUT_DIALOG);
 
     if (logo)
