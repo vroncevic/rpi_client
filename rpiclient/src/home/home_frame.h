@@ -42,6 +42,8 @@
 #define Y_POSITION_ACTIVATE_GPIO_SET (150)
 #define SHIFT_X_POSITION_SET (120)
 
+#define WARNING_LOG_FAILED_MALLOC_HOME_FRAME "Failed to allocate memory for home frame\n"
+
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Home frame complex widget
 ///   frame_home - 

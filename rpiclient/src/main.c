@@ -29,7 +29,7 @@ Home *app = NULL;
 ExitDialog *exit_dlg = NULL;
 AboutDialog *about_dlg = NULL;
 
-void on_exit_called(GtkWidget *widget, gpointer data)
+gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     gint exit_code = show_exit_dialog(exit_dlg);
 
@@ -37,15 +37,6 @@ void on_exit_called(GtkWidget *widget, gpointer data)
     {
         destroy_home(app);
         gtk_main_quit();
-    }
-}
-
-gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-    gint exit_code = show_exit_dialog(exit_dlg);
-
-    if (exit_code == 0)
-    {
         return FALSE;
     }
 
@@ -62,11 +53,11 @@ int main(int argc, char *argv[])
     // g_thread_init(NULL);
     // gdk_threads_init();
     // gdk_threads_enter();
-    resource_dir_path = get_resource_dir();
-    config_dir_path = get_config_dir();
 
     gtk_init(&argc, &argv);
 
+    resource_dir_path = get_resource_dir();
+    config_dir_path = get_config_dir();
     app = new_home();
     exit_dlg = new_exit_dialog(app->window);
     about_dlg = new_about_dialog();
@@ -78,9 +69,8 @@ int main(int argc, char *argv[])
     /*        G_CALLBACK(destroy), NULL*/
     /*    );*/
 
-    g_signal_connect(GTK_OBJECT(app->window), "delete_event", GTK_SIGNAL_FUNC(delete_event), NULL);
-    g_signal_connect(GTK_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
-    g_signal_connect(GTK_OBJECT(app->window), "destroy", G_CALLBACK(on_exit_called), NULL);
+    g_signal_connect(G_OBJECT(app->window), "delete_event", G_CALLBACK(delete_event), NULL);
+    // g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
 
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 

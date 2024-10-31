@@ -56,7 +56,7 @@ SettingsWindow *new_settings_window(void)
             g_warning(WARNING_LOG_FAILED_PIXBUF_SETTINGS_WINDOW);
         }
 
-        g_free(icon);
+        g_free((gpointer)icon);
         icon = NULL;
     }
     else
@@ -67,7 +67,7 @@ SettingsWindow *new_settings_window(void)
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_SETTINGS_WINDOW);
-    instance->vbox = gtk_vbox_new(FALSE, SPACING_VBOX_SETTINGS_WINDOW);
+    instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING_VBOX_SETTINGS_WINDOW);
 
     if (!instance->vbox)
     {
@@ -77,16 +77,7 @@ SettingsWindow *new_settings_window(void)
     }
 
     gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
-    instance->halign = gtk_alignment_new(1, 0, 0, 0);
-
-    if (!instance->halign)
-    {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_WINDOW);
-        destroy_settings_window(instance);
-        return NULL;
-    }
-
-    instance->table = gtk_table_new(TABLE_ROWS_TABLESETTINGS, TABLE_COLS_TABLESETTINGS, TRUE);
+    instance->table = gtk_grid_new();
 
     if (!instance->table)
     {
@@ -95,8 +86,8 @@ SettingsWindow *new_settings_window(void)
         return NULL;
     }
 
-    gtk_table_set_row_spacings(GTK_TABLE(instance->table), TABLE_ROW_SPACINGS_TABLESETTINGS);
-    gtk_table_set_col_spacings(GTK_TABLE(instance->table), TABLE_COL_SPACINGS_TABLESETTINGS);
+    gtk_grid_set_row_spacing(GTK_GRID(instance->table), TABLE_ROW_SPACINGS_TABLESETTINGS);
+    gtk_grid_set_column_spacing(GTK_GRID(instance->table), TABLE_COL_SPACINGS_TABLESETTINGS);
     instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT);
 
     if (!instance->frame_control_exit)
@@ -138,10 +129,10 @@ SettingsWindow *new_settings_window(void)
     }
 
     gtk_entry_set_max_length(GTK_ENTRY(instance->entry_address), MAX_LENGTH_ENTRY_ADDRESS);
-    gint len_address = GTK_ENTRY(instance->entry_address)->text_length;
+    gint len_address = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_address)), -1);
     instance->cur_pos_address = len_address;
     gtk_editable_insert_text(GTK_EDITABLE(instance->entry_address), TEXT_EXAMPLE_ENTRY_ADDRESS, NEW_TEXT_LENGTH_ENTRY_ADDRESS, &(instance->cur_pos_address));
-    gtk_editable_select_region(GTK_EDITABLE(instance->entry_address), START_POSITION_ENTRY_ADDRESS, GTK_ENTRY(instance->entry_address)->text_length);
+    gtk_editable_select_region(GTK_EDITABLE(instance->entry_address), START_POSITION_ENTRY_ADDRESS, len_address);
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_address), instance->entry_address);
     instance->frame_entry_port = gtk_frame_new(TEXT_FRAME_ENTRY_PORT);
 
@@ -163,17 +154,16 @@ SettingsWindow *new_settings_window(void)
     }
 
     gtk_entry_set_max_length(GTK_ENTRY(instance->entry_port), MAX_LENGTH_ENTRY_PORT);
-    gint len_port = GTK_ENTRY(instance->entry_port)->text_length;
+    gint len_port = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_port)), -1);
     instance->cur_pos_port = len_port;
     gtk_editable_insert_text(GTK_EDITABLE(instance->entry_port), TEXT_EXAMPLE_ENTRY_PORT, NEW_TEXT_LENGTH_ENTRY_PORT, &(instance->cur_pos_port));
-    gtk_editable_select_region(GTK_EDITABLE(instance->entry_port), START_POSITION_ENTRY_PORT, GTK_ENTRY(instance->entry_port)->text_length);
+    gtk_editable_select_region(GTK_EDITABLE(instance->entry_port), START_POSITION_ENTRY_PORT, len_port);
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_port), instance->entry_port);
-    gtk_table_attach_defaults(GTK_TABLE(instance->table), instance->frame_control_exit, 0, 1, 0, 1);
-    gtk_table_attach_defaults(GTK_TABLE(instance->table), instance->frame_entry_address, 0, 1, 1, 2);
-    gtk_table_attach_defaults(GTK_TABLE(instance->table), instance->frame_entry_port, 0, 1, 2, 3);
-    gtk_container_add(GTK_CONTAINER(instance->vbox), instance->table);
-    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->halign, FALSE, FALSE, 0);
-    instance->hbox = gtk_hbox_new(TRUE, SPACING_HBOX_SETTINGS);
+    gtk_grid_attach(GTK_GRID(instance->table), instance->frame_control_exit, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(instance->table), instance->frame_entry_address, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(instance->table), instance->frame_entry_port, 0, 2, 1, 1);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
+    instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS);
 
     if (!instance->hbox)
     {
@@ -182,7 +172,7 @@ SettingsWindow *new_settings_window(void)
         return NULL;
     }
 
-    gtk_container_add(GTK_CONTAINER(instance->halign), instance->hbox);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->hbox, FALSE, FALSE, 0);
     instance->button_ok = gtk_button_new_with_label(TEXT_BUTTON_OK_HBOX_SETTINGS);
 
     if (!instance->button_ok)
@@ -241,11 +231,10 @@ void destroy_settings_window(SettingsWindow *instance)
             instance->frame_control_exit = NULL;
             instance->frame_entry_address = NULL;
             instance->frame_entry_port = NULL;
-            instance->halign = NULL;
             instance->table = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }    
 }

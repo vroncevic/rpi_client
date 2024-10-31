@@ -84,7 +84,7 @@ void destroy_warning_dialog(WarningDialog *instance)
             instance->dialog = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }

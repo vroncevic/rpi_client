@@ -66,7 +66,7 @@ HelpWindow *new_help_window(void)
             g_warning(WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW);
         }
             
-        g_free(icon);
+        g_free((gpointer)icon);
         icon = NULL;
     }
     else
@@ -77,7 +77,7 @@ HelpWindow *new_help_window(void)
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
-    gtk_container_add(GTK_CONTAINER(instance->window), instance->image_slider);
+    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->image_slider));
 
     return instance;
 }
@@ -114,7 +114,7 @@ void destroy_help_window(HelpWindow *instance)
             instance->window = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }

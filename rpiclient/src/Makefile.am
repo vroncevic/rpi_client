@@ -57,11 +57,14 @@ rpiclient_SOURCES = \
     settings/settings_read.c \
     settings/settings_write.c \
     settings/settings_free.c \
-    warning/warning_dialog.c \
-    widgets/vertical_bar.c
+    warning/warning_dialog.c
 
-GTK_CFLAGS = $(shell pkg-config --cflags gtk+-2.0)
-GTK_LIBS = $(shell pkg-config --libs gtk+-2.0)
+
+#    widgets/vertical_bar.h \
+#    widgets/vertical_bar.c
+
+GTK_CFLAGS = $(shell pkg-config --cflags gtk+-3.0)
+GTK_LIBS = $(shell pkg-config --libs gtk+-3.0)
 
 # Remove pkg directory on uninstall
 uninstall-local:

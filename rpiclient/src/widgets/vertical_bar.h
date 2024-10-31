@@ -22,42 +22,21 @@
 
 G_BEGIN_DECLS
 
-#define GTK_VB(obj) GTK_CHECK_CAST(obj, gtk_vb_get_type(), GtkVB)
-#define GTK_VB_CLASS(klass) GTK_CHECK_CLASS_CAST(klass, gtk_vb_get_type(), GtkVBClass)
-#define GTK_IS_VB(obj) GTK_CHECK_TYPE(obj, gtk_vb_get_type())
+#define GTK_VB(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), gtk_vb_get_type(), GtkVB))
+#define GTK_IS_VB(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), gtk_vb_get_type()))
 
-//////////////////////////////////////////////////////////////////////////////
-/// @brief Vertical bar complex widget
-///   widget - Gtk about dialog widget
-///   sel - 
-typedef struct
-{
-    GtkWidget widget;
+typedef struct {
+    GtkDrawingArea parent_instance;
     gint sel;
 } GtkVB;
 
-//////////////////////////////////////////////////////////////////////////////
-/// @brief Vertical bar complex widget class
-///   parent_class - Gtk widget parent class
-typedef struct
-{
-    GtkWidgetClass parent_class;
+typedef struct {
+    GtkDrawingAreaClass parent_class;
 } GtkVBClass;
 
-//////////////////////////////////////////////////////////////////////////////
-/// @brief Construct complex widget vertical bar
-/// @return Vertical bar complex widget pointer
+G_DEFINE_TYPE(GtkVB, gtk_vb, GTK_TYPE_DRAWING_AREA)
+
 GtkWidget *gtk_vb_new(void);
-
-//////////////////////////////////////////////////////////////////////////////
-/// @brief Set state to vertical bar complex widget
-/// @param vb is pointer to complex widget vertical bar
-/// @param num is 
 void gtk_vb_set_state(GtkVB *vb, gint num);
-
-//////////////////////////////////////////////////////////////////////////////
-/// @brief Destroy vertical bar complex widget
-/// @param instance is pointer to complex widget vertical bar
-void gtk_vb_destroy(GtkObject *instance);
 
 G_END_DECLS

@@ -17,24 +17,40 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "channel_status.h"
-#include "../widgets/vertical_bar.h"
+// #include "../widgets/vertical_bar.h"
 
 ChannelStatus *new_channel_status(gint channel_id)
 {
     ChannelStatus *instance = g_malloc(sizeof(ChannelStatus));
 
-    if (instance)
+    if (!instance)
     {
-        instance->activate_channel_check_box = gtk_check_button_new_with_label(TEXT_CHECK_BOX_CHANNEL(channel_id));
-        gtk_widget_set_tooltip_text(instance->activate_channel_check_box, TOOLTIP_CHECK_BOX_CHANNEL(channel_id));
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->activate_channel_check_box), FALSE);
-        instance->status_channel_vertical_bar = gtk_vb_new();
-        instance->status_channel_label = gtk_label_new(TEXT_LABEL(channel_id));
-        gtk_widget_set_tooltip_text(instance->status_channel_vertical_bar, TOOLTIP_VERTICAL_BAR(channel_id));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "root widget"));
+        return NULL;
     }
-    else
+
+    instance->activate_channel_check_box = gtk_check_button_new_with_label(TEXT_CHECK_BOX_CHANNEL(channel_id));
+
+    if (!instance->activate_channel_check_box)
     {
-        g_warning("");
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "check box"));
+        destroy_channel_status(instance);
+        return NULL;
+    }
+
+    gtk_widget_set_tooltip_text(instance->activate_channel_check_box, TOOLTIP_CHECK_BOX_CHANNEL(channel_id));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->activate_channel_check_box), FALSE);
+
+    // instance->status_channel_vertical_bar = GTK_VB(gtk_vb_new());
+    // gtk_widget_set_tooltip_text(instance->status_channel_vertical_bar, TOOLTIP_VERTICAL_BAR(channel_id));
+
+    instance->status_channel_label = gtk_label_new(TEXT_LABEL(channel_id));
+
+    if (!instance->status_channel_label)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "label widget"));
+        destroy_channel_status(instance);
+        return NULL;
     }
 
     return instance;
@@ -42,59 +58,60 @@ ChannelStatus *new_channel_status(gint channel_id)
 
 void show_channel_status(ChannelStatus *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
-
-    if (instance->activate_channel_check_box)
+    if (instance && instance->activate_channel_check_box && !gtk_widget_get_visible(instance->activate_channel_check_box))
     {
         gtk_widget_show(instance->activate_channel_check_box);
     }
 
-    if (instance->status_channel_label)
+    if (instance && instance->status_channel_label && !gtk_widget_get_visible(instance->status_channel_label))
     {
         gtk_widget_show(instance->status_channel_label);
     }
 
-    if (instance->status_channel_vertical_bar)
-    {
-        gtk_widget_show(instance->status_channel_vertical_bar);
-    }
+    // if (instance && instance->status_channel_vertical_bar)
+    // {
+    //     gtk_widget_show(instance->status_channel_vertical_bar);
+    // }
 }
 
 void hide_channel_status(ChannelStatus *instance)
 {
-    if (instance == NULL)
-    {
-        return;
-    }
 
-    if (instance->activate_channel_check_box)
+    if (instance && instance->activate_channel_check_box && gtk_widget_get_visible(instance->activate_channel_check_box))
     {
         gtk_widget_hide(instance->activate_channel_check_box);
     }
 
-    if (instance->status_channel_label)
+    if (instance && instance->status_channel_label && gtk_widget_get_visible(instance->status_channel_label))
     {
         gtk_widget_hide(instance->status_channel_label);
     }
 
-    if (instance->status_channel_vertical_bar)
-    {
-        gtk_widget_hide(instance->status_channel_vertical_bar);
-    }
+    // if (instance->status_channel_vertical_bar)
+    // {
+    //     gtk_widget_hide(instance->status_channel_vertical_bar);
+    // }
 }
 
 void destroy_channel_status(ChannelStatus *instance)
 {
-    if (instance == NULL)
+    if (instance)
     {
-        return;
-    }
+        if (instance->status_channel_label)
+        {
+            gtk_widget_destroy(instance->status_channel_label);
+            instance->status_channel_label = NULL;
+        }
 
-    gtk_widget_destroy(instance->activate_channel_check_box);
-    gtk_widget_destroy(instance->status_channel_label);
-    gtk_vb_destroy((GtkObject *) instance->status_channel_vertical_bar);
-    g_free(instance);
+        if (instance->activate_channel_check_box)
+        {
+            gtk_widget_destroy(instance->activate_channel_check_box);
+            instance->activate_channel_check_box = NULL;
+        }
+
+        // gtk_vb_destroy(instance->status_channel_vertical_bar);
+
+        g_free((gpointer)instance);
+        instance = NULL;
+    }
 }

@@ -21,7 +21,8 @@
 			"rpifile.h": "c",
 			"help_window.h": "c",
 			"home.h": "c",
-			"settings_config.h": "c"
+			"settings_config.h": "c",
+			"settings_window.h": "c"
 		}
 	}
 }

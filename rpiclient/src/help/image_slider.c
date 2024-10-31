@@ -34,7 +34,7 @@ ImageSlider *new_image_slider(void)
     if (!instance->fixed)
     {
         g_warning(WARNING_MSG_IMAGE_SLIDER);
-        g_free(instance);
+        g_free((gpointer)instance);
         return NULL;
     }
 
@@ -52,12 +52,12 @@ ImageSlider *new_image_slider(void)
     if (!instance->image)
     {
         g_warning(WARNING_MSG_IMAGE_SLIDER);
-        g_free(image);
+        g_free((gpointer)image);
         destroy_image_slider(instance);
         return NULL;
     }
 
-    g_free(image);
+    g_free((gpointer)image);
     gtk_fixed_put(GTK_FIXED(instance->fixed), instance->image, X_POSITION_IMAGE_SLIDER, Y_POSITION_IMAGE_SLIDER);
     gtk_widget_set_size_request(instance->image, WIDTH_IMAGE_SLIDER, HEIGHT_IMAGE_SLIDER);
 
@@ -117,7 +117,7 @@ void destroy_image_slider(ImageSlider *instance)
             instance->button_right = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include "../resource/resource.h"
 
 #define TITLE_SETTINGS_WINDOW "Settings"
 #define ICON_SETTINGS_WINDOW "icon.png"
@@ -55,7 +56,6 @@
 /// @brief Settings window complex widget
 ///   window - Gtk window widget
 ///   vbox - Gtk widget for vertical box
-///   halign - Gtk widget for horizontal alignment
 ///   table - Gtk widget for table
 ///   frame_control_exit - Gtk widget for frame 
 ///   check_button_control_exit - Gtk widget for check box
@@ -72,7 +72,6 @@ typedef struct
 {
     GtkWidget *window;
     GtkWidget *vbox;
-    GtkWidget *halign;
     GtkWidget *table;
     GtkWidget *frame_control_exit;
     GtkWidget *check_button;

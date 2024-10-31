@@ -33,11 +33,11 @@ AboutDialog *new_about_dialog(void)
     if (!instance->dialog)
     {
         g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
-        g_free(instance);
+        g_free((gpointer)instance);
         return NULL;
     }
 
-    gtk_about_dialog_set_name(GTK_ABOUT_DIALOG(instance->dialog), TEXT_NAME_ABOUT_DIALOG);
+    gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(instance->dialog), TEXT_NAME_ABOUT_DIALOG);
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(instance->dialog), TEXT_VERSION_ABOUT_DIALOG);
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COPYRIGHT_ABOUT_DIALOG);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COMMENTS_ABOUT_DIALOG);
@@ -59,7 +59,7 @@ AboutDialog *new_about_dialog(void)
             g_warning(WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
         }
 
-        g_free(logo);
+        g_free((gpointer)logo);
         logo = NULL;
     }
     else
@@ -99,7 +99,7 @@ void destroy_about_dialog(AboutDialog *instance)
             instance->dialog = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }

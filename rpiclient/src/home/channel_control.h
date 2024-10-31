@@ -38,6 +38,7 @@
 #define CLIMB_RATE_SPINNER_BUTTON (1.0)
 #define DIGITS_SPINNER_BUTTON (0)
 #define TEXT_CHECK_BOX_GPIO(num) "GPIO " #num
+#define WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(id, msg) "Failed to allocate memory for channel control " #id " " #msg "\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Channel control complex widget

@@ -172,20 +172,20 @@ MenuBar *new_menu_bar(void)
         return NULL;
     }
 
+    gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_file), instance->menu_file_submenu_exit);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_file_item), instance->menu_file);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_file_item), instance->menu_file_submenu_exit);
     gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_bar), instance->menu_file_item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_option), instance->menu_option_submenu_connect);
+    gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_option), instance->menu_option_submenu_disconnect);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_option_item), instance->menu_option);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_option_item), instance->menu_option_submenu_connect);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_option_item), instance->menu_option_submenu_disconnect);
     gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_bar), instance->menu_option_item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_settings), instance->menu_settings_submenu_general);
+    gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_settings), instance->menu_settings_submenu_network);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_settings_item), instance->menu_settings);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_settings_item), instance->menu_settings_submenu_general);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_settings_item), instance->menu_settings_submenu_network);
     gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_bar), instance->menu_settings_item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_help), instance->menu_help_submenu_help);
+    gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_help), instance->menu_help_submenu_about);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_help_item), instance->menu_help);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_help_item), instance->menu_help_submenu_help);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(instance->menu_help_item), instance->menu_help_submenu_about);
     gtk_menu_shell_append(GTK_MENU_SHELL(instance->menu_bar), instance->menu_help_item);
 
     return instance;
@@ -211,6 +211,12 @@ void destroy_menu_bar(MenuBar *instance)
 {
     if (instance) 
     {
+        if (instance->menu_file_submenu_exit)
+        {
+            gtk_widget_destroy(instance->menu_file_submenu_exit);
+            instance->menu_file_submenu_exit = NULL;
+        }
+
         if (instance->menu_file)
         {
             gtk_widget_destroy(instance->menu_file);
@@ -221,24 +227,6 @@ void destroy_menu_bar(MenuBar *instance)
         {
             gtk_widget_destroy(instance->menu_file_item);
             instance->menu_file_item = NULL;
-        }
-
-        if (instance->menu_file_submenu_exit)
-        {
-            gtk_widget_destroy(instance->menu_file_submenu_exit);
-            instance->menu_file_submenu_exit = NULL;
-        }
-
-        if (instance->menu_option)
-        {
-            gtk_widget_destroy(instance->menu_option);
-            instance->menu_option = NULL;
-        }
-
-        if (instance->menu_option_item)
-        {
-            gtk_widget_destroy(instance->menu_option_item);
-            instance->menu_option_item = NULL;
         }
 
         if (instance->menu_option_submenu_connect)
@@ -253,16 +241,16 @@ void destroy_menu_bar(MenuBar *instance)
             instance->menu_option_submenu_disconnect = NULL;
         }
 
-        if (instance->menu_settings)
+        if (instance->menu_option)
         {
-            gtk_widget_destroy(instance->menu_settings);
-            instance->menu_settings = NULL;
+            gtk_widget_destroy(instance->menu_option);
+            instance->menu_option = NULL;
         }
 
-        if (instance->menu_settings_item)
+        if (instance->menu_option_item)
         {
-            gtk_widget_destroy(instance->menu_settings_item);
-            instance->menu_settings_item = NULL;
+            gtk_widget_destroy(instance->menu_option_item);
+            instance->menu_option_item = NULL;
         }
 
         if (instance->menu_settings_submenu_general)
@@ -277,16 +265,16 @@ void destroy_menu_bar(MenuBar *instance)
             instance->menu_settings_submenu_network = NULL;
         }
 
-        if (instance->menu_help)
+        if (instance->menu_settings)
         {
-            gtk_widget_destroy(instance->menu_help);
-            instance->menu_help = NULL;
+            gtk_widget_destroy(instance->menu_settings);
+            instance->menu_settings = NULL;
         }
 
-        if (instance->menu_help_item)
+        if (instance->menu_settings_item)
         {
-            gtk_widget_destroy(instance->menu_help_item);
-            instance->menu_help_item = NULL;
+            gtk_widget_destroy(instance->menu_settings_item);
+            instance->menu_settings_item = NULL;
         }
 
         if (instance->menu_help_submenu_help)
@@ -301,13 +289,25 @@ void destroy_menu_bar(MenuBar *instance)
             instance->menu_help_submenu_about = NULL;
         }
 
+        if (instance->menu_help)
+        {
+            gtk_widget_destroy(instance->menu_help);
+            instance->menu_help = NULL;
+        }
+
+        if (instance->menu_help_item)
+        {
+            gtk_widget_destroy(instance->menu_help_item);
+            instance->menu_help_item = NULL;
+        }
+
         if (instance->menu_bar)
         {
             gtk_widget_destroy(instance->menu_bar);
             instance->menu_bar = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }

@@ -40,7 +40,7 @@ void settings_free(SettingsConfig *instance)
             instance->port_number = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }

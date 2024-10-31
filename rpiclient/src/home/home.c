@@ -57,7 +57,7 @@ Home *new_home(void)
             g_warning(WARNING_LOG_FAILED_PIXBUF_HOME);
         }
 
-        g_free(icon);
+        g_free((gpointer)icon);
         icon = NULL;
     }
     else
@@ -70,7 +70,7 @@ Home *new_home(void)
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_WINDOW_HOME);
 
-    instance->vbox = gtk_vbox_new(FALSE, 0);
+    instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     if (!instance->vbox)
     {
@@ -97,8 +97,8 @@ Home *new_home(void)
         return NULL;
     }
 
-    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->menu_bar, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->frame_home, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->menu_bar->menu_bar), FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->frame_home->vpaned), FALSE, FALSE, 0);
     gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
 
     return instance;
@@ -108,7 +108,7 @@ void show_home(Home *instance)
 {
     if (instance && instance->window && !gtk_widget_get_visible(instance->window))
     {
-        gtk_widget_show(instance->window);
+        gtk_widget_show_all(instance->window);
     }
 }
 
@@ -142,7 +142,7 @@ void destroy_home(Home *instance)
             instance->window = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }

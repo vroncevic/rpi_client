@@ -24,6 +24,7 @@
 #define TOOLTIP_VERTICAL_BAR(num) "Channel " #num
 #define TEXT_CHECK_BOX_CHANNEL(num) "Channel " #num
 #define TEXT_LABEL(num) "CH" #num " Status: 0"
+#define WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(id, msg) "Failed to allocate memory for channel status " #id " " #msg "\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Channel status complex widget

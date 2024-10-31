@@ -36,13 +36,13 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
     instance->dialog = gtk_dialog_new_with_buttons(
         TITLE_EXIT_DIALOG, GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT,
-        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL
+        "OK", GTK_RESPONSE_ACCEPT, "Cancel", GTK_RESPONSE_REJECT, NULL
     );
 
     if (!instance->dialog)
     {
         g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
-        g_free(instance);
+        g_free((gpointer)instance);
         return NULL;
     }
 
@@ -111,7 +111,7 @@ void destroy_exit_dialog(ExitDialog *instance)
             instance->dialog = NULL;
         }
 
-        g_free(instance);
+        g_free((gpointer)instance);
         instance = NULL;
     }
 }
