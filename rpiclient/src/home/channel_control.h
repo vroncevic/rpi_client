@@ -33,7 +33,8 @@
 #define PAGE_SIZE_SPINNER_ADJUSTMENT (0.0)
 #define CLIMB_RATE_SPINNER_BUTTON (1.0)
 #define DIGITS_SPINNER_BUTTON (0)
-#define WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(id, msg) "Failed to allocate memory for channel control " #id " " #msg "\n"
+#define WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(id, msg) \
+    "Failed to allocate memory for channel control " #id " " #msg "\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Channel control complex widget

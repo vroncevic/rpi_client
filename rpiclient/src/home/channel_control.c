@@ -33,7 +33,6 @@ ChannelControl *new_channel_control(gint channel_id)
     // gchar tooltip_text_vbar[10] = {0};
     // snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel %d", channel_id);
     // gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, tooltip_text_vbar);
-
     instance->control_channel_scale = gtk_scale_new_with_range(GTK_ORIENTATION_VERTICAL, MIN_VALUE_SCALE, MAX_VALUE_SCALE, STEP_VALUE_SCALE);
 
     if (!instance->control_channel_scale)
@@ -68,7 +67,6 @@ ChannelControl *new_channel_control(gint channel_id)
     gchar tooltip_text_spinner[23] = {0};
     snprintf(tooltip_text_spinner, sizeof(tooltip_text_spinner), "Set level at channel %d", channel_id);
     gtk_widget_set_tooltip_text(instance->control_channel_spinner_button, tooltip_text_spinner);
-
     gchar text_check_box[7] = {0};
     snprintf(text_check_box, sizeof(text_check_box), "GPIO %d", channel_id);
     instance->control_channel_gpio_check_box = gtk_check_button_new_with_label(text_check_box);

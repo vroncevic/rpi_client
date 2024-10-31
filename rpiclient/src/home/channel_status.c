@@ -44,12 +44,10 @@ ChannelStatus *new_channel_status(gint channel_id)
     snprintf(tooltip_text_checkbox, sizeof(tooltip_text_checkbox), "Activate Channel %d", channel_id);
     gtk_widget_set_tooltip_text(instance->activate_channel_check_box, tooltip_text_checkbox);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->activate_channel_check_box), FALSE);
-
     // instance->status_channel_vertical_bar = GTK_VB(gtk_vb_new());
     // gchar tooltip_text_vbar[10] = {0};
     // snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel  %d", channel_id);
     // gtk_widget_set_tooltip_text(instance->status_channel_vertical_bar, tooltip_text_vbar);
-
     gchar status_label[14] = {0};
     snprintf(status_label, sizeof(status_label), "CH%d Status: 0", channel_id);
     instance->status_channel_label = gtk_label_new(status_label);

@@ -20,7 +20,8 @@
 
 #include <gtk/gtk.h>
 
-#define WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(id, msg) "Failed to allocate memory for channel status " #id " " #msg "\n"
+#define WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(id, msg) \
+    "Failed to allocate memory for channel status " #id " " #msg "\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Channel status complex widget
