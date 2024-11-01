@@ -48,8 +48,7 @@ HomeFrame *new_home_frame(void)
 
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_home), GTK_SHADOW_IN);
     gtk_container_add(GTK_CONTAINER(instance->frame_home), instance->vpaned);
-
-    instance->frame_control = gtk_frame_new("Control");
+    instance->frame_control = gtk_frame_new(CONTROL_FRAME_LABEL);
 
     if (!instance->frame_control)
     {
@@ -69,8 +68,7 @@ HomeFrame *new_home_frame(void)
 
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_control), GTK_SHADOW_IN);
     gtk_container_add(GTK_CONTAINER(instance->frame_control), instance->fixed_control);
-
-    instance->frame_status = gtk_frame_new("Status");
+    instance->frame_status = gtk_frame_new(STATUS_FRAME_LABEL);
 
     if (!instance->frame_status)
     {
@@ -90,13 +88,11 @@ HomeFrame *new_home_frame(void)
 
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_status), GTK_SHADOW_IN);
     gtk_container_add(GTK_CONTAINER(instance->frame_status), instance->fixed_status);
-
-    gint i;
     gint x_pos_vbar = START_X_POSITION_VERTICAL_BAR_GET;
     gint x_pos_activate_channel = START_X_POSITION_ACTIVATE_CHANNEL_GET;
     gint x_pos_label = START_X_POSITION_LABEL_GET;
 
-    for (i = 0; i < MAX_CHANNELS_STATUS; i++)
+    for (int i = 0; i < MAX_CHANNELS_STATUS; i++)
     {
         instance->channels_status[i] = new_channel_status(i);
         // gtk_fixed_put(
@@ -116,7 +112,7 @@ HomeFrame *new_home_frame(void)
     gint x_pos_spiner_button = START_X_POSITION_SPINER_BUTTON_SET;
     gint x_pos_control_channel_gpio_check_box = START_X_POSITION_ACTIVATE_GPIO_SET;
 
-    for (i = 0; i < MAX_CHANNELS_CONTROL; i++)
+    for (int i = 0; i < MAX_CHANNELS_CONTROL; i++)
     {
         instance->channels_control[i] = new_channel_control(i + 1);
         // gtk_fixed_put(

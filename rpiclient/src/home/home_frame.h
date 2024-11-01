@@ -22,6 +22,7 @@
 #include "channel_status.h"
 #include "channel_control.h"
 
+#define STATUS_FRAME_LABEL "Status"
 #define MAX_CHANNELS_STATUS (8)
 #define START_X_POSITION_VERTICAL_BAR_GET (0)
 #define Y_POSITION_VERTICAL_BAR_GET (45)
@@ -31,6 +32,7 @@
 #define Y_POSITION_LABEL_GET (45)
 #define SHIFT_X_POSITION_GET (125)
 
+#define CONTROL_FRAME_LABEL "Control"
 #define MAX_CHANNELS_CONTROL (8)
 #define START_X_POSITION_VERTICAL_BAR_SET (0)
 #define Y_POSITION_VERTICAL_BAR_SET (0)
