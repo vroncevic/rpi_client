@@ -18,6 +18,6 @@
  */
 #pragma once
 
-#define USE_GTK_2
 // #define USE_GTK_3
 // #define USE_GTK_4
+

@@ -104,7 +104,7 @@ HomeFrame *new_home_frame(void)
         //     instance->channels_status[i]->status_channel_vertical_bar,
         //     x_pos_vbar, Y_POSITION_VERTICAL_BAR_GET
         // );
-        x_pos_vbar += SHIFT_X_POSITION_GET;
+        //x_pos_vbar += SHIFT_X_POSITION_GET;
         gtk_fixed_put(GTK_FIXED(instance->fixed_status), instance->channels_status[i]->activate_channel_check_box, x_pos_activate_channel, Y_POSITION_ACTIVATE_CHANNEL_GET);
         x_pos_activate_channel += SHIFT_X_POSITION_GET;
         gtk_fixed_put(GTK_FIXED(instance->fixed_status), instance->channels_status[i]->status_channel_label, x_pos_label, Y_POSITION_LABEL_GET);
@@ -124,7 +124,7 @@ HomeFrame *new_home_frame(void)
         //     instance->channels_control[i]->control_channel_vertical_bar, x_pos_vbar,
         //     Y_POSITION_VERTICAL_BAR_SET
         // );
-        x_pos_vbar += SHIFT_X_POSITION_SET;
+        //x_pos_vbar += SHIFT_X_POSITION_SET;
         gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_scale, x_pos_control_channel_scale, Y_POSITION_SCALE_SET);
         x_pos_control_channel_scale += SHIFT_X_POSITION_SET;
         gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_spinner_button, x_pos_spiner_button, Y_POSITION_SPINER_BUTTON_SET);
