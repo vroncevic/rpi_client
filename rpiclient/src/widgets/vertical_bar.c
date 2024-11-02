@@ -18,6 +18,8 @@
  */
 #include "vertical_bar.h"
 
+G_DEFINE_TYPE(GtkVB, gtk_vb, GTK_TYPE_DRAWING_AREA)
+
 static void gtk_vb_class_init(GtkVBClass *klass);
 static void gtk_vb_init(GtkVB *vb);
 static void gtk_vb_get_preferred_width(GtkWidget *widget, gint *minimum_width, gint *natural_width);
@@ -56,15 +58,14 @@ static void gtk_vb_get_preferred_width(GtkWidget *widget, gint *minimum_width, g
 
 static void gtk_vb_get_preferred_height(GtkWidget *widget, gint *minimum_height, gint *natural_height)
 {
-    *minimum_height = 200;
-    *natural_height = 200;
+    *minimum_height = 150;
+    *natural_height = 150;
 }
 
 static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr)
 {
     cairo_set_source_rgb(cr, 1, 1, 1);
     cairo_paint(cr);
-
     gint height = gtk_widget_get_allocated_height(widget);
     gint pos = GTK_VB(widget)->sel;
     gint rect_count = pos / 5;
@@ -86,3 +87,9 @@ static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr)
 
     return FALSE;
 }
+
+void gtk_vb_destroy(GtkVB *vb) {
+    g_return_if_fail(GTK_IS_VB(vb)); // Check if vb is a valid GtkVB instance
+    g_object_unref(vb); // Decrease reference count; if it reaches 0, the object is destroyed
+}
+

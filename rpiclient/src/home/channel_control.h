@@ -19,6 +19,7 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include "../widgets/vertical_bar.h"
 
 #define WIDTH_SCALE (50)
 #define HEIGHT_SCALE (180)
@@ -45,7 +46,7 @@
 ///   control_channel_gpio_check_box - Gtk check box widget for channel control
 typedef struct
 {
-    GtkWidget *control_channel_vertical_bar;
+    GtkVB *control_channel_vertical_bar;
     GtkWidget *control_channel_scale;
     GtkAdjustment *control_channel_spinner_adjustment;
     GtkWidget *control_channel_spinner_button;

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include "../widgets/vertical_bar.h"
 
 #define WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(id, msg) \
     "Failed to allocate memory for channel status " #id " " #msg "\n"
@@ -32,7 +33,7 @@ typedef struct
 {
     GtkWidget *activate_channel_check_box;
     GtkWidget *status_channel_label;
-    GtkWidget *status_channel_vertical_bar;
+    GtkVB *status_channel_vertical_bar;
 } ChannelStatus;
 
 //////////////////////////////////////////////////////////////////////////////

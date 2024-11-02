@@ -17,7 +17,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "channel_control.h"
-// #include "../widgets/vertical_bar.h"
 
 ChannelControl *new_channel_control(gint channel_id)
 {
@@ -29,10 +28,18 @@ ChannelControl *new_channel_control(gint channel_id)
         return NULL;
     }
 
-    // instance->control_channel_vertical_bar = GTK_VB(gtk_vb_new());
-    // gchar tooltip_text_vbar[10] = {0};
-    // snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel %d", channel_id);
-    // gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, tooltip_text_vbar);
+    instance->control_channel_vertical_bar = GTK_VB(gtk_vb_new());
+
+    if (!instance->control_channel_vertical_bar)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "vertical bar widget"));
+        destroy_channel_control(instance);
+        return NULL;        
+    }
+
+    gchar tooltip_text_vbar[10] = {0};
+    snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel %d", channel_id);
+    gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, tooltip_text_vbar);
     instance->control_channel_scale = gtk_scale_new_with_range(GTK_ORIENTATION_VERTICAL, MIN_VALUE_SCALE, MAX_VALUE_SCALE, STEP_VALUE_SCALE);
 
     if (!instance->control_channel_scale)
@@ -146,7 +153,11 @@ void destroy_channel_control(ChannelControl *instance)
 {
     if (instance)
     {
-        // gtk_vb_destroy(instance->control_channel_vertical_bar);
+        if (instance->control_channel_vertical_bar)
+        {
+            gtk_vb_destroy(instance->control_channel_vertical_bar);
+            instance->control_channel_vertical_bar = NULL;
+        }
 
         if (instance->control_channel_scale)
         {

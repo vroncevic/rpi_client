@@ -88,45 +88,37 @@ HomeFrame *new_home_frame(void)
 
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_status), GTK_SHADOW_IN);
     gtk_container_add(GTK_CONTAINER(instance->frame_status), instance->fixed_status);
-    gint x_pos_vbar = START_X_POSITION_VERTICAL_BAR_GET;
-    gint x_pos_activate_channel = START_X_POSITION_ACTIVATE_CHANNEL_GET;
-    gint x_pos_label = START_X_POSITION_LABEL_GET;
+    gint x_pos_vbar = START_X_POSITION_VERTICAL_BAR_STATUS;
+    gint x_pos_activate_channel = START_X_POSITION_ACTIVATE_CHANNEL_STATUS;
+    gint x_pos_label = START_X_POSITION_LABEL_STATUS;
 
     for (int i = 0; i < MAX_CHANNELS_STATUS; i++)
     {
         instance->channels_status[i] = new_channel_status(i);
-        // gtk_fixed_put(
-        //     GTK_FIXED(instance->fixed_status),
-        //     instance->channels_status[i]->status_channel_vertical_bar,
-        //     x_pos_vbar, Y_POSITION_VERTICAL_BAR_GET
-        // );
-        //x_pos_vbar += SHIFT_X_POSITION_GET;
-        gtk_fixed_put(GTK_FIXED(instance->fixed_status), instance->channels_status[i]->activate_channel_check_box, x_pos_activate_channel, Y_POSITION_ACTIVATE_CHANNEL_GET);
-        x_pos_activate_channel += SHIFT_X_POSITION_GET;
-        gtk_fixed_put(GTK_FIXED(instance->fixed_status), instance->channels_status[i]->status_channel_label, x_pos_label, Y_POSITION_LABEL_GET);
-        x_pos_label += SHIFT_X_POSITION_GET;
+        gtk_fixed_put(GTK_FIXED(instance->fixed_status), instance->channels_status[i]->status_channel_vertical_bar, x_pos_vbar, Y_POSITION_VERTICAL_BAR_STATUS);
+        x_pos_vbar += SHIFT_X_POSITION_STATUS;
+        gtk_fixed_put(GTK_FIXED(instance->fixed_status), instance->channels_status[i]->activate_channel_check_box, x_pos_activate_channel, Y_POSITION_ACTIVATE_CHANNEL_STATUS);
+        x_pos_activate_channel += SHIFT_X_POSITION_STATUS;
+        gtk_fixed_put(GTK_FIXED(instance->fixed_status), instance->channels_status[i]->status_channel_label, x_pos_label, Y_POSITION_LABEL_STATUS);
+        x_pos_label += SHIFT_X_POSITION_STATUS;
     }
 
-    x_pos_vbar = START_X_POSITION_VERTICAL_BAR_SET;
-    gint x_pos_control_channel_scale = START_X_POSITION_SCALE_SET;
-    gint x_pos_spiner_button = START_X_POSITION_SPINER_BUTTON_SET;
-    gint x_pos_control_channel_gpio_check_box = START_X_POSITION_ACTIVATE_GPIO_SET;
+    x_pos_vbar = START_X_POSITION_VERTICAL_BAR_CONTROL;
+    gint x_pos_control_channel_scale = START_X_POSITION_SCALE_CONTROL;
+    gint x_pos_spiner_button = START_X_POSITION_SPINER_BUTTON_CONTROL;
+    gint x_pos_control_channel_gpio_check_box = START_X_POSITION_ACTIVATE_GPIO_CONTROL;
 
     for (int i = 0; i < MAX_CHANNELS_CONTROL; i++)
     {
         instance->channels_control[i] = new_channel_control(i + 1);
-        // gtk_fixed_put(
-        //     GTK_FIXED(instance->fixed_control),
-        //     instance->channels_control[i]->control_channel_vertical_bar, x_pos_vbar,
-        //     Y_POSITION_VERTICAL_BAR_SET
-        // );
-        //x_pos_vbar += SHIFT_X_POSITION_SET;
-        gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_scale, x_pos_control_channel_scale, Y_POSITION_SCALE_SET);
-        x_pos_control_channel_scale += SHIFT_X_POSITION_SET;
-        gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_spinner_button, x_pos_spiner_button, Y_POSITION_SPINER_BUTTON_SET);
-        x_pos_spiner_button += SHIFT_X_POSITION_SET;
-        gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_gpio_check_box, x_pos_control_channel_gpio_check_box, Y_POSITION_ACTIVATE_GPIO_SET);
-        x_pos_control_channel_gpio_check_box += SHIFT_X_POSITION_SET;
+        gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_vertical_bar, x_pos_vbar, Y_POSITION_VERTICAL_BAR_CONTROL);
+        x_pos_vbar += SHIFT_X_POSITION_CONTROL;
+        gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_scale, x_pos_control_channel_scale, Y_POSITION_SCALE_CONTROL);
+        x_pos_control_channel_scale += SHIFT_X_POSITION_CONTROL;
+        gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_spinner_button, x_pos_spiner_button, Y_POSITION_SPINER_BUTTON_CONTROL);
+        x_pos_spiner_button += SHIFT_X_POSITION_CONTROL;
+        gtk_fixed_put(GTK_FIXED(instance->fixed_control), instance->channels_control[i]->control_channel_gpio_check_box, x_pos_control_channel_gpio_check_box, Y_POSITION_ACTIVATE_GPIO_CONTROL);
+        x_pos_control_channel_gpio_check_box += SHIFT_X_POSITION_CONTROL;
     }
 
     gtk_paned_add1(GTK_PANED(instance->vpaned), instance->frame_control);

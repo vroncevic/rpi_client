@@ -36,9 +36,9 @@ typedef struct
     GtkDrawingAreaClass parent_class;
 } GtkVBClass;
 
-G_DEFINE_TYPE(GtkVB, gtk_vb, GTK_TYPE_DRAWING_AREA)
-
+GType gtk_vb_get_type(void);
 GtkWidget *gtk_vb_new(void);
 void gtk_vb_set_state(GtkVB *vb, gint num);
+void gtk_vb_destroy(GtkVB *vb);
 
 G_END_DECLS
