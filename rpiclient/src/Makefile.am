@@ -31,6 +31,7 @@ AM_CFLAGS = \
 	-Werror \
 	-Wno-unused \
 	-mtune=native \
+	-std=c11 \
 	$(GTK_CFLAGS)
 
 rpiclient_LDFLAGS = \

@@ -53,6 +53,7 @@
                 "-Werror",
                 "-Wno-unused",
                 "-mtune=native",
+                "-std=c11",
                 "`pkg-config gtk+-3.0 --cflags`",
                 "`pkg-config --libs gtk+-3.0`"
             ],
