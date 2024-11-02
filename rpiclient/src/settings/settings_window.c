@@ -86,9 +86,9 @@ SettingsWindow *new_settings_window(void)
         return NULL;
     }
 
-    gtk_grid_set_row_spacing(GTK_GRID(instance->table), TABLE_ROW_SPACINGS_TABLESETTINGS);
-    gtk_grid_set_column_spacing(GTK_GRID(instance->table), TABLE_COL_SPACINGS_TABLESETTINGS);
-    instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT);
+    gtk_grid_set_row_spacing(GTK_GRID(instance->table), TABLE_ROW_SPACINGS_TABLE_SETTINGS_WINDOW);
+    gtk_grid_set_column_spacing(GTK_GRID(instance->table), TABLE_COL_SPACINGS_TABLE_SETTINGS_WINDOW);
+    instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT_SETTINGS_WINDOW);
 
     if (!instance->frame_control_exit)
     {
@@ -98,7 +98,7 @@ SettingsWindow *new_settings_window(void)
     }
 
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_control_exit), GTK_SHADOW_IN);
-    instance->check_button = gtk_check_button_new_with_label(TEXT_CHECK_BUTTON_CONTROL_EXIT);
+    instance->check_button = gtk_check_button_new_with_label(TEXT_CHECK_BUTTON_CONTROL_EXIT_SETTINGS_WINDOW);
 
     if (!instance->check_button)
     {
@@ -109,7 +109,7 @@ SettingsWindow *new_settings_window(void)
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button), TRUE);
     gtk_container_add(GTK_CONTAINER(instance->frame_control_exit), instance->check_button);
-    instance->frame_entry_address = gtk_frame_new(TEXT_FRAME_ENTRY_ADDRESS);
+    instance->frame_entry_address = gtk_frame_new(TEXT_FRAME_ENTRY_ADDRESS_SETTINGS_WINDOW);
 
     if (!instance->frame_entry_address)
     {
@@ -128,13 +128,16 @@ SettingsWindow *new_settings_window(void)
         return NULL;
     }
 
-    gtk_entry_set_max_length(GTK_ENTRY(instance->entry_address), MAX_LENGTH_ENTRY_ADDRESS);
+    gtk_entry_set_max_length(GTK_ENTRY(instance->entry_address), MAX_LENGTH_ENTRY_ADDRESS_SETTINGS_WINDOW);
     gint len_address = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_address)), -1);
     instance->cur_pos_address = len_address;
-    gtk_editable_insert_text(GTK_EDITABLE(instance->entry_address), TEXT_EXAMPLE_ENTRY_ADDRESS, NEW_TEXT_LENGTH_ENTRY_ADDRESS, &(instance->cur_pos_address));
-    gtk_editable_select_region(GTK_EDITABLE(instance->entry_address), START_POSITION_ENTRY_ADDRESS, len_address);
+    gtk_editable_insert_text(
+        GTK_EDITABLE(instance->entry_address), TEXT_EXAMPLE_ENTRY_ADDRESS_SETTINGS_WINDOW,
+        NEW_TEXT_LENGTH_ENTRY_ADDRESS_SETTINGS_WINDOW, &(instance->cur_pos_address)
+    );
+    gtk_editable_select_region(GTK_EDITABLE(instance->entry_address), START_POSITION_ENTRY_ADDRESS_SETTINGS_WINDOW, len_address);
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_address), instance->entry_address);
-    instance->frame_entry_port = gtk_frame_new(TEXT_FRAME_ENTRY_PORT);
+    instance->frame_entry_port = gtk_frame_new(TEXT_FRAME_ENTRY_PORT_SETTINGS_WINDOW);
 
     if (!instance->frame_entry_port)
     {
@@ -153,17 +156,20 @@ SettingsWindow *new_settings_window(void)
         return NULL;
     }
 
-    gtk_entry_set_max_length(GTK_ENTRY(instance->entry_port), MAX_LENGTH_ENTRY_PORT);
+    gtk_entry_set_max_length(GTK_ENTRY(instance->entry_port), MAX_LENGTH_ENTRY_PORT_SETTINGS_WINDOW);
     gint len_port = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_port)), -1);
     instance->cur_pos_port = len_port;
-    gtk_editable_insert_text(GTK_EDITABLE(instance->entry_port), TEXT_EXAMPLE_ENTRY_PORT, NEW_TEXT_LENGTH_ENTRY_PORT, &(instance->cur_pos_port));
-    gtk_editable_select_region(GTK_EDITABLE(instance->entry_port), START_POSITION_ENTRY_PORT, len_port);
+    gtk_editable_insert_text(
+        GTK_EDITABLE(instance->entry_port), TEXT_EXAMPLE_ENTRY_PORT_SETTINGS_WINDOW,
+        NEW_TEXT_LENGTH_ENTRY_PORT_SETTINGS_WINDOW, &(instance->cur_pos_port)
+    );
+    gtk_editable_select_region(GTK_EDITABLE(instance->entry_port), START_POSITION_ENTRY_PORT_SETTINGS_WINDOW, len_port);
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_port), instance->entry_port);
     gtk_grid_attach(GTK_GRID(instance->table), instance->frame_control_exit, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(instance->table), instance->frame_entry_address, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(instance->table), instance->frame_entry_port, 0, 2, 1, 1);
     gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
-    instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS);
+    instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS_WINDOW);
 
     if (!instance->hbox)
     {
@@ -173,7 +179,7 @@ SettingsWindow *new_settings_window(void)
     }
 
     gtk_box_pack_start(GTK_BOX(instance->vbox), instance->hbox, FALSE, FALSE, 0);
-    instance->button_ok = gtk_button_new_with_label(TEXT_BUTTON_OK_HBOX_SETTINGS);
+    instance->button_ok = gtk_button_new_with_label(TEXT_BUTTON_OK_HBOX_SETTINGS_WINDOW);
 
     if (!instance->button_ok)
     {
@@ -182,7 +188,7 @@ SettingsWindow *new_settings_window(void)
         return NULL;
     }
 
-    instance->button_cancel = gtk_button_new_with_label(TEXT_BUTTON_CANCEL_HBOX_SETTINGS);
+    instance->button_cancel = gtk_button_new_with_label(TEXT_BUTTON_CANCEL_HBOX_SETTINGS_WINDOW);
 
     if (!instance->button_cancel)
     {
@@ -191,8 +197,8 @@ SettingsWindow *new_settings_window(void)
         return NULL;
     }
 
-    gtk_widget_set_size_request(instance->button_ok, WIDTH_BUTTON_HBOX_SETTINGS, HEIGHT_BUTTON_HBOX_SETTINGS);
-    gtk_widget_set_size_request(instance->button_cancel, WIDTH_BUTTON_HBOX_SETTINGS, HEIGHT_BUTTON_HBOX_SETTINGS);
+    gtk_widget_set_size_request(instance->button_ok, WIDTH_BUTTON_HBOX_SETTINGS_WINDOW, HEIGHT_BUTTON_HBOX_SETTINGS_WINDOW);
+    gtk_widget_set_size_request(instance->button_cancel, WIDTH_BUTTON_HBOX_SETTINGS_WINDOW, HEIGHT_BUTTON_HBOX_SETTINGS_WINDOW);
     gtk_container_add(GTK_CONTAINER(instance->hbox), instance->button_ok);
     gtk_container_add(GTK_CONTAINER(instance->hbox), instance->button_cancel);
 

@@ -20,7 +20,7 @@
 
 ExitDialog *new_exit_dialog(GtkWidget *parent)
 {
-    if (parent == NULL)
+    if (!parent)
     {
         g_warning(WARNING_LOG_FAILED_PARENT_EXIT_DIALOG);
         return NULL;

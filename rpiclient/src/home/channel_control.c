@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpichannelset.h
+ * channel_control.c
  * Copyright (C) 2016 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -24,7 +24,7 @@ ChannelControl *new_channel_control(gint channel_id)
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "root widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control widget"));
         return NULL;
     }
 
@@ -32,7 +32,7 @@ ChannelControl *new_channel_control(gint channel_id)
 
     if (!instance->control_channel_vertical_bar)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "vertical bar widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control vertical bar widget"));
         destroy_channel_control(instance);
         return NULL;        
     }
@@ -40,11 +40,13 @@ ChannelControl *new_channel_control(gint channel_id)
     gchar tooltip_text_vbar[10] = {0};
     snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel %d", channel_id);
     gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, tooltip_text_vbar);
-    instance->control_channel_scale = gtk_scale_new_with_range(GTK_ORIENTATION_VERTICAL, MIN_VALUE_SCALE, MAX_VALUE_SCALE, STEP_VALUE_SCALE);
+    instance->control_channel_scale = gtk_scale_new_with_range(
+        GTK_ORIENTATION_VERTICAL, MIN_VALUE_SCALE_CHANNEL_CONTROL, MAX_VALUE_SCALE_CHANNEL_CONTROL, STEP_VALUE_SCALE_CHANNEL_CONTROL
+    );
 
     if (!instance->control_channel_scale)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "scale widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control scale widget"));
         destroy_channel_control(instance);
         return NULL;
     }
@@ -54,19 +56,27 @@ ChannelControl *new_channel_control(gint channel_id)
     gtk_widget_set_tooltip_text(instance->control_channel_scale, tooltip_text_scale);
     gtk_range_set_inverted(GTK_RANGE(instance->control_channel_scale), TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(instance->control_channel_scale), GTK_POS_TOP);
-    gtk_widget_set_size_request(instance->control_channel_scale, WIDTH_SCALE, HEIGHT_SCALE);
+    gtk_widget_set_size_request(instance->control_channel_scale, WIDTH_SCALE_CHANNEL_CONTROL, HEIGHT_SCALE_CHANNEL_CONTROL);
     instance->control_channel_spinner_adjustment = (GtkAdjustment *) gtk_adjustment_new(
-        VALUE_SPINNER_ADJUSTMENT, LOWER_SPINNER_ADJUSTMENT,
-        UPPER_SPINNER_ADJUSTMENT, STEP_INCREMENT_SPINNER_ADJUSTMENT,
-        PAGE_INCREMENT_SPINNER_ADJUSTMENT, PAGE_SIZE_SPINNER_ADJUSTMENT
+        VALUE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL, LOWER_SPINNER_ADJUSTMENT_CHANNEL_CONTROL,
+        UPPER_SPINNER_ADJUSTMENT_CHANNEL_CONTROL, STEP_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL,
+        PAGE_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL, PAGE_SIZE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL
     );
+
+    if (!instance->control_channel_spinner_adjustment)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner adjustment widget"));
+        destroy_channel_control(instance);
+        return NULL;
+    }
+
     instance->control_channel_spinner_button = gtk_spin_button_new(
-        instance->control_channel_spinner_adjustment, CLIMB_RATE_SPINNER_BUTTON, DIGITS_SPINNER_BUTTON
+        instance->control_channel_spinner_adjustment, CLIMB_RATE_SPINNER_BUTTON_CHANNEL_CONTROL, DIGITS_SPINNER_BUTTON_CHANNEL_CONTROL
     );
 
     if (!instance->control_channel_spinner_button)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "spinner widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner widget"));
         destroy_channel_control(instance);
         return NULL;
     }
@@ -80,7 +90,7 @@ ChannelControl *new_channel_control(gint channel_id)
 
     if (!instance->control_channel_gpio_check_box)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "checkbox widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control checkbox widget"));
         destroy_channel_control(instance);
         return NULL;
     }

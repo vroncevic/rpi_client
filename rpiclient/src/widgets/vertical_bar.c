@@ -89,7 +89,6 @@ static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr)
 }
 
 void gtk_vb_destroy(GtkVB *vb) {
-    g_return_if_fail(GTK_IS_VB(vb)); // Check if vb is a valid GtkVB instance
-    g_object_unref(vb); // Decrease reference count; if it reaches 0, the object is destroyed
+    g_return_if_fail(GTK_IS_VB(vb));
+    g_object_unref(vb);
 }
-

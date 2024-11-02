@@ -60,7 +60,6 @@ ImageSlider *new_image_slider(void)
     g_free((gpointer)image);
     gtk_fixed_put(GTK_FIXED(instance->fixed), instance->image, X_POSITION_IMAGE_SLIDER, Y_POSITION_IMAGE_SLIDER);
     gtk_widget_set_size_request(instance->image, WIDTH_IMAGE_SLIDER, HEIGHT_IMAGE_SLIDER);
-
     instance->button_left = gtk_button_new_with_label(TEXT_BUTTON_LEFT_IMAGE_SLIDER);
 
     if (!instance->button_left)
@@ -72,7 +71,6 @@ ImageSlider *new_image_slider(void)
 
     gtk_widget_set_size_request(instance->button_left, WIDTH_BUTTON_LEFT_IMAGE_SLIDER, HEIGHT_BUTTON_LEFT_IMAGE_SLIDER);
     gtk_fixed_put(GTK_FIXED(instance->fixed), instance->button_left, X_POSITION_BUTTON_LEFT_IMAGE_SLIDER, Y_POSITION_BUTTON_LEFT_IMAGE_SLIDER);
-
     instance->button_right = gtk_button_new_with_label(TEXT_BUTTON_RIGHT_IMAGE_SLIDER);
 
     if (!instance->button_right)

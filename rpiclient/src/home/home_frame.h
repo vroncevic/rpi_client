@@ -22,48 +22,48 @@
 #include "channel_status.h"
 #include "channel_control.h"
 
-#define STATUS_FRAME_LABEL "Status"
-#define MAX_CHANNELS_STATUS (8)
-#define START_X_POSITION_VERTICAL_BAR_STATUS (0)
-#define Y_POSITION_VERTICAL_BAR_STATUS (0)
-#define START_X_POSITION_ACTIVATE_CHANNEL_STATUS (0)
-#define Y_POSITION_ACTIVATE_CHANNEL_STATUS (160)
-#define START_X_POSITION_LABEL_STATUS (0)
-#define Y_POSITION_LABEL_STATUS (180)
-#define SHIFT_X_POSITION_STATUS (125)
-#define CONTROL_FRAME_LABEL "Control"
-#define MAX_CHANNELS_CONTROL (8)
-#define START_X_POSITION_VERTICAL_BAR_CONTROL (0)
-#define Y_POSITION_VERTICAL_BAR_CONTROL (20)
-#define START_X_POSITION_SCALE_CONTROL (70)
-#define Y_POSITION_SCALE_CONTROL (0)
-#define START_X_POSITION_SPINER_BUTTON_CONTROL (0)
-#define Y_POSITION_SPINER_BUTTON_CONTROL (220)
-#define START_X_POSITION_ACTIVATE_GPIO_CONTROL (0)
-#define Y_POSITION_ACTIVATE_GPIO_CONTROL (190)
-#define SHIFT_X_POSITION_CONTROL (125)
+#define CONTROL_FRAME_LABEL_HOME_FRAME "RPI Control"
+#define MAX_CHANNELS_CONTROL_HOME_FRAME (8)
+#define START_X_POSITION_VERTICAL_BAR_CONTROL_HOME_FRAME (0)
+#define Y_POSITION_VERTICAL_BAR_CONTROL_HOME_FRAME (20)
+#define START_X_POSITION_SCALE_CONTROL_HOME_FRAME (70)
+#define Y_POSITION_SCALE_CONTROL_HOME_FRAME (0)
+#define START_X_POSITION_SPINER_BUTTON_CONTROL_HOME_FRAME (0)
+#define Y_POSITION_SPINER_BUTTON_CONTROL_HOME_FRAME (220)
+#define START_X_POSITION_ACTIVATE_GPIO_CONTROL_HOME_FRAME (0)
+#define Y_POSITION_ACTIVATE_GPIO_CONTROL_HOME_FRAME (190)
+#define SHIFT_X_POSITION_CONTROL_HOME_FRAME (125)
+#define STATUS_FRAME_LABEL_HOME_FRAME "RPI Status"
+#define MAX_CHANNELS_STATUS_HOME_FRAME (8)
+#define START_X_POSITION_VERTICAL_BAR_STATUS_HOME_FRAME (0)
+#define Y_POSITION_VERTICAL_BAR_STATUS_HOME_FRAME (0)
+#define START_X_POSITION_ACTIVATE_CHANNEL_STATUS_HOME_FRAME (0)
+#define Y_POSITION_ACTIVATE_CHANNEL_STATUS_HOME_FRAME (160)
+#define START_X_POSITION_LABEL_STATUS_HOME_FRAME (0)
+#define Y_POSITION_LABEL_STATUS_HOME_FRAME (180)
+#define SHIFT_X_POSITION_STATUS_HOME_FRAME (125)
 #define WARNING_LOG_FAILED_MALLOC_HOME_FRAME "Failed to allocate memory for home frame\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Home frame complex widget
-///   frame_home - 
-///   vpanned - 
-///   frame_status - 
-///   fixed_status - 
-///   channel_status - 
-///   frame_control - 
-///   fixed_control - 
-///   channel_control - 
+///   frame_home - Gtk widget for home frame
+///   vpanned - Gtk widget for vertical panned
+///   frame_status - Gtk widget for status frame
+///   fixed_status - Gtk widget for status fixed container
+///   channel_status - Complex custom widget for channel status
+///   frame_control - Gtk widget for control frame
+///   fixed_control - Gtk widget for control fixed container
+///   channel_control - Complex custom widget for channel control
 typedef struct
 {
     GtkWidget *frame_home;
     GtkWidget *vpaned;
     GtkWidget *frame_status;
     GtkWidget *fixed_status;
-    ChannelStatus *channels_status[MAX_CHANNELS_STATUS];
+    ChannelStatus *channels_status[MAX_CHANNELS_STATUS_HOME_FRAME];
     GtkWidget *frame_control;
     GtkWidget *fixed_control;
-    ChannelControl *channels_control[MAX_CHANNELS_CONTROL];
+    ChannelControl *channels_control[MAX_CHANNELS_CONTROL_HOME_FRAME];
 } HomeFrame;
 
 //////////////////////////////////////////////////////////////////////////////

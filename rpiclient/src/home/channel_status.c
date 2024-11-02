@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * channel_status.h
+ * channel_status.c
  * Copyright (C) 2016 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -24,7 +24,7 @@ ChannelStatus *new_channel_status(gint channel_id)
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "root widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status widget"));
         return NULL;
     }
 
@@ -34,7 +34,7 @@ ChannelStatus *new_channel_status(gint channel_id)
 
     if (!instance->activate_channel_check_box)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "check box widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status check box widget"));
         destroy_channel_status(instance);
         return NULL;
     }
@@ -47,7 +47,7 @@ ChannelStatus *new_channel_status(gint channel_id)
 
     if (!instance->status_channel_vertical_bar)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "vertical bar widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status vertical bar widget"));
         destroy_channel_status(instance);
         return NULL;
     }
@@ -61,7 +61,7 @@ ChannelStatus *new_channel_status(gint channel_id)
 
     if (!instance->status_channel_label)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "label widget"));
+        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status label widget"));
         destroy_channel_status(instance);
         return NULL;
     }
