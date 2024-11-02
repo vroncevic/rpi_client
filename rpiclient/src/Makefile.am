@@ -43,33 +43,32 @@ rpiclient_LDADD = $(RPICLIENT_LIBS)
 bin_PROGRAMS = rpiclient
 
 rpiclient_SOURCES = \
-    main.c \
-    home/home.c \
-    home/home_frame.c \
-    home/menu_bar.c \
-    home/channel_status.c \
-    home/channel_control.c \
-    about/about_dialog.c \
-    encrypt/rpi_encrypt.c \
-    encrypt/rpi_decrypt.c \
-    exit/exit_dialog.c \
-    help/help_window.c \
-    help/image_slider.c \
-    info/info_dialog.c \
-    resource/cpixbuf.c \
-    resource/get_resource_dir.c \
-    resource/get_resource_file.c \
-    resource/get_config_dir.c \
-    resource/get_config_file.c \
-    settings/settings_window.c \
-    settings/settings_read.c \
-    settings/settings_write.c \
-    settings/settings_free.c \
-    warning/warning_dialog.c \
-    widgets/vertical_bar.h \
-    widgets/vertical_bar.c
+	main.c \
+	home/home.c \
+	home/home_frame.c \
+	home/menu_bar.c \
+	home/channel_status.c \
+	home/channel_control.c \
+	about/about_dialog.c \
+	encrypt/rpi_encrypt.c \
+	encrypt/rpi_decrypt.c \
+	exit/exit_dialog.c \
+	help/help_window.c \
+	help/image_slider.c \
+	info/info_dialog.c \
+	resource/cpixbuf.c \
+	resource/get_resource_dir.c \
+	resource/get_resource_file.c \
+	resource/get_config_dir.c \
+	resource/get_config_file.c \
+	settings/settings_window.c \
+	settings/settings_read.c \
+	settings/settings_write.c \
+	settings/settings_free.c \
+	warning/warning_dialog.c \
+	widgets/vertical_bar.h \
+	widgets/vertical_bar.c
 
-# Remove pkg directory on uninstall
 uninstall-local:
 	-rm -r $(pkgdatadir)
 

@@ -4,7 +4,6 @@
 ## @brief  Process this file with automake to produce Makefile.in
 ##
 
-# Specify files for distribution
 dist_config_DATA = \
 	config/prompt.config \
 	config/server_address.config \
@@ -20,16 +19,13 @@ dist_images_DATA = \
 	images/icon.png \
 	images/logo.png
 
-# Install paths
 rcdir = $(pkgdatadir)/rc
 configdir = $(rcdir)/config
 imagesdir = $(rcdir)/images
 
-# Rules for installation
 config_DATA = $(dist_config_DATA)
 nodist_images_DATA = $(dist_images_DATA)
 
-# Define the all target
 all: install-data-local install-images
 
 install-images:

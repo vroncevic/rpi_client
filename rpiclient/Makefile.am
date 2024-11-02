@@ -29,7 +29,5 @@ DISTCLEANFILES = \
 	intltool-update \
 	po/.intltool-merge-cache
 
-# Remove doc directory on uninstall
 uninstall-local:
 	-rm -r $(docdir)
-
