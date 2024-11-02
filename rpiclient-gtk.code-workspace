@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"rpiclient.h": "c",
+			"about_dialog.h": "c",
+			"exit_dialog.h": "c",
+			"rpivbox.h": "c",
+			"rpiframetop.h": "c",
+			"rpiframeset.h": "c",
+			"rpifixedset.h": "c",
+			"rpichannelset.h": "c",
+			"rpiframeget.h": "c",
+			"rpifixedget.h": "c",
+			"rpichannelget.h": "c",
+			"resource.h": "c",
+			"rpifile.h": "c",
+			"help_window.h": "c",
+			"home.h": "c",
+			"settings_config.h": "c",
+			"settings_window.h": "c"
+		}
+	}
+}
