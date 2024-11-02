@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "rpiclient-gtk build",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "make",
+                "--directory=${workspaceFolder}/build"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "rpiclient-gtk clean",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "make",
+                "--directory=${workspaceFolder}/build",
+                "clean"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

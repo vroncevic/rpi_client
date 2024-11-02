@@ -4,7 +4,7 @@
 ## @brief  Process this file with automake to produce Makefile.in
 ##
 
-SUBDIRS = src po
+SUBDIRS = src po rc
 
 dist_doc_DATA = \
 	README \
@@ -14,18 +14,20 @@ dist_doc_DATA = \
 	INSTALL \
 	NEWS
 
-INTLTOOL_FILES = intltool-extract.in \
+INTLTOOL_FILES = \
+	intltool-extract.in \
 	intltool-merge.in \
-	intltool-update.in
+	intltool-update.in \
+	autogen.sh
 
 EXTRA_DIST = \
 	$(INTLTOOL_FILES)
 
-DISTCLEANFILES = intltool-extract \
+DISTCLEANFILES = \
+	intltool-extract \
 	intltool-merge \
 	intltool-update \
 	po/.intltool-merge-cache
-
 
 # Remove doc directory on uninstall
 uninstall-local:
