@@ -97,7 +97,7 @@ HomeFrame *new_home_frame(void)
         instance->channels_status[i] = new_channel_status(i);
         gtk_fixed_put(
             GTK_FIXED(instance->fixed_status),
-            instance->channels_status[i]->status_channel_vertical_bar,
+            GTK_WIDGET(instance->channels_status[i]->status_channel_vertical_bar),
             x_pos_vbar, Y_POSITION_VERTICAL_BAR_STATUS_HOME_FRAME
         );
         x_pos_vbar += SHIFT_X_POSITION_STATUS_HOME_FRAME;
@@ -125,7 +125,7 @@ HomeFrame *new_home_frame(void)
         instance->channels_control[i] = new_channel_control(i + 1);
         gtk_fixed_put(
             GTK_FIXED(instance->fixed_control),
-            instance->channels_control[i]->control_channel_vertical_bar,
+            GTK_WIDGET(instance->channels_control[i]->control_channel_vertical_bar),
             x_pos_vbar, Y_POSITION_VERTICAL_BAR_CONTROL_HOME_FRAME
         );
         x_pos_vbar += SHIFT_X_POSITION_CONTROL_HOME_FRAME;

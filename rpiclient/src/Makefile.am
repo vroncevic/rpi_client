@@ -14,6 +14,23 @@ AM_CPPFLAGS = \
 AM_CFLAGS = \
 	-Wall \
 	-g \
+	-pedantic \
+	-Wall \
+	-Wextra \
+	-Wcast-align \
+	-Wno-cast-qual \
+	-Wdisabled-optimization \
+	-Wformat=2 \
+	-Winit-self \
+	-Wlogical-op \
+	-Wmissing-declarations \
+	-Wmissing-include-dirs \
+	-Wshadow \
+	-Wstrict-overflow=5 \
+	-Wundef \
+	-Werror \
+	-Wno-unused \
+	-mtune=native \
 	$(GTK_CFLAGS)
 
 rpiclient_LDFLAGS = \
@@ -29,20 +46,8 @@ rpiclient_SOURCES = \
     home/home.c \
     home/home_frame.c \
     home/menu_bar.c \
-    home/read_socket.c \
     home/channel_status.c \
     home/channel_control.c \
-    home/rpiclient_about_signal_connect.c \
-    home/rpiclient_channel_signal_connect.c \
-    home/rpiclient_connect_signal_connect.c \
-    home/rpiclient_diconnect_signal_connect.c \
-    home/rpiclient_gpio_signal_connect.c \
-    home/rpiclient_help_signal_connect.c \
-    home/rpiclient_scale_signal_connect.c \
-    home/rpiclient_send_signal_connect.c \
-    home/rpiclient_settings_signal_connect.c \
-    home/rpiclient_spinbutton_signal_connect.c \
-    home/rpiclient_vbar_signal_connect.c \
     about/about_dialog.c \
     encrypt/rpi_encrypt.c \
     encrypt/rpi_decrypt.c \
@@ -62,9 +67,6 @@ rpiclient_SOURCES = \
     warning/warning_dialog.c \
     widgets/vertical_bar.h \
     widgets/vertical_bar.c
-
-GTK_CFLAGS = $(shell pkg-config --cflags gtk+-3.0)
-GTK_LIBS = $(shell pkg-config --libs gtk+-3.0)
 
 # Remove pkg directory on uninstall
 uninstall-local:
