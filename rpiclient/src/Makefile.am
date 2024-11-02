@@ -35,10 +35,10 @@ AM_CFLAGS = \
 	$(GTK_CFLAGS)
 
 rpiclient_LDFLAGS = \
-	-Wl,--export-dynamic \
-	$(GTK_LIBS)
+	-Wl, \
+	-export-dynamic
 
-rpiclient_LDADD = $(RPICLIENT_LIBS)
+rpiclient_LDADD = $(GTK_LIBS)
 
 bin_PROGRAMS = rpiclient
 
