@@ -9,8 +9,6 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
 AC_PROG_CC
-AC_PROG_CPP
-AC_PROG_CXX
 
 dnl ***************************************************************************
 dnl Internationalization
@@ -22,8 +20,9 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 GLIB_GNU_GETTEXT
 AM_PROG_LIBTOOL
 LT_INIT
-PKG_CHECK_MODULES(RPICLIENT, [gtk+-3.0])
-
+PKG_CHECK_MODULES([GTK], [gtk+-3.0])
+AC_SUBST([GTK_CFLAGS])
+AC_SUBST([GTK_LIBS])
 AC_OUTPUT([
     Makefile
     src/Makefile

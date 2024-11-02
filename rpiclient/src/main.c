@@ -29,24 +29,7 @@ Home *app = NULL;
 ExitDialog *exit_dlg = NULL;
 AboutDialog *about_dlg = NULL;
 
-gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-    gint exit_code = show_exit_dialog(exit_dlg);
-
-    if (exit_code == 0)
-    {
-        destroy_home(app);
-        gtk_main_quit();
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-void on_show_about(GtkWidget *widget, gpointer data)
-{
-    show_about_dialog(about_dlg);
-}
+gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data);
 
 int main(int argc, char *argv[])
 {
@@ -71,4 +54,18 @@ int main(int argc, char *argv[])
     // gdk_threads_leave();
 
     return 0;
+}
+
+gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+    gint exit_code = show_exit_dialog(exit_dlg);
+
+    if (exit_code == 0)
+    {
+        destroy_home(app);
+        gtk_main_quit();
+        return FALSE;
+    }
+
+    return TRUE;
 }

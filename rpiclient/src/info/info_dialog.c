@@ -40,7 +40,7 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
         return NULL;
     }
 
-    instance->dialog = gtk_message_dialog_new(GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, msg);
+    instance->dialog = gtk_message_dialog_new(GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
 
     if (!instance->dialog)
     {

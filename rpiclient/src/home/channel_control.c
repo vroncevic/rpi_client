@@ -39,7 +39,7 @@ ChannelControl *new_channel_control(gint channel_id)
 
     gchar tooltip_text_vbar[10] = {0};
     snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel %d", channel_id);
-    gtk_widget_set_tooltip_text(instance->control_channel_vertical_bar, tooltip_text_vbar);
+    gtk_widget_set_tooltip_text(GTK_WIDGET(instance->control_channel_vertical_bar), tooltip_text_vbar);
     instance->control_channel_scale = gtk_scale_new_with_range(
         GTK_ORIENTATION_VERTICAL, MIN_VALUE_SCALE_CHANNEL_CONTROL, MAX_VALUE_SCALE_CHANNEL_CONTROL, STEP_VALUE_SCALE_CHANNEL_CONTROL
     );
@@ -105,9 +105,9 @@ ChannelControl *new_channel_control(gint channel_id)
 
 void show_channel_control(ChannelControl *instance)
 {
-    if (instance && instance->control_channel_vertical_bar && !gtk_widget_get_visible(instance->control_channel_vertical_bar))
+    if (instance && instance->control_channel_vertical_bar && !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar)))
     {
-        gtk_widget_show(instance->control_channel_vertical_bar);
+        gtk_widget_show(GTK_WIDGET(instance->control_channel_vertical_bar));
     }
 
     if (instance && instance->control_channel_scale && !gtk_widget_get_visible(instance->control_channel_scale))
@@ -115,7 +115,7 @@ void show_channel_control(ChannelControl *instance)
         gtk_widget_show(instance->control_channel_scale);
     }
 
-    if (instance && instance->control_channel_spinner_adjustment && !gtk_widget_get_visible(instance->control_channel_spinner_adjustment))
+    if (instance && instance->control_channel_spinner_adjustment && !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment)))
     {
         gtk_widget_show((GtkWidget*) instance->control_channel_spinner_adjustment);
     }
@@ -133,9 +133,9 @@ void show_channel_control(ChannelControl *instance)
 
 void hide_channel_control(ChannelControl *instance)
 {
-    if (instance && instance->control_channel_vertical_bar && gtk_widget_get_visible(instance->control_channel_vertical_bar))
+    if (instance && instance->control_channel_vertical_bar && gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar)))
     {
-        gtk_widget_hide(instance->control_channel_vertical_bar);
+        gtk_widget_hide(GTK_WIDGET(instance->control_channel_vertical_bar));
     }
 
     if (instance && instance->control_channel_scale && gtk_widget_get_visible(instance->control_channel_scale))
@@ -143,7 +143,7 @@ void hide_channel_control(ChannelControl *instance)
         gtk_widget_hide(instance->control_channel_scale);
     }
 
-    if (instance && instance->control_channel_spinner_adjustment && gtk_widget_get_visible(instance->control_channel_spinner_adjustment))
+    if (instance && instance->control_channel_spinner_adjustment && gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment)))
     {
         gtk_widget_hide((GtkWidget*) instance->control_channel_spinner_adjustment);
     }
@@ -177,7 +177,7 @@ void destroy_channel_control(ChannelControl *instance)
 
         if (instance->control_channel_spinner_adjustment)
         {
-            gtk_widget_destroy((GtkWidget*) instance->control_channel_spinner_adjustment);
+            gtk_widget_destroy(GTK_WIDGET(instance->control_channel_spinner_adjustment));
             instance->control_channel_spinner_adjustment = NULL;
         }
         

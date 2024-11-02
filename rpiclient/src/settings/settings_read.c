@@ -98,11 +98,47 @@ SettingsConfig* settings_read(void)
     }
 
     gchar tmp[17];
-    fscanf(file_prompt_config, "%16s", tmp);
+
+    if (fscanf(file_prompt_config, "%16s", tmp) == EOF)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
+        fclose(file_prompt_config);
+        fclose(file_server_address_config);
+        fclose(file_server_port_config);
+        return NULL;
+    }
+
     instance->no_prompt = g_strdup(tmp);
-    fscanf(file_server_address_config, "%16s", tmp);
+
+    if (fscanf(file_server_address_config, "%16s", tmp) == EOF)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
+        fclose(file_prompt_config);
+        fclose(file_server_address_config);
+        fclose(file_server_port_config);
+        return NULL;
+    }
+
     instance->ip_address = g_strdup(tmp);
-    fscanf(file_server_port_config, "%16s", tmp);
+
+    if (fscanf(file_server_port_config, "%16s", tmp) == EOF)
+    {
+        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_free((gpointer)prompt_config);
+        g_free((gpointer)server_address_config);
+        g_free((gpointer)server_port_config);
+        fclose(file_prompt_config);
+        fclose(file_server_address_config);
+        fclose(file_server_port_config);
+        return NULL;
+    }
+
     instance->port_number = g_strdup(tmp);
 
     g_free((gpointer)prompt_config);
