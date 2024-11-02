@@ -22,7 +22,6 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <cairo.h>
-#include "../config/gtk_rpi_config.h"
 #include "../settings/server_parameters.h"
 #include "../settings/gthread_parameters.h"
 
@@ -36,8 +35,30 @@ extern GThreadParameters *gthread_parameters;
 extern gchar *resource_dir_path;
 extern gchar *config_dir_path;
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets pixel buffer from file path
+/// @param file_path is pixel file path
+/// @return Pixel buffer structure
 GdkPixbuf *cpixbuf(const gchar *file_path);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets resource directory path
+/// @return Directory path for resource
 gchar *get_resource_dir(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets resource file path
+/// @param file_name is resource file name
+/// @return File path for resource
 gchar *get_resource_file(const gchar *file_name);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets configuration directory path
+/// @return Directory path for configuration
 gchar *get_config_dir(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets configuration file path
+/// @param file_name is configuration file name
+/// @return File path for configuration
 gchar *get_config_file(const gchar *file_name);

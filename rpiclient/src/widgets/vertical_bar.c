@@ -88,7 +88,8 @@ static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr)
     return FALSE;
 }
 
-void gtk_vb_destroy(GtkVB *vb) {
+void gtk_vb_destroy(GtkVB *vb)
+{
     g_return_if_fail(GTK_IS_VB(vb));
     g_object_unref(vb);
 }
