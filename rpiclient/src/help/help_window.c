@@ -76,7 +76,8 @@ HelpWindow *new_help_window(void)
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
-    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->image_slider));
+    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->image_slider->fixed));
+    g_signal_connect_swapped(instance->window, "delete-event", G_CALLBACK(destroy_help_window), instance);
 
     return instance;
 }
@@ -85,7 +86,7 @@ void show_help_window(HelpWindow *instance)
 {
     if (instance && instance->window && !gtk_widget_get_visible(instance->window))
     {
-        gtk_widget_show(instance->window);
+        gtk_widget_show_all(instance->window);
     }
 }
 

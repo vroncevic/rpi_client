@@ -67,7 +67,7 @@ AboutDialog *new_about_dialog(void)
         logo = NULL;
     }
 
-    g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(gtk_widget_hide), instance->dialog);
+    g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(destroy_about_dialog), instance);
 
     return instance;
 }
