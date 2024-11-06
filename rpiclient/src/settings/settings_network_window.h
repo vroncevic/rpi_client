@@ -23,8 +23,8 @@
 
 #define TITLE_SETTINGS_NETWORK_WINDOW "Settings Network"
 #define ICON_SETTINGS_NETWORK_WINDOW "icon.png"
-#define WIDTH_SETTINGS_NETWORK_WINDOW (350)
-#define HEIGHT_SETTINGS_NETWORK_WINDOW (350)
+#define WIDTH_SETTINGS_NETWORK_WINDOW (270)
+#define HEIGHT_SETTINGS_NETWORK_WINDOW (250)
 #define CONTAINER_BORDER_WIDTH_SETTINGS_NETWORK_WINDOW (10)
 #define SPACING_VBOX_SETTINGS_NETWORK_WINDOW (20)
 #define TABLE_ROW_SPACINGS_TABLE_SETTINGS_NETWORK_WINDOW (10)
@@ -46,9 +46,9 @@
 #define WIDTH_BUTTON_HBOX_SETTINGS_NETWORK_WINDOW (70)
 #define HEIGHT_BUTTON_HBOX_SETTINGS_NETWORK_WINDOW (30)
 #define SPACING_HBOX_SETTINGS_NETWORK_WINDOW (3)
-#define WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW "Failed to allocate memory for settings window\n"
-#define WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW "Failed to create pixbuf from settings icon.\n"
-#define WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW "Failed to get resource path for settings icon\n"
+#define WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW "Failed to allocate memory for settings network window\n"
+#define WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW "Failed to create pixbuf from settings network icon.\n"
+#define WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW "Failed to get resource path for settings network icon\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings network window complex widget

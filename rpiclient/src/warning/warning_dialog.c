@@ -54,7 +54,7 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
 
 void show_warning_dialog(WarningDialog *instance)
 {
-    if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_DIALOG(instance->dialog) && !gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_show(instance->dialog);
         gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
@@ -68,7 +68,7 @@ void show_warning_dialog(WarningDialog *instance)
 
 void hide_warning_dialog(WarningDialog *instance)
 {
-    if (instance && instance->dialog && gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_DIALOG(instance->dialog) && gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_hide(instance->dialog);
     }
@@ -78,7 +78,7 @@ void destroy_warning_dialog(WarningDialog *instance)
 {
     if (instance)
     {
-        if (instance->dialog)
+        if (GTK_IS_DIALOG(instance->dialog))
         {
             gtk_widget_destroy(instance->dialog);
             instance->dialog = NULL;

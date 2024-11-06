@@ -41,11 +41,6 @@
 		}                                         \
 	}
 
-#define WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT "Missing input sequence for decrypt\n"
-#define WARNING_LOG_FAILED_MISSING_IN_SEQ_ENC_ENCRYPT "Missing input sequence for encrypt\n"
-#define WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT "Failed to allocate memory for decrypt output\n"
-#define WARNING_LOG_FAILED_MALLOC_ENC_ENCRYPT "Failed to allocate memory for encrypt output\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget
 ///   dialog - Gtk about dialog widget

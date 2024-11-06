@@ -34,12 +34,12 @@
 #define WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW (70)
 #define HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW (30)
 #define SPACING_HBOX_SETTINGS_GENERAL_WINDOW (3)
-#define WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW "Failed to allocate memory for settings window\n"
-#define WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW "Failed to create pixbuf from settings icon.\n"
-#define WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW "Failed to get resource path for settings icon\n"
+#define WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW "Failed to allocate memory for settings general window\n"
+#define WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW "Failed to create pixbuf from settings general icon.\n"
+#define WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW "Failed to get resource path for settings general icon\n"
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Settings window complex widget
+/// @brief Settings general window complex widget
 ///   window - Gtk window widget
 ///   vbox - Gtk widget for vertical box
 ///   table - Gtk widget for table
@@ -57,21 +57,21 @@ typedef struct
 } SettingsGeneralWindow;
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Construct complex widget settings window
-/// @return Settings window complex widget pointer
+/// @brief Construct complex widget settings general window
+/// @return Settings general window complex widget pointer
 SettingsGeneralWindow *new_settings_general_window(void);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Show settings window complex widget
-/// @param instance is pointer to complex widget settings window
+/// @brief Show settings general window complex widget
+/// @param instance is pointer to complex widget settings general window
 void show_settings_general_window(SettingsGeneralWindow *instance);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Hide settings window complex widget
-/// @param instance is pointer to complex widget settings window
+/// @brief Hide settings general window complex widget
+/// @param instance is pointer to complex widget settings general window
 void hide_settings_general_window(SettingsGeneralWindow *instance);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Destroy settings window complex widget
-/// @param instance is pointer to complex widget settings window
+/// @brief Destroy settings general window complex widget
+/// @param instance is pointer to complex widget settings general window
 void destroy_settings_general_window(SettingsGeneralWindow *instance);

@@ -71,7 +71,7 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
 gint show_exit_dialog(ExitDialog *instance)
 {
-    if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_DIALOG(instance->dialog) && !gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_show(instance->dialog);
         gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
@@ -90,7 +90,7 @@ gint show_exit_dialog(ExitDialog *instance)
 
 void hide_exit_dialog(ExitDialog *instance)
 {
-    if (instance && instance->dialog && gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_DIALOG(instance->dialog) && gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_hide(instance->dialog);
     }
@@ -100,7 +100,7 @@ void destroy_exit_dialog(ExitDialog *instance)
 {
     if (instance)
     {
-        if (instance->dialog)
+        if (GTK_IS_DIALOG(instance->dialog))
         {
             gtk_widget_destroy(instance->dialog);
             instance->dialog = NULL;

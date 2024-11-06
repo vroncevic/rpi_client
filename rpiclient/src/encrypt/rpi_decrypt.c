@@ -18,6 +18,9 @@
  */
 #include "rpi_format.h"
 
+static const gchar* WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT = "Missing input sequence for decrypt\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT = "Failed to allocate memory for decrypt output\n";
+
 gchar *rpi_decrypt(const gchar *in, guint shift)
 {
     if (!in)
