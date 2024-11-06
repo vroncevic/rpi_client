@@ -20,5 +20,5 @@
 
 gchar *get_config_file(const gchar *file_name)
 {
-    return g_strjoin(NULL, config_dir_path, RPIC_RES_CONFIG, NULL);
+    return g_strjoin(NULL, config_dir_path, file_name, NULL);
 }

@@ -55,13 +55,13 @@ GtkWidget *gtk_vb_new(void);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Sets state for custom widget vertical bar
-/// @param vb is pointer to complex widget vertical bar
+/// @param instance is pointer to complex widget vertical bar
 /// @param num is number of selected cells in vertical bar
-void gtk_vb_set_state(GtkVB *vb, gint num);
+void gtk_vb_set_state(GtkVB *instance, gint num);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Destroy vertical bar custom widget
-/// @param vb is pointer to complex widget vertical bar
-void gtk_vb_destroy(GtkVB *vb);
+/// @param instance is pointer to complex widget vertical bar
+void gtk_vb_destroy(GtkVB *instance);
 
 G_END_DECLS

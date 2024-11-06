@@ -20,15 +20,6 @@
 
 #include "image_slider.h"
 
-#define TITLE_HELP_WINDOW "Help"
-#define BORDER_WIDTH_HELP_WINDOW (10)
-#define WIDTH_HELP_WINDOW (300)
-#define HEIGHT_HELP_WINDOW (200)
-#define ICON_HELP_WINDOW "icon.png"
-#define WARNING_LOG_FAILED_MALLOC_HELP_WINDOW "Failed to allocate memory for help window\n"
-#define WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW "Failed to create pixbuf from help icon.\n"
-#define WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW "Failed to get resource path for help icon\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Help window complex widget
 ///   window - Gtk window widget

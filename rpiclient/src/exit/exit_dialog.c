@@ -18,11 +18,18 @@
  */
 #include "exit_dialog.h"
 
+static const gchar* TITLE_EXIT_DIALOG = "Confirm Exit";
+static const gchar* TEXT_LABEL_EXIT_DIALOG = "Exit from RPIClient?";
+static const gchar* TEXT_OK_BUTTON_EXIT_DIALOG = "Ok";
+static const gchar* TEXT_CANCEL_BUTTON_EXIT_DIALOG = "Cancel";
+static const gchar* WARNING_LOG_FAILED_PARENT_EXIT_DIALOG = "Missing parent widget parameter\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG = "Failed to allocate memory for exit dialog\n";
+
 ExitDialog *new_exit_dialog(GtkWidget *parent)
 {
     if (!parent)
     {
-        g_warning(WARNING_LOG_FAILED_PARENT_EXIT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_PARENT_EXIT_DIALOG);
         return NULL;
     }
 
@@ -30,18 +37,18 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
         return NULL;
     }
 
     instance->dialog = gtk_dialog_new_with_buttons(
         TITLE_EXIT_DIALOG, GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT,
-        "OK", GTK_RESPONSE_ACCEPT, "Cancel", GTK_RESPONSE_REJECT, NULL
+        TEXT_OK_BUTTON_EXIT_DIALOG, GTK_RESPONSE_ACCEPT, TEXT_CANCEL_BUTTON_EXIT_DIALOG, GTK_RESPONSE_REJECT, NULL
     );
 
-    if (!instance->dialog)
+    if (!GTK_IS_DIALOG(instance->dialog))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
         g_free((gpointer)instance);
         return NULL;
     }
@@ -50,16 +57,16 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
     if (!instance->content_area)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
         destroy_exit_dialog(instance);
         return NULL;
     }
 
     instance->label = gtk_label_new(TEXT_LABEL_EXIT_DIALOG);
 
-    if (!instance->label)
+    if (!GTK_IS_LABEL(instance->label))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
         destroy_exit_dialog(instance);
         return NULL;
     }
@@ -71,9 +78,9 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
 gint show_exit_dialog(ExitDialog *instance)
 {
-    if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_DIALOG(instance->dialog) && !gtk_widget_get_visible(instance->dialog))
     {
-        gtk_widget_show(instance->dialog);
+        gtk_widget_show_all(instance->dialog);
         gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
 
         if (result == GTK_RESPONSE_ACCEPT)
@@ -90,7 +97,7 @@ gint show_exit_dialog(ExitDialog *instance)
 
 void hide_exit_dialog(ExitDialog *instance)
 {
-    if (instance && instance->dialog && gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_DIALOG(instance->dialog) && gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_hide(instance->dialog);
     }
@@ -100,7 +107,7 @@ void destroy_exit_dialog(ExitDialog *instance)
 {
     if (instance)
     {
-        if (instance->dialog)
+        if (GTK_IS_DIALOG(instance->dialog))
         {
             gtk_widget_destroy(instance->dialog);
             instance->dialog = NULL;

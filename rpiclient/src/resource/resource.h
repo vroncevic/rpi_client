@@ -22,16 +22,7 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <cairo.h>
-#include "../settings/server_parameters.h"
-#include "../settings/gthread_parameters.h"
 
-#define RPIC_RES_PATH "/rc/images/"
-#define RPIC_RES_CONFIG "/rc/config/"
-#define RPIC_PORT_NUMBER_SERVER "8000"
-#define RPIC_SERVER_ADDRESS "127.0.0.1"
-
-extern ServerParameters *server_parameters;
-extern GThreadParameters *gthread_parameters;
 extern gchar *resource_dir_path;
 extern gchar *config_dir_path;
 

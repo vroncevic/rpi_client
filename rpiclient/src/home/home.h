@@ -23,18 +23,6 @@
 #include "../settings/settings_config.h"
 #include "../encrypt/rpi_format.h"
 
-#define TITLE_WINDOW_HOME "RPIClient v1.0"
-#define WIDTH_WINDOW_HOME (900)
-#define HEIGHT_WINDOW_HOME (400)
-#define CONTAINER_BORDER_WIDTH_WINDOW_HOME (2)
-#define WARNING_LOG_FAILED_MALLOC_HOME "Failed to allocate memory for home\n"
-#define WARNING_LOG_FAILED_MALLOC_WINDOW_HOME "Failed to allocate memory for home window\n"
-#define WARNING_LOG_FAILED_PIXBUF_HOME "Failed to create pixbuf from home icon.\n"
-#define WARNING_LOG_FAILED_RESOURCE_HOME "Failed to get resource path for home icon\n"
-#define WARNING_LOG_FAILED_MALLOC_VBOX_HOME "Failed to allocate memory for vertial box home\n"
-#define WARNING_LOG_FAILED_MALLOC_MENU_BAR_HOME "Failed to allocate memory for menu bar home\n"
-#define WARNING_LOG_FAILED_MALLOC_HOME_FRAME_HOME "Failed to allocate memory for frame home\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget
 ///   window - Gtk window widget for home

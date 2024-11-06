@@ -18,13 +18,21 @@
  */
 #include "settings_config.h"
 
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ = "Failed to get prompt config file path for read\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ = "Failed to get server address config file path for read\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ = "Failed to get server port config file path for read\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ = "Failed to open prompt config file for read\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ = "Failed to open server address config file for read\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ = "Failed to open server port config file for read\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_READ = "Failed to allocate memory for settings configuration for read\n";
+
 SettingsConfig* settings_read(void)
 {
     gchar *prompt_config = get_config_file(CONFIGURATION_FILE_PROMPT);
 
     if (!prompt_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ);
         return NULL;
     }
 
@@ -32,7 +40,7 @@ SettingsConfig* settings_read(void)
 
     if (!server_address_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         return NULL;
     }
@@ -41,7 +49,7 @@ SettingsConfig* settings_read(void)
 
     if (!server_port_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         return NULL;
@@ -51,7 +59,7 @@ SettingsConfig* settings_read(void)
 
     if (!file_prompt_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -62,7 +70,7 @@ SettingsConfig* settings_read(void)
 
     if (!file_server_address_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -74,7 +82,7 @@ SettingsConfig* settings_read(void)
 
     if (!file_server_port_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -87,7 +95,7 @@ SettingsConfig* settings_read(void)
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -101,7 +109,7 @@ SettingsConfig* settings_read(void)
 
     if (fscanf(file_prompt_config, "%16s", tmp) == EOF)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -115,7 +123,7 @@ SettingsConfig* settings_read(void)
 
     if (fscanf(file_server_address_config, "%16s", tmp) == EOF)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -129,7 +137,7 @@ SettingsConfig* settings_read(void)
 
     if (fscanf(file_server_port_config, "%16s", tmp) == EOF)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);

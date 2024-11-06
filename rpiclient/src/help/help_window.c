@@ -18,21 +18,30 @@
  */
 #include "help_window.h"
 
+static const gchar* TITLE_HELP_WINDOW = "Help";
+static const gint BORDER_WIDTH_HELP_WINDOW = 10;
+static const gint WIDTH_HELP_WINDOW = 300;
+static const gint HEIGHT_HELP_WINDOW = 200;
+static const gchar* ICON_HELP_WINDOW = "icon.png";
+static const gchar* WARNING_LOG_FAILED_MALLOC_HELP_WINDOW = "Failed to allocate memory for help window\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW = "Failed to create pixbuf from help icon.\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW = "Failed to get resource path for help icon\n";
+
 HelpWindow *new_help_window(void)
 {
     HelpWindow *instance = g_malloc(sizeof(HelpWindow));
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
         return NULL;
     }
 
     instance->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-    if (!instance->window)
+    if (!GTK_IS_WINDOW(instance->window))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
         destroy_help_window(instance);
         return NULL;
     }
@@ -41,7 +50,7 @@ HelpWindow *new_help_window(void)
 
     if (!instance->image_slider)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
         destroy_help_window(instance);
         return NULL;
     }
@@ -55,14 +64,14 @@ HelpWindow *new_help_window(void)
     {
         GdkPixbuf *pixbuf = cpixbuf(icon);
 
-        if (pixbuf)
+        if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
             g_object_unref(pixbuf);
         }
         else
         {
-            g_warning(WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW);
+            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW);
         }
             
         g_free((gpointer)icon);
@@ -70,28 +79,29 @@ HelpWindow *new_help_window(void)
     }
     else
     {
-        g_warning(WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW);
         icon = NULL;
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
-    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->image_slider));
+    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->image_slider->fixed));
+    g_signal_connect_swapped(instance->window, "delete-event", G_CALLBACK(destroy_help_window), instance);
 
     return instance;
 }
 
 void show_help_window(HelpWindow *instance)
 {
-    if (instance && instance->window && !gtk_widget_get_visible(instance->window))
+    if (instance && GTK_IS_WINDOW(instance->window) && !gtk_widget_get_visible(instance->window))
     {
-        gtk_widget_show(instance->window);
+        gtk_widget_show_all(instance->window);
     }
 }
 
 void hide_help_window(HelpWindow *instance)
 {
-    if (instance && instance->window && gtk_widget_get_visible(instance->window))
+    if (instance && GTK_IS_WINDOW(instance->window) && gtk_widget_get_visible(instance->window))
     {
         gtk_widget_hide(instance->window);
     }
@@ -107,7 +117,7 @@ void destroy_help_window(HelpWindow *instance)
             instance->image_slider = NULL;
         }
 
-        if (instance->window)
+        if (GTK_IS_WINDOW(instance->window))
         {
             gtk_widget_destroy(instance->window);
             instance->window = NULL;

@@ -18,21 +18,31 @@
  */
 #include "about_dialog.h"
 
+static const gchar* TEXT_NAME_ABOUT_DIALOG = "About RPIClient";
+static const gchar* TEXT_VERSION_ABOUT_DIALOG = "1.0.0";
+static const gchar* TEXT_COPYRIGHT_ABOUT_DIALOG = "2024 (c) elektron.ronca@gmail.com";
+static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistribute it and/or modify it.";
+static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";
+static const gchar* LOGO_FILE_NAME_ABOUT_DIALOG = "logo.png";
+static const gchar* WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG = "Failed to allocate memory for about dialog\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo.\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo\n";
+
 AboutDialog *new_about_dialog(void)
 {
     AboutDialog *instance = g_malloc(sizeof(AboutDialog));
 
     if(!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
         return NULL;
     }
 
     instance->dialog = gtk_about_dialog_new();
 
-    if (!instance->dialog)
+    if (!GTK_IS_ABOUT_DIALOG(instance->dialog))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
         g_free((gpointer)instance);
         return NULL;
     }
@@ -48,14 +58,14 @@ AboutDialog *new_about_dialog(void)
     {
         GdkPixbuf *pixbuf = cpixbuf(logo);
 
-        if (pixbuf)
+        if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(instance->dialog), pixbuf);
             g_object_unref(pixbuf);
         }
         else
         {
-            g_warning(WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
+            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
         }
 
         g_free((gpointer)logo);
@@ -63,18 +73,18 @@ AboutDialog *new_about_dialog(void)
     }
     else
     {
-        g_warning(WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
         logo = NULL;
     }
 
-    g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(gtk_widget_hide), instance->dialog);
+    g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(destroy_about_dialog), instance);
 
     return instance;
 }
 
 void show_about_dialog(AboutDialog *instance)
 {
-    if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_ABOUT_DIALOG(instance->dialog) && !gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_show(instance->dialog);
     }
@@ -82,7 +92,7 @@ void show_about_dialog(AboutDialog *instance)
 
 void hide_about_dialog(AboutDialog *instance)
 {
-    if (instance && instance->dialog && gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_ABOUT_DIALOG(instance->dialog) && gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_hide(instance->dialog);
     }
@@ -92,7 +102,7 @@ void destroy_about_dialog(AboutDialog *instance)
 {
     if (instance)
     {
-        if (instance->dialog)
+        if (GTK_IS_ABOUT_DIALOG(instance->dialog))
         {
             gtk_widget_destroy(instance->dialog);
             instance->dialog = NULL;

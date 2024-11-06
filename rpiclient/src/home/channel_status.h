@@ -18,7 +18,6 @@
  */
 #pragma once
 
-#include <gtk/gtk.h>
 #include "../widgets/vertical_bar.h"
 
 #define WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(id, msg) \

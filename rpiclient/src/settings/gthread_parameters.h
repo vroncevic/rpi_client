@@ -32,3 +32,5 @@ typedef struct
     gint receive_msg;
     GThread *yes_tid;
 } GThreadParameters;
+
+extern GThreadParameters *gthread_parameters;

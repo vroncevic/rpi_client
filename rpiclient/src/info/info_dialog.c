@@ -18,17 +18,21 @@
  */
 #include "info_dialog.h"
 
+static const gchar* WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG = "Missing parent widget parameter\n";
+static const gchar* WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG = "Missing message parameter\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_INFO_DIALOG = "Failed to allocate memory for info dialog\n";
+
 InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
 {
     if (!parent)
     {
-        g_warning(WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG);
         return NULL;
     }
 
     if (!msg)
     {
-        g_warning(WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG);
         return NULL;
     }
 
@@ -36,15 +40,15 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_INFO_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_INFO_DIALOG);
         return NULL;
     }
 
     instance->dialog = gtk_message_dialog_new(GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
 
-    if (!instance->dialog)
+    if (!GTK_IS_MESSAGE_DIALOG(instance->dialog))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_INFO_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_INFO_DIALOG);
         destroy_info_dialog(instance);
         return NULL;
     }
@@ -54,7 +58,7 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
 
 void show_info_dialog(InfoDialog *instance)
 {
-    if (instance && instance->dialog && !gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_MESSAGE_DIALOG(instance->dialog) && !gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_show(instance->dialog);
         gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
@@ -68,7 +72,7 @@ void show_info_dialog(InfoDialog *instance)
 
 void hide_info_dialog(InfoDialog *instance)
 {
-    if (instance && instance->dialog && gtk_widget_get_visible(instance->dialog))
+    if (instance && GTK_IS_MESSAGE_DIALOG(instance->dialog) && gtk_widget_get_visible(instance->dialog))
     {
         gtk_widget_hide(instance->dialog);
     }
@@ -78,7 +82,7 @@ void destroy_info_dialog(InfoDialog *instance)
 {
     if (instance)
     {
-        if (instance->dialog)
+        if (GTK_IS_MESSAGE_DIALOG(instance->dialog))
         {
             gtk_widget_destroy(instance->dialog);
             instance->dialog = NULL;

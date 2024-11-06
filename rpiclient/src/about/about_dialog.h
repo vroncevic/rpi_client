@@ -20,16 +20,6 @@
 
 #include "../resource/resource.h"
 
-#define TEXT_NAME_ABOUT_DIALOG "Home"
-#define TEXT_VERSION_ABOUT_DIALOG "1.0.0"
-#define TEXT_COPYRIGHT_ABOUT_DIALOG "2024 (c) elektron.ronca@gmail.com"
-#define TEXT_COMMENTS_ABOUT_DIALOG "Free Software you can redistribute it and/or modify it."
-#define TEXT_WEBSITE_ABOUT_DIALOG "https://github.com/vroncevic/rpiclient-gtk"
-#define LOGO_FILE_NAME_ABOUT_DIALOG "logo.png"
-#define WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG "Failed to allocate memory for About dialog\n"
-#define WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG "Failed to create pixbuf from about logo.\n"
-#define WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG "Failed to get resource path for about logo\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget
 ///   dialog - Gtk about dialog widget

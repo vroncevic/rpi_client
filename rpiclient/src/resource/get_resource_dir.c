@@ -18,6 +18,8 @@
  */
 #include "resource.h"
 
+static const gchar* RPIC_RES_PATH = "/rc/images/";
+
 gchar *get_resource_dir(void)
 {
     return g_strjoin(NULL, g_get_current_dir(), RPIC_RES_PATH, NULL);

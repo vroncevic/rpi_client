@@ -20,27 +20,9 @@
 
 #include "../resource/resource.h"
 
-#define SET_NOPROMPT "no-prompt:disable"
-#define SET_PROMPT "no-prompt:enable"
 #define CONFIGURATION_FILE_PROMPT "/config/prompt.config"
 #define CONFIGURATION_FILE_SERVER_ADDRESS "/config/server_address.config"
 #define CONFIGURATION_FILE_SERVER_PORT "/config/server_port.config"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ "Failed to get prompt config file path for read\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ "Failed to get server address config file path for read\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ "Failed to get server port config file path for read\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ "Failed to open prompt config file for read\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ "Failed to open server address config file for read\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ "Failed to open server port config file for read\n"
-#define WARNING_LOG_FAILED_MALLOC_SETTINGS_READ "Failed to allocate memory for settings configuration for read\n"
-#define WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE "Missing setting parameter for write\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE "Failed to get prompt config file path for write\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE "Failed to get server address config file path for write\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE "Failed to get server port config file path for write\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE "Failed to open prompt config file for write\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE "Failed to open server address config file for write\n"
-#define WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE "Failed to open server port config file for write\n"
-#define SUCCESS_SETTINGS_CONFIGURATION 0
-#define FAILED_SETTINGS_CONFIGURATION 1
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings configuration structure

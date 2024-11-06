@@ -35,10 +35,10 @@ AM_CFLAGS = \
 	$(GTK_CFLAGS)
 
 rpiclient_LDFLAGS = \
-	-Wl,--export-dynamic \
-	$(GTK_LIBS)
+	-Wl, \
+	-export-dynamic
 
-rpiclient_LDADD = $(RPICLIENT_LIBS)
+rpiclient_LDADD = $(GTK_LIBS)
 
 bin_PROGRAMS = rpiclient
 
@@ -61,7 +61,8 @@ rpiclient_SOURCES = \
 	resource/get_resource_file.c \
 	resource/get_config_dir.c \
 	resource/get_config_file.c \
-	settings/settings_window.c \
+	settings/settings_network_window.c \
+	settings/settings_general_window.c \
 	settings/settings_read.c \
 	settings/settings_write.c \
 	settings/settings_free.c \

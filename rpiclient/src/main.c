@@ -19,17 +19,25 @@
 
 #include "home/home.h"
 #include "exit/exit_dialog.h"
+#include "settings/settings_network_window.h"
+#include "settings/settings_general_window.h"
+#include "help/help_window.h"
 #include "about/about_dialog.h"
+
+Home *app = NULL;
 
 /*ServerParameters *server_parameters;*/
 /*GThreadParameters *gthread_parameters;*/
 gchar *resource_dir_path = NULL;
 gchar *config_dir_path = NULL;
-Home *app = NULL;
-ExitDialog *exit_dlg = NULL;
-AboutDialog *about_dlg = NULL;
 
-gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data);
+gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data);
+void on_option_connect(void);
+void on_option_disconnect(void);
+void on_show_settings_general(void);
+void on_show_settings_network(void);
+void on_show_help(void);
+void on_show_about(void);
 
 int main(int argc, char *argv[])
 {
@@ -41,12 +49,18 @@ int main(int argc, char *argv[])
     resource_dir_path = get_resource_dir();
     config_dir_path = get_config_dir();
     app = new_home();
-    exit_dlg = new_exit_dialog(app->window);
-    about_dlg = new_about_dialog();
     show_home(app);
-    g_signal_connect(G_OBJECT(app->window), "delete_event", G_CALLBACK(delete_event), NULL);
 
-    // g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
+    g_signal_connect(G_OBJECT(app->window), "delete_event", G_CALLBACK(on_exit), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_file_submenu_exit), "activate", G_CALLBACK(on_exit), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_option_submenu_connect), "activate", G_CALLBACK(on_option_connect), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_option_submenu_disconnect), "activate", G_CALLBACK(on_option_disconnect), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_file_submenu_exit), "activate", G_CALLBACK(on_exit), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_settings_submenu_general), "activate", G_CALLBACK(on_show_settings_general), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_settings_submenu_network), "activate", G_CALLBACK(on_show_settings_network), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_help), "activate", G_CALLBACK(on_show_help), NULL);
+    g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
+
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 
     gtk_main();
@@ -56,16 +70,72 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-gint delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
+gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    gint exit_code = show_exit_dialog(exit_dlg);
+    ExitDialog *exit_dialog = new_exit_dialog(app->window);
+    gint exit_code = show_exit_dialog(exit_dialog);
 
     if (exit_code == 0)
     {
         destroy_home(app);
+        app = NULL;
         gtk_main_quit();
         return FALSE;
     }
 
+    hide_exit_dialog(exit_dialog);
+    destroy_exit_dialog(exit_dialog);
+    exit_dialog = NULL;
+
     return TRUE;
+}
+
+void on_option_connect(void)
+{
+    g_warning("%s", "connect\n");
+}
+
+void on_option_disconnect(void)
+{
+    g_warning("%s", "disconnect\n");
+}
+
+void on_show_settings_general(void)
+{
+    SettingsGeneralWindow *settings_general_window = new_settings_general_window();
+
+    if (settings_general_window)
+    {
+        show_settings_general_window(settings_general_window);
+    }
+}
+
+void on_show_settings_network(void)
+{
+    SettingsNetworkWindow *settings_network_window = new_settings_network_window();
+
+    if (settings_network_window)
+    {
+        show_settings_network_window(settings_network_window);
+    }
+}
+
+void on_show_help(void)
+{
+    HelpWindow *help_window = new_help_window();
+
+    if (help_window)
+    {
+        show_help_window(help_window);
+    }
+}
+
+void on_show_about(void)
+{
+    AboutDialog *about_dialog = new_about_dialog();
+
+    if (about_dialog)
+    {
+        show_about_dialog(about_dialog);
+    }
 }

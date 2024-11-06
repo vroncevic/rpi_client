@@ -23,9 +23,14 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#define RPIC_PORT_NUMBER_SERVER "8000"
+#define RPIC_SERVER_ADDRESS "127.0.0.1"
+
 typedef struct
 {
     struct sockaddr_in serv_addr;
     struct hostent *server;
     int portno;
 } ServerParameters;
+
+extern ServerParameters *server_parameters;

@@ -18,156 +18,169 @@
  */
 #include "menu_bar.h"
 
+static const gchar* TEXT_MENU_FILE_MENU_BAR = "File";
+static const gchar* TEXT_MENU_FILE_SUBMENU_EXIT_MENU_BAR = "Exit";
+static const gchar* TEXT_MENU_OPTION_MENU_BAR = "Option";
+static const gchar* TEXT_MENU_OPTION_SUBMENU_CONNECT_MENU_BAR = "Connect";
+static const gchar* TEXT_MENU_OPTION_SUBMENU_DISCONNECT_MENU_BAR = "Disconnect";
+static const gchar* TEXT_MENU_SETTINGS_MENU_BAR = "Settings";
+static const gchar* TEXT_MENU_SETTINGS_SUBMENU_GENERAL_MENU_BAR = "General";
+static const gchar* TEXT_MENU_SETTINGS_SUBMENU_NETWORK_MENU_BAR = "Network";
+static const gchar* TEXT_MENU_HELP_MENU_BAR = "Help";
+static const gchar* TEXT_MENU_HELP_SUBMENU_HELP_MENU_BAR = "Help";
+static const gchar* TEXT_MENU_HELP_SUBMENU_ABOUT_MENU_BAR = "About";
+static const gchar* WARNING_LOG_FAILED_MALLOC_MENU_BAR = "Failed to allocate memory for menu bar\n";
+
 MenuBar *new_menu_bar(void)
 {
     MenuBar *instance = g_malloc(sizeof(MenuBar));
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         return NULL;
     }
 
     instance->menu_bar = gtk_menu_bar_new();
 
-    if (!instance->menu_bar)
+    if (!GTK_IS_MENU_BAR(instance->menu_bar))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_file = gtk_menu_new();
 
-    if (!instance->menu_file)
+    if (!GTK_IS_MENU(instance->menu_file))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_file_item = gtk_menu_item_new_with_label(TEXT_MENU_FILE_MENU_BAR);
 
-    if (!instance->menu_file_item)
+    if (!GTK_IS_MENU_ITEM(instance->menu_file_item))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_file_submenu_exit = gtk_menu_item_new_with_label(TEXT_MENU_FILE_SUBMENU_EXIT_MENU_BAR);
 
-    if (!instance->menu_file_submenu_exit)
+    if (!GTK_IS_MENU_ITEM(instance->menu_file_submenu_exit))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_option = gtk_menu_new();
 
-    if (!instance->menu_option)
+    if (!GTK_IS_MENU(instance->menu_option))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_option_item = gtk_menu_item_new_with_label(TEXT_MENU_OPTION_MENU_BAR);
 
-    if (!instance->menu_option_item)
+    if (!GTK_IS_MENU_ITEM(instance->menu_option_item))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_option_submenu_connect = gtk_menu_item_new_with_label(TEXT_MENU_OPTION_SUBMENU_CONNECT_MENU_BAR);
 
-    if (!instance->menu_option_submenu_connect)
+    if (!GTK_IS_MENU_ITEM(instance->menu_option_submenu_connect))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_option_submenu_disconnect = gtk_menu_item_new_with_label(TEXT_MENU_OPTION_SUBMENU_DISCONNECT_MENU_BAR);
 
-    if (!instance->menu_option_submenu_disconnect)
+    if (!GTK_IS_MENU_ITEM(instance->menu_option_submenu_disconnect))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_settings = gtk_menu_new();
 
-    if (!instance->menu_settings)
+    if (!GTK_IS_MENU(instance->menu_settings))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_settings_item = gtk_menu_item_new_with_label(TEXT_MENU_SETTINGS_MENU_BAR);
 
-    if (!instance->menu_settings_item)
+    if (!GTK_IS_MENU_ITEM(instance->menu_settings_item))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_settings_submenu_general = gtk_menu_item_new_with_label(TEXT_MENU_SETTINGS_SUBMENU_GENERAL_MENU_BAR);
 
-    if (!instance->menu_settings_submenu_general)
+    if (!GTK_IS_MENU_ITEM(instance->menu_settings_submenu_general))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_settings_submenu_network = gtk_menu_item_new_with_label(TEXT_MENU_SETTINGS_SUBMENU_NETWORK_MENU_BAR);
 
-    if (!instance->menu_settings_submenu_network)
+    if (!GTK_IS_MENU_ITEM(instance->menu_settings_submenu_network))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_help = gtk_menu_new();
 
-    if (!instance->menu_help)
+    if (!GTK_IS_MENU(instance->menu_help))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_help_item = gtk_menu_item_new_with_label(TEXT_MENU_HELP_MENU_BAR);
 
-    if (!instance->menu_help_item)
+    if (!GTK_IS_MENU_ITEM(instance->menu_help_item))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_help_submenu_help = gtk_menu_item_new_with_label(TEXT_MENU_HELP_SUBMENU_HELP_MENU_BAR);
 
-    if (!instance->menu_help_submenu_help)
+    if (!GTK_IS_MENU_ITEM(instance->menu_help_submenu_help))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
 
     instance->menu_help_submenu_about = gtk_menu_item_new_with_label(TEXT_MENU_HELP_SUBMENU_ABOUT_MENU_BAR);
 
-    if (!instance->menu_help_submenu_about)
+    if (!GTK_IS_MENU_ITEM(instance->menu_help_submenu_about))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_MENU_BAR);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_MENU_BAR);
         destroy_menu_bar(instance);
         return NULL;
     }
@@ -193,7 +206,7 @@ MenuBar *new_menu_bar(void)
 
 void show_menu_bar(MenuBar *instance)
 {
-    if (instance && instance->menu_bar && !gtk_widget_get_visible(instance->menu_bar))
+    if (instance && GTK_IS_MENU_BAR(instance->menu_bar) && !gtk_widget_get_visible(instance->menu_bar))
     {
         gtk_widget_show(instance->menu_bar);
     }
@@ -201,7 +214,7 @@ void show_menu_bar(MenuBar *instance)
 
 void hide_menu_bar(MenuBar *instance)
 {
-    if (instance && instance->menu_bar && gtk_widget_get_visible(instance->menu_bar))
+    if (instance && GTK_IS_MENU_BAR(instance->menu_bar) && gtk_widget_get_visible(instance->menu_bar))
     {
         gtk_widget_hide(instance->menu_bar);
     }
@@ -211,97 +224,97 @@ void destroy_menu_bar(MenuBar *instance)
 {
     if (instance) 
     {
-        if (instance->menu_file_submenu_exit)
+        if (GTK_IS_MENU_ITEM(instance->menu_file_submenu_exit))
         {
             gtk_widget_destroy(instance->menu_file_submenu_exit);
             instance->menu_file_submenu_exit = NULL;
         }
 
-        if (instance->menu_file)
+        if (GTK_IS_MENU(instance->menu_file))
         {
             gtk_widget_destroy(instance->menu_file);
             instance->menu_file = NULL;
         }
 
-        if (instance->menu_file_item)
+        if (GTK_IS_MENU_ITEM(instance->menu_file_item))
         {
             gtk_widget_destroy(instance->menu_file_item);
             instance->menu_file_item = NULL;
         }
 
-        if (instance->menu_option_submenu_connect)
+        if (GTK_IS_MENU_ITEM(instance->menu_option_submenu_connect))
         {
             gtk_widget_destroy(instance->menu_option_submenu_connect);
             instance->menu_option_submenu_connect = NULL;
         }
 
-        if (instance->menu_option_submenu_disconnect)
+        if (GTK_IS_MENU_ITEM(instance->menu_option_submenu_disconnect))
         {
             gtk_widget_destroy(instance->menu_option_submenu_disconnect);
             instance->menu_option_submenu_disconnect = NULL;
         }
 
-        if (instance->menu_option)
+        if (GTK_IS_MENU(instance->menu_option))
         {
             gtk_widget_destroy(instance->menu_option);
             instance->menu_option = NULL;
         }
 
-        if (instance->menu_option_item)
+        if (GTK_IS_MENU_ITEM(instance->menu_option_item))
         {
             gtk_widget_destroy(instance->menu_option_item);
             instance->menu_option_item = NULL;
         }
 
-        if (instance->menu_settings_submenu_general)
+        if (GTK_IS_MENU_ITEM(instance->menu_settings_submenu_general))
         {
             gtk_widget_destroy(instance->menu_settings_submenu_general);
             instance->menu_settings_submenu_general = NULL;
         }
 
-        if (instance->menu_settings_submenu_network)
+        if (GTK_IS_MENU_ITEM(instance->menu_settings_submenu_network))
         {
             gtk_widget_destroy(instance->menu_settings_submenu_network);
             instance->menu_settings_submenu_network = NULL;
         }
 
-        if (instance->menu_settings)
+        if (GTK_IS_MENU(instance->menu_settings))
         {
             gtk_widget_destroy(instance->menu_settings);
             instance->menu_settings = NULL;
         }
 
-        if (instance->menu_settings_item)
+        if (GTK_IS_MENU_ITEM(instance->menu_settings_item))
         {
             gtk_widget_destroy(instance->menu_settings_item);
             instance->menu_settings_item = NULL;
         }
 
-        if (instance->menu_help_submenu_help)
+        if (GTK_IS_MENU_ITEM(instance->menu_help_submenu_help))
         {
             gtk_widget_destroy(instance->menu_help_submenu_help);
             instance->menu_help_submenu_help = NULL;
         }
 
-        if (instance->menu_help_submenu_about)
+        if (GTK_IS_MENU_ITEM(instance->menu_help_submenu_about))
         {
             gtk_widget_destroy(instance->menu_help_submenu_about);
             instance->menu_help_submenu_about = NULL;
         }
 
-        if (instance->menu_help)
+        if (GTK_IS_MENU(instance->menu_help))
         {
             gtk_widget_destroy(instance->menu_help);
             instance->menu_help = NULL;
         }
 
-        if (instance->menu_help_item)
+        if (GTK_IS_MENU_ITEM(instance->menu_help_item))
         {
             gtk_widget_destroy(instance->menu_help_item);
             instance->menu_help_item = NULL;
         }
 
-        if (instance->menu_bar)
+        if (GTK_IS_MENU_BAR(instance->menu_bar))
         {
             gtk_widget_destroy(instance->menu_bar);
             instance->menu_bar = NULL;

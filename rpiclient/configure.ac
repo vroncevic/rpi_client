@@ -9,10 +9,6 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
 AC_PROG_CC
-
-dnl ***************************************************************************
-dnl Internationalization
-dnl ***************************************************************************
 IT_PROG_INTLTOOL([0.51.0])
 GETTEXT_PACKAGE=rpiclient
 AC_SUBST(GETTEXT_PACKAGE)

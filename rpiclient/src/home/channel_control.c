@@ -18,21 +18,35 @@
  */
 #include "channel_control.h"
 
+static const gint WIDTH_SCALE_CHANNEL_CONTROL = 50;
+static const gint HEIGHT_SCALE_CHANNEL_CONTROL = 180;
+static const gdouble MIN_VALUE_SCALE_CHANNEL_CONTROL = 0.0;
+static const gdouble MAX_VALUE_SCALE_CHANNEL_CONTROL = 100.0;
+static const gdouble STEP_VALUE_SCALE_CHANNEL_CONTROL = 1.0;
+static const gdouble VALUE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
+static const gdouble LOWER_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
+static const gdouble UPPER_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 100.0;
+static const gdouble STEP_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 1.0;
+static const gdouble PAGE_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
+static const gdouble PAGE_SIZE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
+static const gdouble CLIMB_RATE_SPINNER_BUTTON_CHANNEL_CONTROL = 1.0;
+static const gint DIGITS_SPINNER_BUTTON_CHANNEL_CONTROL = 0;
+
 ChannelControl *new_channel_control(gint channel_id)
 {
     ChannelControl *instance = g_malloc(sizeof(ChannelControl));
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control widget"));
         return NULL;
     }
 
     instance->control_channel_vertical_bar = GTK_VB(gtk_vb_new());
 
-    if (!instance->control_channel_vertical_bar)
+    if (!GTK_IS_VB(instance->control_channel_vertical_bar))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control vertical bar widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control vertical bar widget"));
         destroy_channel_control(instance);
         return NULL;        
     }
@@ -44,9 +58,9 @@ ChannelControl *new_channel_control(gint channel_id)
         GTK_ORIENTATION_VERTICAL, MIN_VALUE_SCALE_CHANNEL_CONTROL, MAX_VALUE_SCALE_CHANNEL_CONTROL, STEP_VALUE_SCALE_CHANNEL_CONTROL
     );
 
-    if (!instance->control_channel_scale)
+    if (!GTK_IS_SCALE(instance->control_channel_scale))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control scale widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control scale widget"));
         destroy_channel_control(instance);
         return NULL;
     }
@@ -63,9 +77,9 @@ ChannelControl *new_channel_control(gint channel_id)
         PAGE_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL, PAGE_SIZE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL
     );
 
-    if (!instance->control_channel_spinner_adjustment)
+    if (!GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner adjustment widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner adjustment widget"));
         destroy_channel_control(instance);
         return NULL;
     }
@@ -74,9 +88,9 @@ ChannelControl *new_channel_control(gint channel_id)
         instance->control_channel_spinner_adjustment, CLIMB_RATE_SPINNER_BUTTON_CHANNEL_CONTROL, DIGITS_SPINNER_BUTTON_CHANNEL_CONTROL
     );
 
-    if (!instance->control_channel_spinner_button)
+    if (!GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner widget"));
         destroy_channel_control(instance);
         return NULL;
     }
@@ -88,9 +102,9 @@ ChannelControl *new_channel_control(gint channel_id)
     snprintf(text_check_box, sizeof(text_check_box), "GPIO %d", channel_id);
     instance->control_channel_gpio_check_box = gtk_check_button_new_with_label(text_check_box);
 
-    if (!instance->control_channel_gpio_check_box)
+    if (!GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control checkbox widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control checkbox widget"));
         destroy_channel_control(instance);
         return NULL;
     }
@@ -105,27 +119,27 @@ ChannelControl *new_channel_control(gint channel_id)
 
 void show_channel_control(ChannelControl *instance)
 {
-    if (instance && instance->control_channel_vertical_bar && !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar)))
+    if (instance && GTK_IS_VB(instance->control_channel_vertical_bar) && !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar)))
     {
         gtk_widget_show(GTK_WIDGET(instance->control_channel_vertical_bar));
     }
 
-    if (instance && instance->control_channel_scale && !gtk_widget_get_visible(instance->control_channel_scale))
+    if (instance && GTK_IS_SCALE(instance->control_channel_scale) && !gtk_widget_get_visible(instance->control_channel_scale))
     {
         gtk_widget_show(instance->control_channel_scale);
     }
 
-    if (instance && instance->control_channel_spinner_adjustment && !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment)))
+    if (instance && GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment) && !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment)))
     {
         gtk_widget_show((GtkWidget*) instance->control_channel_spinner_adjustment);
     }
 
-    if (instance && instance->control_channel_spinner_button && !gtk_widget_get_visible(instance->control_channel_spinner_button))
+    if (instance && GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button) && !gtk_widget_get_visible(instance->control_channel_spinner_button))
     {
         gtk_widget_show(instance->control_channel_spinner_button);
     }
 
-    if (instance && instance->control_channel_gpio_check_box && !gtk_widget_get_visible(instance->control_channel_gpio_check_box))
+    if (instance && GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box) && !gtk_widget_get_visible(instance->control_channel_gpio_check_box))
     {
         gtk_widget_show(instance->control_channel_gpio_check_box);
     }
@@ -133,27 +147,27 @@ void show_channel_control(ChannelControl *instance)
 
 void hide_channel_control(ChannelControl *instance)
 {
-    if (instance && instance->control_channel_vertical_bar && gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar)))
+    if (instance && GTK_IS_VB(instance->control_channel_vertical_bar) && gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar)))
     {
         gtk_widget_hide(GTK_WIDGET(instance->control_channel_vertical_bar));
     }
 
-    if (instance && instance->control_channel_scale && gtk_widget_get_visible(instance->control_channel_scale))
+    if (instance && GTK_IS_SCALE(instance->control_channel_scale) && gtk_widget_get_visible(instance->control_channel_scale))
     {
         gtk_widget_hide(instance->control_channel_scale);
     }
 
-    if (instance && instance->control_channel_spinner_adjustment && gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment)))
+    if (instance && GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment) && gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment)))
     {
         gtk_widget_hide((GtkWidget*) instance->control_channel_spinner_adjustment);
     }
 
-    if (instance && instance->control_channel_spinner_button && gtk_widget_get_visible(instance->control_channel_spinner_button))
+    if (instance && GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button) && gtk_widget_get_visible(instance->control_channel_spinner_button))
     {
         gtk_widget_hide(instance->control_channel_spinner_button);
     }
 
-    if (instance && instance->control_channel_gpio_check_box && gtk_widget_get_visible(instance->control_channel_gpio_check_box))
+    if (instance && GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box) && gtk_widget_get_visible(instance->control_channel_gpio_check_box))
     {
         gtk_widget_hide(instance->control_channel_gpio_check_box);
     }
@@ -163,31 +177,31 @@ void destroy_channel_control(ChannelControl *instance)
 {
     if (instance)
     {
-        if (instance->control_channel_vertical_bar)
+        if (GTK_IS_VB(instance->control_channel_vertical_bar))
         {
             gtk_vb_destroy(instance->control_channel_vertical_bar);
             instance->control_channel_vertical_bar = NULL;
         }
 
-        if (instance->control_channel_scale)
+        if (GTK_IS_SCALE(instance->control_channel_scale))
         {
             gtk_widget_destroy(instance->control_channel_scale);
             instance->control_channel_scale = NULL;
         }
 
-        if (instance->control_channel_spinner_adjustment)
+        if (GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment))
         {
             gtk_widget_destroy(GTK_WIDGET(instance->control_channel_spinner_adjustment));
             instance->control_channel_spinner_adjustment = NULL;
         }
         
-        if (instance->control_channel_spinner_button)
+        if (GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button))
         {
             gtk_widget_destroy(instance->control_channel_spinner_button);
             instance->control_channel_spinner_button = NULL;
         }
 
-        if (instance->control_channel_gpio_check_box)
+        if (GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box))
         {
             gtk_widget_destroy(instance->control_channel_gpio_check_box);
             instance->control_channel_gpio_check_box = NULL;

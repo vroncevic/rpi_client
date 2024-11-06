@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * exit_dialog.h
+ * settings_general_window.h
  * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -21,34 +21,39 @@
 #include "../resource/resource.h"
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Exit dialog complex widget
-///   dialog - Gtk confirm dialog widget
-///   content_area - Gtk dialog content area widget
-///   label - Gtk label widget
+/// @brief Settings general window complex widget
+///   window - Gtk window widget
+///   vbox - Gtk widget for vertical box
+///   table - Gtk widget for table
+///   hbox - Gtk widget for horizontal alignment
+///   button_ok - Gtk widget for ok action
+///   button_cancel - Gtk widget for cancel action
 typedef struct
 {
-    GtkWidget *dialog;
-    GtkWidget *content_area;
-    GtkWidget *label;
-} ExitDialog;
+    GtkWidget *window;
+    GtkWidget *vbox;
+    GtkWidget *table;
+    GtkWidget *hbox;
+    GtkWidget *button_ok;
+    GtkWidget *button_cancel;
+} SettingsGeneralWindow;
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Construct complex widget exit dialog
-/// @param widget is parent widget
-/// @return Exit dialog complex widget pointer
-ExitDialog *new_exit_dialog(GtkWidget *widget);
+/// @brief Construct complex widget settings general window
+/// @return Settings general window complex widget pointer
+SettingsGeneralWindow *new_settings_general_window(void);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Show exit dialog complex widget
-/// @param instance is pointer to complex widget exit dialog
-gint show_exit_dialog(ExitDialog *instance);
+/// @brief Show settings general window complex widget
+/// @param instance is pointer to complex widget settings general window
+void show_settings_general_window(SettingsGeneralWindow *instance);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Hide exit dialog complex widget
-/// @param instance is pointer to complex widget exit dialog
-void hide_exit_dialog(ExitDialog *instance);
+/// @brief Hide settings general window complex widget
+/// @param instance is pointer to complex widget settings general window
+void hide_settings_general_window(SettingsGeneralWindow *instance);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Destroy exit dialog complex widget
-/// @param instance is pointer to complex widget exit dialog
-void destroy_exit_dialog(ExitDialog *instance);
+/// @brief Destroy settings general window complex widget
+/// @param instance is pointer to complex widget settings general window
+void destroy_settings_general_window(SettingsGeneralWindow *instance);

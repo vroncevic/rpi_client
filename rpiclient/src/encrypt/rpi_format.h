@@ -18,6 +18,7 @@
  */
 #pragma once
 
+#include <ctype.h>
 #include "../resource/resource.h"
 
 #define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
@@ -32,19 +33,13 @@
 
 #define RPI_INIT()                                \
 	{                                             \
-		int i;                                    \
-		for (i = 0; i < USED_CHANNELS; i++)       \
+		for (guint i = 0; i < USED_CHANNELS; i++) \
 		{                                         \
 			rpi.channel_data[i] = 0;              \
 			rpi.pins[0] = DEACT_PIN_1;            \
 			rpi.channels[0] = DEACTIVE_CHANNEL_1; \
 		}                                         \
 	}
-
-#define WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT "Missing input sequence for decrypt\n"
-#define WARNING_LOG_FAILED_MISSING_IN_SEQ_ENC_ENCRYPT "Missing input sequence for encrypt\n"
-#define WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT "Failed to allocate memory for decrypt output\n"
-#define WARNING_LOG_FAILED_MALLOC_ENC_ENCRYPT "Failed to allocate memory for encrypt output\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget

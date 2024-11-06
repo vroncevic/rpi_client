@@ -20,10 +20,6 @@
 
 #include "../resource/resource.h"
 
-#define WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG "Missing parent widget parameter\n"
-#define WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG "Missing message parameter\n"
-#define WARNING_LOG_FAILED_MALLOC_INFO_DIALOG "Failed to allocate memory for info dialog\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Info dialog complex widget
 ///   dialog - Gtk dialog widget
