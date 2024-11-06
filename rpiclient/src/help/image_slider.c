@@ -35,8 +35,24 @@ static const gint HEIGHT_BUTTON_RIGHT_IMAGE_SLIDER = 35;
 static const gint X_POSITION_BUTTON_RIGHT_IMAGE_SLIDER = 125;
 static const gint Y_POSITION_BUTTON_RIGHT_IMAGE_SLIDER = 355;
 static const gchar* FIRST_IMAGE_HELP_IMAGE_SLIDER = "1.png";
-static const gchar* WARNING_MSG_IMAGE_SLIDER = "Failed to allocate memory for image slider\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_IMAGE_SLIDER = "Failed to allocate memory for image slider\n";
 static const gchar* WARNING_LOG_FAILED_RESOURCE_IMAGE_SLIDER = "Failed to get resource path for image slider\n";
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Image slider complex widget
+///   fixed - Gtk fixed container widget
+///   image - Gtk image widget
+///   button_left - Gtk button widget for left action
+///   button_right - Gtk button widget for right action
+///   slider_count - Slider count (count position)
+struct _ImageSlider
+{
+    GtkWidget *fixed;
+    GtkWidget *image;
+    GtkWidget *button_left;
+    GtkWidget *button_right;
+    guint slider_count;
+};
 
 ImageSlider *new_image_slider(void)
 {
@@ -44,7 +60,7 @@ ImageSlider *new_image_slider(void)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_MSG_IMAGE_SLIDER);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_IMAGE_SLIDER);
         return NULL;
     }
 
@@ -53,7 +69,7 @@ ImageSlider *new_image_slider(void)
 
     if (!GTK_IS_FIXED(instance->fixed))
     {
-        g_warning("%s", WARNING_MSG_IMAGE_SLIDER);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_IMAGE_SLIDER);
         g_free((gpointer)instance);
         return NULL;
     }
@@ -71,55 +87,99 @@ ImageSlider *new_image_slider(void)
 
     if (!GTK_IS_IMAGE(instance->image))
     {
-        g_warning("%s", WARNING_MSG_IMAGE_SLIDER);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_IMAGE_SLIDER);
         g_free((gpointer)image);
         destroy_image_slider(instance);
         return NULL;
     }
 
     g_free((gpointer)image);
-    gtk_fixed_put(GTK_FIXED(instance->fixed), instance->image, X_POSITION_IMAGE_SLIDER, Y_POSITION_IMAGE_SLIDER);
-    gtk_widget_set_size_request(instance->image, WIDTH_IMAGE_SLIDER, HEIGHT_IMAGE_SLIDER);
+    gtk_fixed_put(
+        GTK_FIXED(instance->fixed),
+        GTK_WIDGET(instance->image),
+        X_POSITION_IMAGE_SLIDER,
+        Y_POSITION_IMAGE_SLIDER
+    );
+    gtk_widget_set_size_request(
+        GTK_WIDGET(instance->image),
+        WIDTH_IMAGE_SLIDER,
+        HEIGHT_IMAGE_SLIDER
+    );
     instance->button_left = gtk_button_new_with_label(TEXT_BUTTON_LEFT_IMAGE_SLIDER);
 
     if (!GTK_IS_BUTTON(instance->button_left))
     {
-        g_warning("%s", WARNING_MSG_IMAGE_SLIDER);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_IMAGE_SLIDER);
         destroy_image_slider(instance);
         return NULL;
     }
 
-    gtk_widget_set_size_request(instance->button_left, WIDTH_BUTTON_LEFT_IMAGE_SLIDER, HEIGHT_BUTTON_LEFT_IMAGE_SLIDER);
-    gtk_fixed_put(GTK_FIXED(instance->fixed), instance->button_left, X_POSITION_BUTTON_LEFT_IMAGE_SLIDER, Y_POSITION_BUTTON_LEFT_IMAGE_SLIDER);
+    gtk_widget_set_size_request(
+        GTK_WIDGET(instance->button_left),
+        WIDTH_BUTTON_LEFT_IMAGE_SLIDER,
+        HEIGHT_BUTTON_LEFT_IMAGE_SLIDER
+    );
+    gtk_fixed_put(
+        GTK_FIXED(instance->fixed),
+        GTK_WIDGET(instance->button_left),
+        X_POSITION_BUTTON_LEFT_IMAGE_SLIDER,
+        Y_POSITION_BUTTON_LEFT_IMAGE_SLIDER
+    );
     instance->button_right = gtk_button_new_with_label(TEXT_BUTTON_RIGHT_IMAGE_SLIDER);
 
     if (!GTK_IS_BUTTON(instance->button_right))
     {
-        g_warning("%s", WARNING_MSG_IMAGE_SLIDER);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_IMAGE_SLIDER);
         destroy_image_slider(instance);
         return NULL;
     }
 
-    gtk_widget_set_size_request(instance->button_right, WIDTH_BUTTON_RIGHT_IMAGE_SLIDER, HEIGHT_BUTTON_RIGHT_IMAGE_SLIDER);
-    gtk_fixed_put(GTK_FIXED(instance->fixed), instance->button_right, X_POSITION_BUTTON_RIGHT_IMAGE_SLIDER, Y_POSITION_BUTTON_RIGHT_IMAGE_SLIDER);
+    gtk_widget_set_size_request(
+        GTK_WIDGET(instance->button_right),
+        WIDTH_BUTTON_RIGHT_IMAGE_SLIDER,
+        HEIGHT_BUTTON_RIGHT_IMAGE_SLIDER
+    );
+    gtk_fixed_put(
+        GTK_FIXED(instance->fixed),
+        GTK_WIDGET(instance->button_right),
+        X_POSITION_BUTTON_RIGHT_IMAGE_SLIDER,
+        Y_POSITION_BUTTON_RIGHT_IMAGE_SLIDER
+    );
 
     return instance;
 }
 
 void show_image_slider(ImageSlider *instance)
 {
-    if (instance && GTK_IS_FIXED(instance->fixed) && !gtk_widget_get_visible(instance->fixed))
+    if (instance)
     {
-        gtk_widget_show(instance->fixed);
+        gboolean is_fixed = GTK_IS_FIXED(instance->fixed);
+        gboolean is_fixed_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->fixed));
+
+        if (is_fixed && is_fixed_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->fixed));
+        }
     }
 }
 
 void hide_image_slider(ImageSlider *instance)
 {
-    if (instance && GTK_IS_FIXED(instance->fixed) && gtk_widget_get_visible(instance->fixed))
+    if (instance)
     {
-        gtk_widget_hide(instance->fixed);
+        gboolean is_fixed = GTK_IS_FIXED(instance->fixed);
+        gboolean is_fixed_visible = gtk_widget_get_visible(GTK_WIDGET(instance->fixed));
+
+        if (is_fixed && is_fixed_visible)
+        {
+            gtk_widget_hide(GTK_WIDGET(instance->fixed));
+        }
     }
+}
+
+GtkWidget *get_fixed_image_slider(ImageSlider *instance)
+{
+    return instance && GTK_IS_FIXED(instance->fixed) ? instance->fixed : NULL;
 }
 
 void destroy_image_slider(ImageSlider *instance)
@@ -128,7 +188,7 @@ void destroy_image_slider(ImageSlider *instance)
     {
         if (GTK_IS_FIXED(instance->fixed))
         {
-            gtk_widget_destroy(instance->fixed);
+            gtk_widget_destroy(GTK_WIDGET(instance->fixed));
             instance->fixed = NULL;
             instance->image = NULL;
             instance->button_left = NULL;

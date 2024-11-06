@@ -28,6 +28,14 @@ static const gchar* WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG = "Failed to allocate
 static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo.\n";
 static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo\n";
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief About dialog complex widget
+///   dialog - Gtk about dialog widget
+struct _AboutDialog
+{
+    GtkWidget *dialog;
+};
+
 AboutDialog *new_about_dialog(void)
 {
     AboutDialog *instance = g_malloc(sizeof(AboutDialog));
@@ -84,17 +92,29 @@ AboutDialog *new_about_dialog(void)
 
 void show_about_dialog(AboutDialog *instance)
 {
-    if (instance && GTK_IS_ABOUT_DIALOG(instance->dialog) && !gtk_widget_get_visible(instance->dialog))
+    if (instance)
     {
-        gtk_widget_show(instance->dialog);
+        gboolean is_about_dialog = GTK_IS_ABOUT_DIALOG(instance->dialog);
+        gboolean is_about_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+
+        if (is_about_dialog && is_about_dialog_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->dialog));
+        }
     }
 }
 
 void hide_about_dialog(AboutDialog *instance)
 {
-    if (instance && GTK_IS_ABOUT_DIALOG(instance->dialog) && gtk_widget_get_visible(instance->dialog))
+    if (instance)
     {
-        gtk_widget_hide(instance->dialog);
+        gboolean is_about_dialog = GTK_IS_ABOUT_DIALOG(instance->dialog);
+        gboolean is_about_dialog_visible = gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+
+        if (is_about_dialog && is_about_dialog_visible)
+        {
+            gtk_widget_hide(GTK_WIDGET(instance->dialog));
+        }
     }
 }
 
@@ -104,7 +124,7 @@ void destroy_about_dialog(AboutDialog *instance)
     {
         if (GTK_IS_ABOUT_DIALOG(instance->dialog))
         {
-            gtk_widget_destroy(instance->dialog);
+            gtk_widget_destroy(GTK_WIDGET(instance->dialog));
             instance->dialog = NULL;
         }
 

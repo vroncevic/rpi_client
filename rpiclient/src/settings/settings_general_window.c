@@ -35,6 +35,24 @@ static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW = "Failed 
 static const gchar* WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW = "Failed to create pixbuf from settings general icon.\n";
 static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW = "Failed to get resource path for settings general icon\n";
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Settings general window complex widget
+///   window - Gtk window widget
+///   vbox - Gtk widget for vertical box
+///   table - Gtk widget for table
+///   hbox - Gtk widget for horizontal alignment
+///   button_ok - Gtk widget for ok action
+///   button_cancel - Gtk widget for cancel action
+struct _SettingsGeneralWindow
+{
+    GtkWidget *window;
+    GtkWidget *vbox;
+    GtkWidget *table;
+    GtkWidget *hbox;
+    GtkWidget *button_ok;
+    GtkWidget *button_cancel;
+};
+
 SettingsGeneralWindow *new_settings_general_window(void)
 {
     SettingsGeneralWindow *instance = g_malloc(sizeof(SettingsGeneralWindow));
@@ -55,7 +73,11 @@ SettingsGeneralWindow *new_settings_general_window(void)
     }
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
-    gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_SETTINGS_GENERAL_WINDOW, HEIGHT_SETTINGS_GENERAL_WINDOW);
+    gtk_window_set_default_size(
+        GTK_WINDOW(instance->window),
+        WIDTH_SETTINGS_GENERAL_WINDOW,
+        HEIGHT_SETTINGS_GENERAL_WINDOW
+    );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_SETTINGS_GENERAL_WINDOW);
     const gchar *icon = get_resource_file(ICON_SETTINGS_GENERAL_WINDOW);
 
@@ -93,7 +115,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
         return NULL;
     }
 
-    gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
+    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->vbox));
     instance->table = gtk_grid_new();
 
     if (!GTK_IS_GRID(instance->table))
@@ -133,11 +155,19 @@ SettingsGeneralWindow *new_settings_general_window(void)
         return NULL;
     }
 
-    gtk_widget_set_size_request(instance->button_ok, WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW, HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW);
-    gtk_widget_set_size_request(instance->button_cancel, WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW, HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW);
-    gtk_container_add(GTK_CONTAINER(instance->hbox), instance->button_ok);
-    gtk_container_add(GTK_CONTAINER(instance->hbox), instance->button_cancel);
-    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->hbox, FALSE, FALSE, 0);
+    gtk_widget_set_size_request(
+        GTK_WIDGET(instance->button_ok),
+        WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW,
+        HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW
+    );
+    gtk_widget_set_size_request(
+        GTK_WIDGET(instance->button_cancel),
+        WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW,
+        HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW
+    );
+    gtk_container_add(GTK_CONTAINER(instance->hbox), GTK_WIDGET(instance->button_ok));
+    gtk_container_add(GTK_CONTAINER(instance->hbox), GTK_WIDGET(instance->button_cancel));
+    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->hbox), FALSE, FALSE, 0);
     g_signal_connect_swapped(instance->window, "delete-event", G_CALLBACK(destroy_settings_general_window), instance);
 
     return instance;
@@ -145,17 +175,29 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
 void show_settings_general_window(SettingsGeneralWindow *instance)
 {
-    if (instance && GTK_IS_WINDOW(instance->window) && !gtk_widget_get_visible(instance->window))
+    if (instance)
     {
-        gtk_widget_show_all(instance->window);
+        gboolean is_window = GTK_IS_WINDOW(instance->window);
+        gboolean is_window_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_window && is_window_hidden)
+        {
+            gtk_widget_show_all(GTK_WIDGET(instance->window));
+        }
     }
 }
 
 void hide_settings_general_window(SettingsGeneralWindow *instance)
 {
-    if (instance && GTK_IS_WINDOW(instance->window) && gtk_widget_get_visible(instance->window))
+    if (instance)
     {
-        gtk_widget_hide(instance->window);
+        gboolean is_window = GTK_IS_WINDOW(instance->window);
+        gboolean is_window_visible = gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_window && is_window_visible)
+        {
+            gtk_widget_hide(GTK_WIDGET(instance->window));
+        }
     }
 }
 
@@ -165,7 +207,7 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
     {
         if (GTK_IS_WINDOW(instance->window))
         {
-            gtk_widget_destroy(instance->window);
+            gtk_widget_destroy(GTK_WIDGET(instance->window));
             instance->button_cancel = NULL;
             instance->button_ok = NULL;
             instance->hbox = NULL;

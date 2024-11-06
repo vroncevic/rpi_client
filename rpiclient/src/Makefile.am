@@ -63,9 +63,7 @@ rpiclient_SOURCES = \
 	resource/get_config_file.c \
 	settings/settings_network_window.c \
 	settings/settings_general_window.c \
-	settings/settings_read.c \
-	settings/settings_write.c \
-	settings/settings_free.c \
+	settings/settings_config.c \
 	warning/warning_dialog.c \
 	widgets/vertical_bar.h \
 	widgets/vertical_bar.c

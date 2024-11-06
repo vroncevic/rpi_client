@@ -23,9 +23,11 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+// TODO: Move to variables
 #define RPIC_PORT_NUMBER_SERVER "8000"
 #define RPIC_SERVER_ADDRESS "127.0.0.1"
 
+// TODO: Perform encapsulation
 typedef struct
 {
     struct sockaddr_in serv_addr;

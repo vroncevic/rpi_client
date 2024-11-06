@@ -22,37 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings network window complex widget
-///   window - Gtk window widget
-///   vbox - Gtk widget for vertical box
-///   table - Gtk widget for table
-///   frame_control_exit - Gtk widget for frame 
-///   check_button_control_exit - Gtk widget for check box
-///   frame_entry_address - Gtk widget for frame
-///   entry_address - Gtk widget for entry
-///   cur_pos_address - Cursor position
-///   frame_entry_port - Gtk widget for frame
-///   entry_port - Gtk widget for entry
-///   cur_pos_port - Cursor position for entry
-///   hbox - Gtk widget for horizontal alignment
-///   button_ok - Gtk widget for ok action
-///   button_cancel - Gtk widget for cancel action
-typedef struct
-{
-    GtkWidget *window;
-    GtkWidget *vbox;
-    GtkWidget *table;
-    GtkWidget *frame_control_exit;
-    GtkWidget *check_button;
-    GtkWidget *frame_entry_address;
-    GtkWidget *entry_address;
-    gint cur_pos_address;
-    GtkWidget *frame_entry_port;
-    GtkWidget *entry_port;
-    gint cur_pos_port;
-    GtkWidget *hbox;
-    GtkWidget *button_ok;
-    GtkWidget *button_cancel;
-} SettingsNetworkWindow;
+typedef struct _SettingsNetworkWindow SettingsNetworkWindow;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget settings network window

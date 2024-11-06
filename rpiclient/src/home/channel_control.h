@@ -18,26 +18,13 @@
  */
 #pragma once
 
+#include <glib.h>
+#include <gtk/gtk.h>
 #include "../widgets/vertical_bar.h"
-
-#define WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(id, msg) \
-    "Failed to allocate memory for channel control " #id " " #msg "\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Channel control complex widget
-///   control_channel_vertical_bar - Custom widget for channel control
-///   control_channel_scale - Gtk scale widget for channel control
-///   control_channel_spinner_adjustment - Gtk adjustment widget for channel control
-///   control_channel_spinner_button - Gtk spinner widget for channel control
-///   control_channel_gpio_check_box - Gtk check box widget for channel control
-typedef struct
-{
-    GtkVB *control_channel_vertical_bar;
-    GtkWidget *control_channel_scale;
-    GtkAdjustment *control_channel_spinner_adjustment;
-    GtkWidget *control_channel_spinner_button;
-    GtkWidget *control_channel_gpio_check_box;
-} ChannelControl;
+typedef struct _ChannelControl ChannelControl;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget channel control
@@ -53,6 +40,30 @@ void show_channel_control(ChannelControl *instance);
 /// @brief Hide channel control complex widget
 /// @param instance is pointer to complex widget channel control
 void hide_channel_control(ChannelControl *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets bar from channel control complex widget
+/// @param instance is pointer to complex widget channel control
+/// @return Vertical bar from complex widget channel control
+GtkVB* get_bar_channel_control(ChannelControl *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets scale from channel control complex widget
+/// @param instance is pointer to complex widget channel control
+/// @return Scale from complex widget channel control
+GtkWidget* get_scale_channel_control(ChannelControl *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets spinner button from channel control complex widget
+/// @param instance is pointer to complex widget channel control
+/// @return Spinner button from complex widget channel control
+GtkWidget* get_spinner_button_channel_control(ChannelControl *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets check box from channel control complex widget
+/// @param instance is pointer to complex widget channel control
+/// @return Check box from complex widget channel control
+GtkWidget* get_check_box_channel_control(ChannelControl *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Destroy channel control complex widget

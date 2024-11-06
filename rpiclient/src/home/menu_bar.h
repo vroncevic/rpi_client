@@ -22,36 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Menu bar complex widget
-///   menu_bar - Gtk menu bar widget
-///   menu_file - Gtk menu item widget for file
-///   menu_file_submenu_quit - Gtk menu item widget for submenu exit
-///   menu_option - Gtk menu item widget for option
-///   menu_option_submenu_connect - Gtk menu item widget for submenu connect
-///   menu_option_submenu_disconnect - Gtk menu item widget for submenu disconnect
-///   menu_settings - Gtk menu item widget for settings
-///   menu_settings_submenu_network - Gtk menu item widget for submenu network
-///   menu_help - Gtk menu item widget for help 
-///   menu_help_submenu_help - Gtk menu item widget for submenu help
-///   menu_help_submenu_about - Gtk menu item widget for submenu about
-typedef struct
-{
-	GtkWidget *menu_bar;
-	GtkWidget *menu_file;
-	GtkWidget *menu_file_item;
-	GtkWidget *menu_file_submenu_exit;
-	GtkWidget *menu_option;
-	GtkWidget *menu_option_item;
-	GtkWidget *menu_option_submenu_connect;
-	GtkWidget *menu_option_submenu_disconnect;
-	GtkWidget *menu_settings;
-	GtkWidget *menu_settings_item;
-	GtkWidget *menu_settings_submenu_general;
-	GtkWidget *menu_settings_submenu_network;
-	GtkWidget *menu_help;
-	GtkWidget *menu_help_item;
-	GtkWidget *menu_help_submenu_help;
-	GtkWidget *menu_help_submenu_about;
-} MenuBar;
+typedef struct _MenuBar MenuBar;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget menu bar
@@ -67,6 +38,54 @@ void show_menu_bar(MenuBar *instance);
 /// @brief Hide menu bar complex widget
 /// @param instance is pointer to complex widget menu bar
 void hide_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets bar from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return Menu bar widget
+GtkWidget* get_bar_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets exit from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return Exit menu bar item widget
+GtkWidget* get_exit_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets connect from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return Connect menu bar item widget
+GtkWidget* get_connect_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets disconnect from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return Disconnect menu bar item widget
+GtkWidget* get_disconnect_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets general settings from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return General settings menu bar item widget
+GtkWidget* get_general_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets network settings from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return Network settings menu bar item widget
+GtkWidget* get_network_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets help from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return Help menu bar item widget
+GtkWidget* get_help_menu_bar(MenuBar *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets about from menu bar complex widget
+/// @param instance is pointer to complex widget menu bar
+/// @return About menu bar item widget
+GtkWidget* get_about_menu_bar(MenuBar *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Destroy menu bar complex widget

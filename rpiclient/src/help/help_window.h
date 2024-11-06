@@ -22,13 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Help window complex widget
-///   window - Gtk window widget
-///   image_slider - Complex image slider widget
-typedef struct
-{
-    GtkWidget *window;
-    ImageSlider *image_slider;
-} HelpWindow;
+typedef struct _HelpWindow HelpWindow;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget help window

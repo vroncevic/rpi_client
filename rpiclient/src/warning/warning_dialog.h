@@ -22,11 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Warning dialog complex widget
-///   dialog - Gtk warning dialog widget
-typedef struct
-{
-    GtkWidget *dialog;
-} WarningDialog;
+typedef struct _WarningDialog WarningDialog;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget warning dialog

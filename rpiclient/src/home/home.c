@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "resource/resource.h"
+#include "menu_bar.h"
 #include "home.h"
 
 static const gchar* TITLE_WINDOW_HOME = "RPIClient v1.0";
@@ -31,9 +33,22 @@ static const gchar* WARNING_LOG_FAILED_MALLOC_VBOX_HOME = "Failed to allocate me
 static const gchar* WARNING_LOG_FAILED_MALLOC_MENU_BAR_HOME = "Failed to allocate memory for menu bar home\n";
 static const gchar* WARNING_LOG_FAILED_MALLOC_HOME_FRAME_HOME = "Failed to allocate memory for frame home\n";
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Home complex widget
+///   window - Gtk window widget for home
+///   vbox - Gtk vertial box widget for home
+///   menu_bar - Complex widget for menu bar
+///   frame_home - Complex widget for home frame
+struct _Home
+{
+    GtkWidget *window;
+    GtkWidget *vbox;
+    MenuBar *menu_bar;
+    HomeFrame *frame_home;
+};
+
 Home *new_home(void)
 {
-    // RPI_INIT();
     Home *instance = g_malloc(sizeof(Home));
 
     if(!instance)
@@ -108,27 +123,49 @@ Home *new_home(void)
         return NULL;
     }
 
-    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->menu_bar->menu_bar), FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->frame_home->frame_home), FALSE, FALSE, 0);
-    gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(get_bar_menu_bar(instance->menu_bar)), FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(get_frame_home_frame(instance->frame_home)), FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->vbox));
 
     return instance;
 }
 
 void show_home(Home *instance)
 {
-    if (instance && GTK_IS_WINDOW(instance->window) && !gtk_widget_get_visible(instance->window))
+    if (instance)
     {
-        gtk_widget_show_all(instance->window);
+        gboolean is_window = GTK_IS_WINDOW(instance->window);
+        gboolean is_window_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_window && is_window_hidden)
+        {
+            gtk_widget_show_all(GTK_WIDGET(instance->window));
+        }
     }
 }
 
 void hide_home(Home *instance)
 {
-    if (instance && GTK_IS_WINDOW(instance->window) && gtk_widget_get_visible(instance->window))
+    if (instance)
     {
-        gtk_widget_hide(instance->window);
+        gboolean is_window = GTK_IS_WINDOW(instance->window);
+        gboolean is_window_visible = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_window && is_window_visible)
+        {
+            gtk_widget_hide(GTK_WIDGET(instance->window));
+        }
     }
+}
+
+GtkWidget* get_window_home(Home *instance)
+{
+    return instance && GTK_IS_WINDOW(instance->window) ? instance->window : NULL;
+}
+
+MenuBar* get_bar_home(Home *instance)
+{
+    return instance && instance->menu_bar ? instance->menu_bar : NULL;
 }
 
 void destroy_home(Home *instance)
@@ -149,7 +186,7 @@ void destroy_home(Home *instance)
 
         if (GTK_IS_WINDOW(instance->window))
         {
-            gtk_widget_destroy(instance->window);
+            gtk_widget_destroy(GTK_WIDGET(instance->window));
             instance->window = NULL;
         }
 

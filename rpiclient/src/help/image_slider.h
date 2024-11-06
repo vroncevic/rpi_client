@@ -22,19 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Image slider complex widget
-///   fixed - Gtk fixed container widget
-///   image - Gtk image widget
-///   button_left - Gtk button widget for left action
-///   button_right - Gtk button widget for right action
-///   slider_count - Slider count
-typedef struct
-{
-    GtkWidget *fixed;
-    GtkWidget *image;
-    GtkWidget *button_left;
-    GtkWidget *button_right;
-    guint slider_count;
-} ImageSlider;
+typedef struct _ImageSlider ImageSlider;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget image slider
@@ -50,6 +38,12 @@ void show_image_slider(ImageSlider *instance);
 /// @brief Hide image slider complex widget
 /// @param instance is pointer to complex widget image slider
 void hide_image_slider(ImageSlider *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets fixed container from image slider complex widget
+/// @param instance is pointer to complex widget image slider
+/// @return Fixed container widget
+GtkWidget *get_fixed_image_slider(ImageSlider *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Destroy image slider complex widget

@@ -22,11 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget
-///   dialog - Gtk about dialog widget
-typedef struct
-{
-    GtkWidget *dialog;
-} AboutDialog;
+typedef struct _AboutDialog AboutDialog;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget about dialog

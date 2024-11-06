@@ -19,33 +19,13 @@
 #pragma once
 
 #include <gtk/gtk.h>
-#include "channel_status.h"
-#include "channel_control.h"
 
-#define MAX_CHANNELS_CONTROL_HOME_FRAME (8)
-#define MAX_CHANNELS_STATUS_HOME_FRAME (8)
+#define MAX_CHANNELS_CONTROL_HOME_FRAME 8
+#define MAX_CHANNELS_STATUS_HOME_FRAME 8
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Home frame complex widget
-///   frame_home - Gtk widget for home frame
-///   vpanned - Gtk widget for vertical panned
-///   frame_status - Gtk widget for status frame
-///   fixed_status - Gtk widget for status fixed container
-///   channel_status - Complex custom widget for channel status
-///   frame_control - Gtk widget for control frame
-///   fixed_control - Gtk widget for control fixed container
-///   channel_control - Complex custom widget for channel control
-typedef struct
-{
-    GtkWidget *frame_home;
-    GtkWidget *vpaned;
-    GtkWidget *frame_status;
-    GtkWidget *fixed_status;
-    ChannelStatus *channels_status[MAX_CHANNELS_STATUS_HOME_FRAME];
-    GtkWidget *frame_control;
-    GtkWidget *fixed_control;
-    ChannelControl *channels_control[MAX_CHANNELS_CONTROL_HOME_FRAME];
-} HomeFrame;
+typedef struct _HomeFrame HomeFrame;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget home frame
@@ -61,6 +41,12 @@ void show_home_frame(HomeFrame *instance);
 /// @brief Hide home frame complex widget
 /// @param instance is pointer to complex widget home frame
 void hide_home_frame(HomeFrame *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets frame from home frame complex widget
+/// @param instance is pointer to complex widget home frame
+/// @return Frame from complex widget home frame
+GtkWidget* get_frame_home_frame(HomeFrame *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Destroy home frame complex widget

@@ -23,6 +23,8 @@
 #include "settings/settings_general_window.h"
 #include "help/help_window.h"
 #include "about/about_dialog.h"
+#include "home/home.h"
+#include "home/menu_bar.h"
 
 Home *app = NULL;
 
@@ -51,15 +53,14 @@ int main(int argc, char *argv[])
     app = new_home();
     show_home(app);
 
-    g_signal_connect(G_OBJECT(app->window), "delete_event", G_CALLBACK(on_exit), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_file_submenu_exit), "activate", G_CALLBACK(on_exit), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_option_submenu_connect), "activate", G_CALLBACK(on_option_connect), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_option_submenu_disconnect), "activate", G_CALLBACK(on_option_disconnect), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_file_submenu_exit), "activate", G_CALLBACK(on_exit), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_settings_submenu_general), "activate", G_CALLBACK(on_show_settings_general), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_settings_submenu_network), "activate", G_CALLBACK(on_show_settings_network), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_help), "activate", G_CALLBACK(on_show_help), NULL);
-    g_signal_connect(G_OBJECT(app->menu_bar->menu_help_submenu_about), "activate", G_CALLBACK(on_show_about), NULL);
+    g_signal_connect(G_OBJECT(get_window_home(app)), "delete_event", G_CALLBACK(on_exit), NULL);
+    g_signal_connect(G_OBJECT(get_exit_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_exit), NULL);
+    g_signal_connect(G_OBJECT(get_connect_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_option_connect), NULL);
+    g_signal_connect(G_OBJECT(get_disconnect_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_option_disconnect), NULL);
+    g_signal_connect(G_OBJECT(get_general_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_settings_general), NULL);
+    g_signal_connect(G_OBJECT(get_network_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_settings_network), NULL);
+    g_signal_connect(G_OBJECT(get_help_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_help), NULL);
+    g_signal_connect(G_OBJECT(get_about_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_about), NULL);
 
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 
@@ -72,7 +73,7 @@ int main(int argc, char *argv[])
 
 gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    ExitDialog *exit_dialog = new_exit_dialog(app->window);
+    ExitDialog *exit_dialog = new_exit_dialog(get_window_home(app));
     gint exit_code = show_exit_dialog(exit_dialog);
 
     if (exit_code == 0)

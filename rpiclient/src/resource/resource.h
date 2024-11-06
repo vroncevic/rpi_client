@@ -19,9 +19,9 @@
 #pragma once
 
 #include <glib.h>
+#include <cairo.h>
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include <cairo.h>
 
 extern gchar *resource_dir_path;
 extern gchar *config_dir_path;

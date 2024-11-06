@@ -20,21 +20,9 @@
 
 #include "../resource/resource.h"
 
-#define CONFIGURATION_FILE_PROMPT "/config/prompt.config"
-#define CONFIGURATION_FILE_SERVER_ADDRESS "/config/server_address.config"
-#define CONFIGURATION_FILE_SERVER_PORT "/config/server_port.config"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings configuration structure
-///   no_prompt - Configuration point for prompt
-///   ip_address - Configuration point for server ip address
-///   port_number - Configuration point for server port number
-typedef struct
-{
-    gchar *no_prompt;
-    gchar *ip_address;
-    gchar *port_number;
-} SettingsConfig;
+typedef struct _SettingsConfig SettingsConfig;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Write settings configuration to file

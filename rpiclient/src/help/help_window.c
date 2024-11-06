@@ -27,6 +27,16 @@ static const gchar* WARNING_LOG_FAILED_MALLOC_HELP_WINDOW = "Failed to allocate 
 static const gchar* WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW = "Failed to create pixbuf from help icon.\n";
 static const gchar* WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW = "Failed to get resource path for help icon\n";
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Help window complex widget
+///   window - Gtk window widget
+///   image_slider - Complex image slider widget
+struct _HelpWindow
+{
+    GtkWidget *window;
+    ImageSlider *image_slider;
+};
+
 HelpWindow *new_help_window(void)
 {
     HelpWindow *instance = g_malloc(sizeof(HelpWindow));
@@ -85,7 +95,7 @@ HelpWindow *new_help_window(void)
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
-    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->image_slider->fixed));
+    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(get_fixed_image_slider(instance->image_slider)));
     g_signal_connect_swapped(instance->window, "delete-event", G_CALLBACK(destroy_help_window), instance);
 
     return instance;
@@ -93,17 +103,29 @@ HelpWindow *new_help_window(void)
 
 void show_help_window(HelpWindow *instance)
 {
-    if (instance && GTK_IS_WINDOW(instance->window) && !gtk_widget_get_visible(instance->window))
+    if (instance)
     {
-        gtk_widget_show_all(instance->window);
+        gboolean is_window = GTK_IS_WINDOW(instance->window);
+        gboolean is_window_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_window && is_window_hidden)
+        {
+            gtk_widget_show_all(GTK_WIDGET(instance->window));
+        }
     }
 }
 
 void hide_help_window(HelpWindow *instance)
 {
-    if (instance && GTK_IS_WINDOW(instance->window) && gtk_widget_get_visible(instance->window))
+    if (instance)
     {
-        gtk_widget_hide(instance->window);
+        gboolean is_window = GTK_IS_WINDOW(instance->window);
+        gboolean is_window_visible = gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_window && is_window_visible)
+        {
+            gtk_widget_hide(GTK_WIDGET(instance->window));
+        }
     }
 }
 
@@ -119,7 +141,7 @@ void destroy_help_window(HelpWindow *instance)
 
         if (GTK_IS_WINDOW(instance->window))
         {
-            gtk_widget_destroy(instance->window);
+            gtk_widget_destroy(GTK_WIDGET(instance->window));
             instance->window = NULL;
         }
 
