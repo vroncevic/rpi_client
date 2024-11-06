@@ -18,28 +18,16 @@
  */
 #pragma once
 
-#include "menu_bar.h"
 #include "home_frame.h"
-#include "../settings/settings_config.h"
-#include "../encrypt/rpi_format.h"
+#include "menu_bar.h"
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief About dialog complex widget
-///   window - Gtk window widget for home
-///   vbox - Gtk vertial box widget for home
-///   menu_bar - Complex widget for menu bar
-///   frame_home - Complex widget for home frame
-typedef struct
-{
-    GtkWidget *window;
-    GtkWidget *vbox;
-    MenuBar *menu_bar;
-    HomeFrame *frame_home;
-} Home;
+/// @brief Home complex widget
+typedef struct _Home Home;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget home
-/// @return About dialog complex widget pointer
+/// @return Home view complex widget pointer
 Home *new_home(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -51,6 +39,18 @@ void show_home(Home *instance);
 /// @brief Hide home complex widget
 /// @param instance is pointer to complex widget home
 void hide_home(Home *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets window from home complex widget
+/// @param instance is pointer to complex widget home
+/// @return Window from complex widget home
+GtkWidget* get_window_home(Home *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets menu bar from home complex widget
+/// @param instance is pointer to complex widget home
+/// @return Menu bar from complex widget home
+MenuBar* get_bar_home(Home *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Destroy home complex widget

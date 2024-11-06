@@ -22,15 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Exit dialog complex widget
-///   dialog - Gtk confirm dialog widget
-///   content_area - Gtk dialog content area widget
-///   label - Gtk label widget
-typedef struct
-{
-    GtkWidget *dialog;
-    GtkWidget *content_area;
-    GtkWidget *label;
-} ExitDialog;
+typedef struct _ExitDialog ExitDialog;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget exit dialog

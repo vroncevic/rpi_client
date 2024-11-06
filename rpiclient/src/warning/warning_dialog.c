@@ -26,6 +26,14 @@ static const gchar* WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG = "Missing parent 
 static const gchar* WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG = "Missing message parameter\n";
 static const gchar* WARNING_LOG_FAILED_MALLOC_WARNINGS_DIALOG = "Failed to allocate memory for warning dialog\n";
 
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Warning dialog complex widget
+///   dialog - Gtk warning dialog widget
+struct _WarningDialog
+{
+    GtkWidget *dialog;
+};
+
 WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
 {
     if (!parent)
@@ -48,7 +56,14 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
         return NULL;
     }
 
-    instance->dialog = gtk_message_dialog_new(GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", msg);
+    instance->dialog = gtk_message_dialog_new(
+        GTK_WINDOW(parent),
+        GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_MESSAGE_ERROR,
+        GTK_BUTTONS_CLOSE,
+        "%s",
+        msg
+    );
 
     if (!GTK_IS_MESSAGE_DIALOG(instance->dialog))
     {
@@ -62,23 +77,35 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
 
 void show_warning_dialog(WarningDialog *instance)
 {
-    if (instance && GTK_IS_MESSAGE_DIALOG(instance->dialog) && !gtk_widget_get_visible(instance->dialog))
+    if (instance)
     {
-        gtk_widget_show(instance->dialog);
-        gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
+        gboolean is_message_dialog = GTK_IS_MESSAGE_DIALOG(instance->dialog);
+        gboolean is_message_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
 
-        if (result == GTK_RESPONSE_CLOSE)
+        if (is_message_dialog && is_message_dialog_hidden)
         {
-            hide_warning_dialog(instance);
+            gtk_widget_show(GTK_WIDGET(instance->dialog));
+            gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
+
+            if (result == GTK_RESPONSE_CLOSE)
+            {
+                hide_warning_dialog(instance);
+            }
         }
     }
 }
 
 void hide_warning_dialog(WarningDialog *instance)
 {
-    if (instance && GTK_IS_MESSAGE_DIALOG(instance->dialog) && gtk_widget_get_visible(instance->dialog))
+    if (instance)
     {
-        gtk_widget_hide(instance->dialog);
+        gboolean is_message_dialog = GTK_IS_MESSAGE_DIALOG(instance->dialog);
+        gboolean is_message_dialog_visible = gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+
+        if (is_message_dialog && is_message_dialog_visible)
+        {
+            gtk_widget_hide(GTK_WIDGET(instance->dialog));
+        }
     }
 }
 
@@ -88,7 +115,7 @@ void destroy_warning_dialog(WarningDialog *instance)
     {
         if (GTK_IS_MESSAGE_DIALOG(instance->dialog))
         {
-            gtk_widget_destroy(instance->dialog);
+            gtk_widget_destroy(GTK_WIDGET(instance->dialog));
             instance->dialog = NULL;
         }
 

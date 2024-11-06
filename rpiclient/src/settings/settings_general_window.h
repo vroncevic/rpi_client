@@ -22,21 +22,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings general window complex widget
-///   window - Gtk window widget
-///   vbox - Gtk widget for vertical box
-///   table - Gtk widget for table
-///   hbox - Gtk widget for horizontal alignment
-///   button_ok - Gtk widget for ok action
-///   button_cancel - Gtk widget for cancel action
-typedef struct
-{
-    GtkWidget *window;
-    GtkWidget *vbox;
-    GtkWidget *table;
-    GtkWidget *hbox;
-    GtkWidget *button_ok;
-    GtkWidget *button_cancel;
-} SettingsGeneralWindow;
+typedef struct _SettingsGeneralWindow SettingsGeneralWindow;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget settings general window

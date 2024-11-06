@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <glib/gthread.h>
 
+// TODO: Perform encapsulation
 typedef struct
 {
     gint n;
