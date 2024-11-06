@@ -20,14 +20,6 @@
 
 #include "../resource/resource.h"
 
-#define TEXT_TITLE_WARNING_DIALOG "Warning!"
-#define TEXT_SETUP_CONNECTION_SETTINGS_WARNING_DIALOG "Please set ip address, port of server !"
-#define TEXT_SETUP_CONNECTION_WARNING_DIALOG "Please make connection\nGo to Option > Connection"
-#define TEXT_ERROR_WARNING_DIALOG "There was an error !"
-#define WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG "Missing parent widget parameter\n"
-#define WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG "Missing message parameter\n"
-#define WARNING_LOG_FAILED_MALLOC_WARNINGS_DIALOG "Failed to allocate memory for warning dialog\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Warning dialog complex widget
 ///   dialog - Gtk warning dialog widget

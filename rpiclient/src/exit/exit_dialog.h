@@ -20,21 +20,16 @@
 
 #include "../resource/resource.h"
 
-#define TITLE_EXIT_DIALOG "Confirm Exit"
-#define TEXT_LABEL_EXIT_DIALOG "Exit Home ?"
-#define WARNING_LOG_FAILED_PARENT_EXIT_DIALOG "Missing parent widget parameter\n"
-#define WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG "Failed to allocate memory for exit dialog\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Exit dialog complex widget
 ///   dialog - Gtk confirm dialog widget
-///   label - Gtk label widget
 ///   content_area - Gtk dialog content area widget
+///   label - Gtk label widget
 typedef struct
 {
     GtkWidget *dialog;
-    GtkWidget *label;
     GtkWidget *content_area;
+    GtkWidget *label;
 } ExitDialog;
 
 //////////////////////////////////////////////////////////////////////////////

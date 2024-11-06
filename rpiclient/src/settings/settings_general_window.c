@@ -18,21 +18,38 @@
  */
 #include "settings_general_window.h"
 
+static const gchar* TITLE_SETTINGS_GENERAL_WINDOW = "Settings General";
+static const gchar* ICON_SETTINGS_GENERAL_WINDOW = "icon.png";
+static const gint WIDTH_SETTINGS_GENERAL_WINDOW = 350;
+static const gint HEIGHT_SETTINGS_GENERAL_WINDOW = 350;
+static const gint CONTAINER_BORDER_WIDTH_SETTINGS_GENERAL_WINDOW = 10;
+static const gint SPACING_VBOX_SETTINGS_GENERAL_WINDOW = 20;
+static const gint TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW = 10;
+static const gint TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW = 10;
+static const gchar* TEXT_BUTTON_OK_HBOX_SETTINGS_GENERAL_WINDOW = "OK";
+static const gchar* TEXT_BUTTON_CANCEL_HBOX_SETTINGS_GENERAL_WINDOW = "Cancel";
+static const gint WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW = 70;
+static const gint HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW = 30;
+static const gint SPACING_HBOX_SETTINGS_GENERAL_WINDOW = 3;
+static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW = "Failed to allocate memory for settings general window\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW = "Failed to create pixbuf from settings general icon.\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW = "Failed to get resource path for settings general icon\n";
+
 SettingsGeneralWindow *new_settings_general_window(void)
 {
     SettingsGeneralWindow *instance = g_malloc(sizeof(SettingsGeneralWindow));
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         return NULL;
     }
 
     instance->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-    if (!instance->window)
+    if (!GTK_IS_WINDOW(instance->window))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -46,14 +63,14 @@ SettingsGeneralWindow *new_settings_general_window(void)
     {
         GdkPixbuf *pixbuf = cpixbuf(icon);
 
-        if (pixbuf)
+        if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
             g_object_unref(pixbuf);
         }
         else
         {
-            g_warning(WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW);
+            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW);
         }
 
         g_free((gpointer)icon);
@@ -61,7 +78,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
     }
     else
     {
-        g_warning(WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW);
         icon = NULL;
     }
 
@@ -69,9 +86,9 @@ SettingsGeneralWindow *new_settings_general_window(void)
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_SETTINGS_GENERAL_WINDOW);
     instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING_VBOX_SETTINGS_GENERAL_WINDOW);
 
-    if (!instance->vbox)
+    if (!GTK_IS_BOX(instance->vbox))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -79,9 +96,9 @@ SettingsGeneralWindow *new_settings_general_window(void)
     gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
     instance->table = gtk_grid_new();
 
-    if (!instance->table)
+    if (!GTK_IS_GRID(instance->table))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -91,27 +108,27 @@ SettingsGeneralWindow *new_settings_general_window(void)
     gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
     instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS_GENERAL_WINDOW);
 
-    if (!instance->hbox)
+    if (!GTK_IS_BOX(instance->hbox))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
 
     instance->button_ok = gtk_button_new_with_label(TEXT_BUTTON_OK_HBOX_SETTINGS_GENERAL_WINDOW);
 
-    if (!instance->button_ok)
+    if (!GTK_IS_BUTTON(instance->button_ok))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
 
     instance->button_cancel = gtk_button_new_with_label(TEXT_BUTTON_CANCEL_HBOX_SETTINGS_GENERAL_WINDOW);
 
-    if (!instance->button_cancel)
+    if (!GTK_IS_BUTTON(instance->button_cancel))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -128,7 +145,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
 void show_settings_general_window(SettingsGeneralWindow *instance)
 {
-    if (instance && instance->window && !gtk_widget_get_visible(instance->window))
+    if (instance && GTK_IS_WINDOW(instance->window) && !gtk_widget_get_visible(instance->window))
     {
         gtk_widget_show_all(instance->window);
     }
@@ -136,7 +153,7 @@ void show_settings_general_window(SettingsGeneralWindow *instance)
 
 void hide_settings_general_window(SettingsGeneralWindow *instance)
 {
-    if (instance && instance->window && gtk_widget_get_visible(instance->window))
+    if (instance && GTK_IS_WINDOW(instance->window) && gtk_widget_get_visible(instance->window))
     {
         gtk_widget_hide(instance->window);
     }
@@ -146,7 +163,7 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
 {
     if (instance)
     {
-        if (instance->window)
+        if (GTK_IS_WINDOW(instance->window))
         {
             gtk_widget_destroy(instance->window);
             instance->button_cancel = NULL;

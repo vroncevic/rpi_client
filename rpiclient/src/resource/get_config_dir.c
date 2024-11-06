@@ -18,6 +18,8 @@
  */
 #include "resource.h"
 
+static const gchar* RPIC_RES_CONFIG = "/rc/config/";
+
 gchar *get_config_dir(void)
 {
     return g_strjoin(NULL, g_get_current_dir(), RPIC_RES_CONFIG, NULL);

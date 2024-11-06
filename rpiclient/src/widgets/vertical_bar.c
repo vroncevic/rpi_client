@@ -21,15 +21,15 @@
 G_DEFINE_TYPE(GtkVB, gtk_vb, GTK_TYPE_DRAWING_AREA)
 
 static void gtk_vb_class_init(GtkVBClass *klass);
-static void gtk_vb_init(GtkVB *vb);
+static void gtk_vb_init(GtkVB *instance);
 static void gtk_vb_get_preferred_width(GtkWidget *widget, gint *minimum_width, gint *natural_width);
 static void gtk_vb_get_preferred_height(GtkWidget *widget, gint *minimum_height, gint *natural_height);
 static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr);
 
-void gtk_vb_set_state(GtkVB *vb, gint num)
+void gtk_vb_set_state(GtkVB *instance, gint num)
 {
-    vb->sel = num;
-    gtk_widget_queue_draw(GTK_WIDGET(vb));
+    instance->sel = num;
+    gtk_widget_queue_draw(GTK_WIDGET(instance));
 }
 
 GtkWidget *gtk_vb_new(void)
@@ -45,9 +45,9 @@ static void gtk_vb_class_init(GtkVBClass *klass)
     widget_class->draw = gtk_vb_draw;
 }
 
-static void gtk_vb_init(GtkVB *vb)
+static void gtk_vb_init(GtkVB *instance)
 {
-    vb->sel = 0;
+    instance->sel = 0;
 }
 
 static void gtk_vb_get_preferred_width(GtkWidget *widget, gint *minimum_width, gint *natural_width)
@@ -88,8 +88,8 @@ static gboolean gtk_vb_draw(GtkWidget *widget, cairo_t *cr)
     return FALSE;
 }
 
-void gtk_vb_destroy(GtkVB *vb)
+void gtk_vb_destroy(GtkVB *instance)
 {
-    g_return_if_fail(GTK_IS_VB(vb));
-    g_object_unref(vb);
+    g_return_if_fail(GTK_IS_VB(instance));
+    g_object_unref(instance);
 }

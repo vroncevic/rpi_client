@@ -20,26 +20,6 @@
 
 #include "../resource/resource.h"
 
-#define MAX_IMAGES_IMAGE_SLIDER (5)
-#define START_COUNT_IMAGE_SLIDER (0)
-#define X_POSITION_IMAGE_SLIDER (0)
-#define Y_POSITION_IMAGE_SLIDER (0)
-#define WIDTH_IMAGE_SLIDER (245)
-#define HEIGHT_IMAGE_SLIDER (355)
-#define TEXT_BUTTON_LEFT_IMAGE_SLIDER "<<"
-#define WIDTH_BUTTON_LEFT_IMAGE_SLIDER (80)
-#define HEIGHT_BUTTON_LEFT_IMAGE_SLIDER (35)
-#define X_POSITION_BUTTON_LEFT_IMAGE_SLIDER (45)
-#define Y_POSITION_BUTTON_LEFT_IMAGE_SLIDER (355)
-#define TEXT_BUTTON_RIGHT_IMAGE_SLIDER ">>"
-#define WIDTH_BUTTON_RIGHT_IMAGE_SLIDER (80)
-#define HEIGHT_BUTTON_RIGHT_IMAGE_SLIDER (35)
-#define X_POSITION_BUTTON_RIGHT_IMAGE_SLIDER (125)
-#define Y_POSITION_BUTTON_RIGHT_IMAGE_SLIDER (355)
-#define FIRST_IMAGE_HELP_IMAGE_SLIDER "1.png"
-#define WARNING_MSG_IMAGE_SLIDER "Failed to allocate memory for image slider\n"
-#define WARNING_LOG_FAILED_RESOURCE_IMAGE_SLIDER "Failed to get resource path for image slider\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Image slider complex widget
 ///   fixed - Gtk fixed container widget

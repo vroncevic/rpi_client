@@ -25,7 +25,7 @@ gchar *rpi_decrypt(const gchar *in, guint shift)
 {
     if (!in)
     {
-        g_warning(WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT);
+        g_warning("%s", WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT);
         return NULL;
     }
 
@@ -34,7 +34,7 @@ gchar *rpi_decrypt(const gchar *in, guint shift)
 
     if (!out)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT);
         return NULL;
     }
 

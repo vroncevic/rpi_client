@@ -34,7 +34,7 @@ AboutDialog *new_about_dialog(void)
 
     if(!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
         return NULL;
     }
 
@@ -42,7 +42,7 @@ AboutDialog *new_about_dialog(void)
 
     if (!GTK_IS_ABOUT_DIALOG(instance->dialog))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
         g_free((gpointer)instance);
         return NULL;
     }
@@ -58,14 +58,14 @@ AboutDialog *new_about_dialog(void)
     {
         GdkPixbuf *pixbuf = cpixbuf(logo);
 
-        if (pixbuf)
+        if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(instance->dialog), pixbuf);
             g_object_unref(pixbuf);
         }
         else
         {
-            g_warning(WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
+            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
         }
 
         g_free((gpointer)logo);
@@ -73,7 +73,7 @@ AboutDialog *new_about_dialog(void)
     }
     else
     {
-        g_warning(WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
+        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
         logo = NULL;
     }
 

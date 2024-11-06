@@ -18,11 +18,23 @@
  */
 #include "settings_config.h"
 
+static const gchar* SET_NOPROMPT = "no-prompt:disable";
+static const gchar* SET_PROMPT = "no-prompt:enable";
+static const gchar* WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE = "Missing setting parameter for write\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE = "Failed to get prompt config file path for write\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE = "Failed to get server address config file path for write\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE = "Failed to get server port config file path for write\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE = "Failed to open prompt config file for write\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE = "Failed to open server address config file for write\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE = "Failed to open server port config file for write\n";
+static const gint SUCCESS_SETTINGS_CONFIGURATION = 0;
+static const gint FAILED_SETTINGS_CONFIGURATION = 1;
+
 gint settings_write(SettingsConfig* instance)
 {
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE);
+        g_warning("%s", WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE);
         return FAILED_SETTINGS_CONFIGURATION;
     }
 
@@ -30,7 +42,7 @@ gint settings_write(SettingsConfig* instance)
 
     if (!prompt_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE);
         return FAILED_SETTINGS_CONFIGURATION;
     }
 
@@ -38,7 +50,7 @@ gint settings_write(SettingsConfig* instance)
 
     if (!server_address_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE);
         g_free((gpointer)prompt_config);
         return FAILED_SETTINGS_CONFIGURATION;
     }
@@ -47,7 +59,7 @@ gint settings_write(SettingsConfig* instance)
 
     if (!server_port_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         return FAILED_SETTINGS_CONFIGURATION;
@@ -57,7 +69,7 @@ gint settings_write(SettingsConfig* instance)
 
     if (!file_prompt_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -68,7 +80,7 @@ gint settings_write(SettingsConfig* instance)
 
     if (!file_server_address_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);
@@ -80,7 +92,7 @@ gint settings_write(SettingsConfig* instance)
 
     if (!file_server_port_config)
     {
-        g_warning(WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE);
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE);
         g_free((gpointer)prompt_config);
         g_free((gpointer)server_address_config);
         g_free((gpointer)server_port_config);

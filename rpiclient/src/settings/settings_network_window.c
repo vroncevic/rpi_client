@@ -18,21 +18,50 @@
  */
 #include "settings_network_window.h"
 
+static const gchar* TITLE_SETTINGS_NETWORK_WINDOW = "Settings Network";
+static const gchar* ICON_SETTINGS_NETWORK_WINDOW = "icon.png";
+static const gint WIDTH_SETTINGS_NETWORK_WINDOW = 270;
+static const gint HEIGHT_SETTINGS_NETWORK_WINDOW = 250;
+static const gint CONTAINER_BORDER_WIDTH_SETTINGS_NETWORK_WINDOW = 10;
+static const gint SPACING_VBOX_SETTINGS_NETWORK_WINDOW = 20;
+static const gint TABLE_ROW_SPACINGS_TABLE_SETTINGS_NETWORK_WINDOW = 10;
+static const gint TABLE_COL_SPACINGS_TABLE_SETTINGS_NETWORK_WINDOW = 10;
+static const gchar* TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW = "Exit Operation";
+static const gchar* TEXT_CHECK_BUTTON_CONTROL_EXIT_SETTINGS_NETWORK_WINDOW = "Display Exit Dialog on Quit?";
+static const gchar* TEXT_FRAME_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = "Server IP Address";
+static const gint MAX_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = 50;
+static const gchar* TEXT_EXAMPLE_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = " exm: 192.168.1.115";
+static const gint NEW_TEXT_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = (-1);
+static const gint START_POSITION_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = 0;
+static const gchar* TEXT_FRAME_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = "Server Port Number";
+static const gint MAX_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = 50;
+static const gchar* TEXT_EXAMPLE_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = " exm: 9009";
+static const gint NEW_TEXT_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = (-1);
+static const gint START_POSITION_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = 0;
+static const gchar* TEXT_BUTTON_OK_HBOX_SETTINGS_NETWORK_WINDOW = "OK";
+static const gchar* TEXT_BUTTON_CANCEL_HBOX_SETTINGS_NETWORK_WINDOW = "Cancel";
+static const gint WIDTH_BUTTON_HBOX_SETTINGS_NETWORK_WINDOW = 70;
+static const gint HEIGHT_BUTTON_HBOX_SETTINGS_NETWORK_WINDOW = 30;
+static const gint SPACING_HBOX_SETTINGS_NETWORK_WINDOW = 3;
+static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW = "Failed to allocate memory for settings network window\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW = "Failed to create pixbuf from settings network icon.\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW = "Failed to get resource path for settings network icon\n";
+
 SettingsNetworkWindow *new_settings_network_window(void)
 {
     SettingsNetworkWindow *instance = g_malloc(sizeof(SettingsNetworkWindow));
 
     if (!instance)
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         return NULL;
     }
 
     instance->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-    if (!instance->window)
+    if (!GTK_IS_WINDOW(instance->window))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -46,14 +75,14 @@ SettingsNetworkWindow *new_settings_network_window(void)
     {
         GdkPixbuf *pixbuf = cpixbuf(icon);
 
-        if (pixbuf)
+        if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
             g_object_unref(pixbuf);
         }
         else
         {
-            g_warning(WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW);
+            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW);
         }
 
         g_free((gpointer)icon);
@@ -61,7 +90,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
     }
     else
     {
-        g_warning(WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW);
         icon = NULL;
     }
 
@@ -69,9 +98,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_SETTINGS_NETWORK_WINDOW);
     instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING_VBOX_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->vbox)
+    if (!GTK_IS_BOX(instance->vbox))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -79,9 +108,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_container_add(GTK_CONTAINER(instance->window), instance->vbox);
     instance->table = gtk_grid_new();
 
-    if (!instance->table)
+    if (!GTK_IS_GRID(instance->table))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -90,9 +119,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_grid_set_column_spacing(GTK_GRID(instance->table), TABLE_COL_SPACINGS_TABLE_SETTINGS_NETWORK_WINDOW);
     instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->frame_control_exit)
+    if (!GTK_IS_FRAME(instance->frame_control_exit))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -100,9 +129,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_control_exit), GTK_SHADOW_IN);
     instance->check_button = gtk_check_button_new_with_label(TEXT_CHECK_BUTTON_CONTROL_EXIT_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->check_button)
+    if (!GTK_IS_CHECK_BUTTON(instance->check_button))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -111,9 +140,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_container_add(GTK_CONTAINER(instance->frame_control_exit), instance->check_button);
     instance->frame_entry_address = gtk_frame_new(TEXT_FRAME_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->frame_entry_address)
+    if (!GTK_IS_FRAME(instance->frame_entry_address))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -121,9 +150,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_entry_address), GTK_SHADOW_IN);
     instance->entry_address = gtk_entry_new();
 
-    if (!instance->entry_address)
+    if (!GTK_IS_ENTRY(instance->entry_address))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -139,9 +168,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_address), instance->entry_address);
     instance->frame_entry_port = gtk_frame_new(TEXT_FRAME_ENTRY_PORT_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->frame_entry_port)
+    if (!GTK_IS_FRAME(instance->frame_entry_port))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -149,9 +178,9 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_entry_port), GTK_SHADOW_IN);
     instance->entry_port = gtk_entry_new();
 
-    if (!instance->entry_port)
+    if (!GTK_IS_ENTRY(instance->entry_port))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -171,27 +200,27 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
     instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->hbox)
+    if (!GTK_IS_BOX(instance->hbox))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
 
     instance->button_ok = gtk_button_new_with_label(TEXT_BUTTON_OK_HBOX_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->button_ok)
+    if (!GTK_IS_BUTTON(instance->button_ok))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
 
     instance->button_cancel = gtk_button_new_with_label(TEXT_BUTTON_CANCEL_HBOX_SETTINGS_NETWORK_WINDOW);
 
-    if (!instance->button_cancel)
+    if (!GTK_IS_BUTTON(instance->button_cancel))
     {
-        g_warning(WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
@@ -208,7 +237,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
 
 void show_settings_network_window(SettingsNetworkWindow *instance)
 {
-    if (instance && instance->window && !gtk_widget_get_visible(instance->window))
+    if (instance && GTK_IS_WINDOW(instance->window) && !gtk_widget_get_visible(instance->window))
     {
         gtk_widget_show_all(instance->window);
     }
@@ -216,7 +245,7 @@ void show_settings_network_window(SettingsNetworkWindow *instance)
 
 void hide_settings_network_window(SettingsNetworkWindow *instance)
 {
-    if (instance && instance->window && gtk_widget_get_visible(instance->window))
+    if (instance && GTK_IS_WINDOW(instance->window) && gtk_widget_get_visible(instance->window))
     {
         gtk_widget_hide(instance->window);
     }
@@ -226,7 +255,7 @@ void destroy_settings_network_window(SettingsNetworkWindow *instance)
 {
     if (instance)
     {
-        if (instance->window)
+        if (GTK_IS_WINDOW(instance->window))
         {
             gtk_widget_destroy(instance->window);
             instance->button_cancel = NULL;

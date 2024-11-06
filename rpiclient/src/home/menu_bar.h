@@ -20,19 +20,6 @@
 
 #include <gtk/gtk.h>
 
-#define TEXT_MENU_FILE_MENU_BAR "File"
-#define TEXT_MENU_FILE_SUBMENU_EXIT_MENU_BAR "Exit"
-#define TEXT_MENU_OPTION_MENU_BAR "Option"
-#define TEXT_MENU_OPTION_SUBMENU_CONNECT_MENU_BAR "Connect"
-#define TEXT_MENU_OPTION_SUBMENU_DISCONNECT_MENU_BAR "Disconnect"
-#define TEXT_MENU_SETTINGS_MENU_BAR "Settings"
-#define TEXT_MENU_SETTINGS_SUBMENU_GENERAL_MENU_BAR "General"
-#define TEXT_MENU_SETTINGS_SUBMENU_NETWORK_MENU_BAR "Network"
-#define TEXT_MENU_HELP_MENU_BAR "Help"
-#define TEXT_MENU_HELP_SUBMENU_HELP_MENU_BAR "Help"
-#define TEXT_MENU_HELP_SUBMENU_ABOUT_MENU_BAR "About"
-#define WARNING_LOG_FAILED_MALLOC_MENU_BAR "Failed to allocate memory for menu bar\n"
-
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Menu bar complex widget
 ///   menu_bar - Gtk menu bar widget

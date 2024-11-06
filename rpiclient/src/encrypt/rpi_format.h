@@ -18,6 +18,7 @@
  */
 #pragma once
 
+#include <ctype.h>
 #include "../resource/resource.h"
 
 #define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
@@ -32,8 +33,7 @@
 
 #define RPI_INIT()                                \
 	{                                             \
-		int i;                                    \
-		for (i = 0; i < USED_CHANNELS; i++)       \
+		for (guint i = 0; i < USED_CHANNELS; i++) \
 		{                                         \
 			rpi.channel_data[i] = 0;              \
 			rpi.pins[0] = DEACT_PIN_1;            \
