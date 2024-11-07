@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_settings_config.h
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -28,7 +28,7 @@ typedef struct _SettingsConfig SettingsConfig;
 /// @brief Write settings configuration to file
 /// @param instance is pointer to settings configuration to be written
 /// @return Integer status
-gint settings_write(SettingsConfig* instance);
+gint settings_write(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Read configuration from files

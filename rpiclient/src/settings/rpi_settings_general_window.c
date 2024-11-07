@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_settings_general_window.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../resource/rpi_resource.h"
 #include "rpi_settings_general_window.h"
 
 static const gchar* TITLE_SETTINGS_GENERAL_WINDOW = "Settings General";
@@ -105,7 +106,10 @@ SettingsGeneralWindow *new_settings_general_window(void)
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
-    gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_SETTINGS_GENERAL_WINDOW);
+    gtk_container_set_border_width(
+        GTK_CONTAINER(instance->window),
+        CONTAINER_BORDER_WIDTH_SETTINGS_GENERAL_WINDOW
+    );
     instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING_VBOX_SETTINGS_GENERAL_WINDOW);
 
     if (!GTK_IS_BOX(instance->vbox))
@@ -125,10 +129,19 @@ SettingsGeneralWindow *new_settings_general_window(void)
         return NULL;
     }
 
-    gtk_grid_set_row_spacing(GTK_GRID(instance->table), TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
-    gtk_grid_set_column_spacing(GTK_GRID(instance->table), TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
+    gtk_grid_set_row_spacing(
+        GTK_GRID(instance->table),
+        TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW
+    );
+    gtk_grid_set_column_spacing(
+        GTK_GRID(instance->table),
+        TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW
+    );
     gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
-    instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS_GENERAL_WINDOW);
+    instance->hbox = gtk_box_new(
+        GTK_ORIENTATION_HORIZONTAL,
+        SPACING_HBOX_SETTINGS_GENERAL_WINDOW
+    );
 
     if (!GTK_IS_BOX(instance->hbox))
     {
@@ -168,7 +181,12 @@ SettingsGeneralWindow *new_settings_general_window(void)
     gtk_container_add(GTK_CONTAINER(instance->hbox), GTK_WIDGET(instance->button_ok));
     gtk_container_add(GTK_CONTAINER(instance->hbox), GTK_WIDGET(instance->button_cancel));
     gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->hbox), FALSE, FALSE, 0);
-    g_signal_connect_swapped(instance->window, "delete-event", G_CALLBACK(destroy_settings_general_window), instance);
+    g_signal_connect_swapped(
+        G_OBJECT(instance->window),
+        "delete-event",
+        G_CALLBACK(destroy_settings_general_window),
+        instance
+    );
 
     return instance;
 }
@@ -215,6 +233,5 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }    
 }

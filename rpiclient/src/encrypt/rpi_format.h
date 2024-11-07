@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_format.h
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -18,9 +18,9 @@
  */
 #pragma once
 
-#include <ctype.h>
-#include "../resource/rpi_resource.h"
+#include <glib.h>
 
+// TODO: move to private section
 #define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
 #define START_REQ "start:"
 #define END_REQ ":end"
@@ -31,6 +31,7 @@
 #define DEACTIVATE_CHANNEL(num) "DC" #num
 #define USED_CHANNELS (8)
 
+// TODO: move to private section
 #define RPI_INIT()                                \
 	{                                             \
 		for (guint i = 0; i < USED_CHANNELS; i++) \

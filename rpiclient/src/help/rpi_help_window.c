@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_help_window.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "rpi_help_window.h"
+#include "../resource/rpi_resource.h"
 #include "rpi_image_slider.h"
+#include "rpi_help_window.h"
 
 static const gchar* TITLE_HELP_WINDOW = "Help";
 static const gint BORDER_WIDTH_HELP_WINDOW = 10;
@@ -67,7 +68,11 @@ HelpWindow *new_help_window(void)
     }
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
-    gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_HELP_WINDOW, HEIGHT_HELP_WINDOW);
+    gtk_window_set_default_size(
+        GTK_WINDOW(instance->window),
+        WIDTH_HELP_WINDOW,
+        HEIGHT_HELP_WINDOW
+    );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_HELP_WINDOW);
     const gchar *icon = rpi_get_resource_file(ICON_HELP_WINDOW);
 
@@ -95,9 +100,20 @@ HelpWindow *new_help_window(void)
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
-    gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
-    gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(get_fixed_image_slider(instance->image_slider)));
-    g_signal_connect_swapped(instance->window, "delete-event", G_CALLBACK(destroy_help_window), instance);
+    gtk_container_set_border_width(
+        GTK_CONTAINER(instance->window),
+        BORDER_WIDTH_HELP_WINDOW
+    );
+    gtk_container_add(
+        GTK_CONTAINER(instance->window),
+        GTK_WIDGET(get_fixed_image_slider(instance->image_slider))
+    );
+    g_signal_connect_swapped(
+        G_OBJECT(instance->window),
+        "delete-event",
+        G_CALLBACK(destroy_help_window),
+        instance
+    );
 
     return instance;
 }
@@ -147,6 +163,5 @@ void destroy_help_window(HelpWindow *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }

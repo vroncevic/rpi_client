@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_get_resource_dir.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -18,9 +18,9 @@
  */
 #include "rpi_resource.h"
 
-static const gchar* RPIC_RES_PATH = "/rc/images/";
+static const gchar* RPI_RES_PATH = "/rc/images/";
 
 gchar *rpi_get_resource_dir(void)
 {
-    return g_strjoin(NULL, g_get_current_dir(), RPIC_RES_PATH, NULL);
+    return g_strjoin(NULL, g_get_current_dir(), RPI_RES_PATH, NULL);
 }

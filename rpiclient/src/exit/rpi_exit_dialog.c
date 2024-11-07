@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_exit_dialog.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../resource/rpi_resource.h"
 #include "rpi_exit_dialog.h"
 
 static const gchar* TITLE_EXIT_DIALOG = "Confirm Exit";
@@ -149,6 +150,5 @@ void destroy_exit_dialog(ExitDialog *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }
