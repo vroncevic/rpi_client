@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_resource.h
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,9 +19,7 @@
 #pragma once
 
 #include <glib.h>
-#include <cairo.h>
 #include <gtk/gtk.h>
-#include <gio/gio.h>
 
 extern gchar *resource_dir_path;
 extern gchar *config_dir_path;

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_home.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "resource/rpi_resource.h"
+#include "../resource/rpi_resource.h"
 #include "rpi_menu.h"
+#include "rpi_home_frame.h"
 #include "rpi_home.h"
 
 static const gchar* TITLE_WINDOW_RPI_HOME = "RPIClient v1.0";
@@ -67,7 +68,11 @@ RPIHome *new_rpi_home(void)
     }
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
-    gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_WINDOW_RPI_HOME, HEIGHT_WINDOW_RPI_HOME);
+    gtk_window_set_default_size(
+        GTK_WINDOW(instance->window),
+        WIDTH_WINDOW_RPI_HOME,
+        HEIGHT_WINDOW_RPI_HOME
+    );
     const gchar *icon = rpi_get_resource_file("icon.png");
 
     if (icon)
@@ -95,8 +100,14 @@ RPIHome *new_rpi_home(void)
 
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_WINDOW_RPI_HOME);
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
-    gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_WINDOW_RPI_HOME);
-    instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, VERTICAL_BOX_SPACING_WINDOW_RPI_HOME);
+    gtk_container_set_border_width(
+        GTK_CONTAINER(instance->window),
+        CONTAINER_BORDER_WIDTH_WINDOW_RPI_HOME
+    );
+    instance->vbox = gtk_box_new(
+        GTK_ORIENTATION_VERTICAL,
+        VERTICAL_BOX_SPACING_WINDOW_RPI_HOME
+    );
 
     if (!GTK_IS_BOX(instance->vbox))
     {
@@ -123,8 +134,20 @@ RPIHome *new_rpi_home(void)
         return NULL;
     }
 
-    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(get_menu_bar_from_rpi_menu(instance->menu_bar)), FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(get_frame_from_rpi_home_frame(instance->frame_home)), FALSE, FALSE, 0);
+    gtk_box_pack_start(
+        GTK_BOX(instance->vbox),
+        GTK_WIDGET(get_menu_bar_from_rpi_menu(instance->menu_bar)),
+        FALSE,
+        FALSE,
+        3
+    );
+    gtk_box_pack_start(
+        GTK_BOX(instance->vbox),
+        GTK_WIDGET(get_frame_from_rpi_home_frame(instance->frame_home)),
+        FALSE,
+        FALSE,
+        0
+    );
     gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->vbox));
 
     return instance;
@@ -209,6 +232,5 @@ void destroy_rpi_home(RPIHome *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }

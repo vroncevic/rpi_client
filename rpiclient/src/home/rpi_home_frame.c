@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_home_frame.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -261,6 +261,5 @@ void destroy_rpi_home_frame(RPIHomeFrame *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }

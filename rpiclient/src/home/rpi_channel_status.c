@@ -14,13 +14,11 @@
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "rpi_channel_status.h"
 
-// TODO: convert to function and variables
-#define WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(id, msg) \
-    "Failed to allocate memory for channel status " #id " " #msg "\n"
+static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS = "Failed to allocate memory for channel status\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channel status complex widget
@@ -40,7 +38,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
         return NULL;
     }
 
@@ -50,7 +48,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!GTK_IS_CHECK_BUTTON(instance->activate_channel_check_box))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status check box widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
         destroy_rpi_channel_status(instance);
         return NULL;
     }
@@ -63,7 +61,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!GTK_IS_VB(instance->status_channel_vertical_bar))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status vertical bar widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
         destroy_rpi_channel_status(instance);
         return NULL;
     }
@@ -77,7 +75,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!GTK_IS_LABEL(instance->status_channel_label))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS(channel_id, "channel status label widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
         destroy_rpi_channel_status(instance);
         return NULL;
     }
@@ -213,6 +211,5 @@ void destroy_rpi_channel_status(RPIChannelStatus *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }

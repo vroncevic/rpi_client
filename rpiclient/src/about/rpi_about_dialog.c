@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_about_dialog.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../resource/rpi_resource.h"
 #include "rpi_about_dialog.h"
 
 static const gchar* TEXT_NAME_ABOUT_DIALOG = "About RPIClient";
 static const gchar* TEXT_VERSION_ABOUT_DIALOG = "1.0.0";
-static const gchar* TEXT_COPYRIGHT_ABOUT_DIALOG = "2024 (c) elektron.ronca@gmail.com";
+static const gchar* TEXT_COPYRIGHT_ABOUT_DIALOG = "2025 (c) elektron.ronca@gmail.com";
 static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistribute it and/or modify it.";
 static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";
 static const gchar* LOGO_FILE_NAME_ABOUT_DIALOG = "logo.png";
@@ -85,7 +86,12 @@ AboutDialog *new_about_dialog(void)
         logo = NULL;
     }
 
-    g_signal_connect_swapped(instance->dialog, "response", G_CALLBACK(destroy_about_dialog), instance);
+    g_signal_connect_swapped(
+        G_OBJECT(instance->dialog),
+        "response",
+        G_CALLBACK(destroy_about_dialog),
+        instance
+    );
 
     return instance;
 }
@@ -129,6 +135,5 @@ void destroy_about_dialog(AboutDialog *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }

@@ -14,13 +14,9 @@
  * See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "rpi_channel_control.h"
-
-// TODO: convert to function and variables
-#define WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(id, msg) \
-    "Failed to allocate memory for channel control " #id " " #msg "\n"
 
 static const gint WIDTH_SCALE_CHANNEL_CONTROL = 50;
 static const gint HEIGHT_SCALE_CHANNEL_CONTROL = 180;
@@ -35,6 +31,7 @@ static const gdouble PAGE_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
 static const gdouble PAGE_SIZE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
 static const gdouble CLIMB_RATE_SPINNER_BUTTON_CHANNEL_CONTROL = 1.0;
 static const gint DIGITS_SPINNER_BUTTON_CHANNEL_CONTROL = 0;
+static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL = "Failed to allocate memory for channel control\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channel control complex widget
@@ -58,7 +55,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
         return NULL;
     }
 
@@ -66,7 +63,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_VB(instance->control_channel_vertical_bar))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control vertical bar widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;        
     }
@@ -83,7 +80,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_SCALE(instance->control_channel_scale))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control scale widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -109,7 +106,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner adjustment widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -122,7 +119,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control spinner widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -136,7 +133,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL(channel_id, "channel control checkbox widget"));
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -336,6 +333,5 @@ void destroy_rpi_channel_control(RPIChannelControl *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }

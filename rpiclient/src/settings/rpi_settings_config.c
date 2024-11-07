@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * rpi_settings_config.c
- * Copyright (C) 2016 - 2024 Vladimir Roncevic <elektron.ronca@gmail.com>
+ * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -185,7 +185,7 @@ SettingsConfig* settings_read(void)
     return instance;
 }
 
-gint settings_write(SettingsConfig* instance)
+gint settings_write(const SettingsConfig* instance)
 {
     if (!instance)
     {
@@ -293,6 +293,5 @@ void settings_free(SettingsConfig *instance)
         }
 
         g_free((gpointer)instance);
-        instance = NULL;
     }
 }
