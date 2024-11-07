@@ -17,16 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "home/home.h"
-#include "exit/exit_dialog.h"
-#include "settings/settings_network_window.h"
-#include "settings/settings_general_window.h"
-#include "help/help_window.h"
-#include "about/about_dialog.h"
-#include "home/home.h"
-#include "home/menu_bar.h"
+#include "home/rpi_home.h"
+#include "home/rpi_menu.h"
+#include "exit/rpi_exit_dialog.h"
+#include "settings/rpi_settings_network_window.h"
+#include "settings/rpi_settings_general_window.h"
+#include "help/rpi_help_window.h"
+#include "about/rpi_about_dialog.h"
 
-Home *app = NULL;
+RPIHome *app = NULL;
 
 /*ServerParameters *server_parameters;*/
 /*GThreadParameters *gthread_parameters;*/
@@ -48,19 +47,59 @@ int main(int argc, char *argv[])
     // gdk_threads_enter();
 
     gtk_init(&argc, &argv);
-    resource_dir_path = get_resource_dir();
-    config_dir_path = get_config_dir();
-    app = new_home();
-    show_home(app);
+    resource_dir_path = rpi_get_resource_dir();
+    config_dir_path = rpi_get_config_dir();
+    app = new_rpi_home();
+    show_rpi_home(app);
 
-    g_signal_connect(G_OBJECT(get_window_home(app)), "delete_event", G_CALLBACK(on_exit), NULL);
-    g_signal_connect(G_OBJECT(get_exit_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_exit), NULL);
-    g_signal_connect(G_OBJECT(get_connect_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_option_connect), NULL);
-    g_signal_connect(G_OBJECT(get_disconnect_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_option_disconnect), NULL);
-    g_signal_connect(G_OBJECT(get_general_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_settings_general), NULL);
-    g_signal_connect(G_OBJECT(get_network_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_settings_network), NULL);
-    g_signal_connect(G_OBJECT(get_help_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_help), NULL);
-    g_signal_connect(G_OBJECT(get_about_menu_bar(get_bar_home(app))), "activate", G_CALLBACK(on_show_about), NULL);
+    g_signal_connect(
+        G_OBJECT(get_window_from_rpi_home(app)),
+        "delete_event",
+        G_CALLBACK(on_exit),
+        NULL
+    );
+    g_signal_connect(
+        G_OBJECT(get_exit_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
+        "activate",
+        G_CALLBACK(on_exit),
+        NULL
+    );
+    g_signal_connect(
+        G_OBJECT(get_connect_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
+        "activate",
+        G_CALLBACK(on_option_connect),
+        NULL
+    );
+    g_signal_connect(
+        G_OBJECT(get_disconnect_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
+        "activate",
+        G_CALLBACK(on_option_disconnect),
+        NULL
+    );
+    g_signal_connect(
+        G_OBJECT(get_general_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
+        "activate",
+        G_CALLBACK(on_show_settings_general),
+        NULL
+    );
+    g_signal_connect(
+        G_OBJECT(get_network_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
+        "activate",
+        G_CALLBACK(on_show_settings_network),
+        NULL
+    );
+    g_signal_connect(
+        G_OBJECT(get_help_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
+        "activate",
+        G_CALLBACK(on_show_help),
+        NULL
+    );
+    g_signal_connect(
+        G_OBJECT(get_about_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
+        "activate",
+        G_CALLBACK(on_show_about),
+        NULL
+    );
 
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 
@@ -73,12 +112,12 @@ int main(int argc, char *argv[])
 
 gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    ExitDialog *exit_dialog = new_exit_dialog(get_window_home(app));
+    ExitDialog *exit_dialog = new_exit_dialog(get_window_from_rpi_home(app));
     gint exit_code = show_exit_dialog(exit_dialog);
 
     if (exit_code == 0)
     {
-        destroy_home(app);
+        destroy_rpi_home(app);
         app = NULL;
         gtk_main_quit();
         return FALSE;

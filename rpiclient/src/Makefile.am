@@ -32,41 +32,43 @@ AM_CFLAGS = \
 	-Wno-unused \
 	-mtune=native \
 	-std=c11 \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	$(SQLITE3_CFLAGS)
 
 rpiclient_LDFLAGS = \
 	-Wl, \
 	-export-dynamic
 
-rpiclient_LDADD = $(GTK_LIBS)
+rpiclient_LDADD = \
+	$(GTK_LIBS) \
+	$(SQLITE3_LIBS)
 
 bin_PROGRAMS = rpiclient
 
 rpiclient_SOURCES = \
 	main.c \
-	home/home.c \
-	home/home_frame.c \
-	home/menu_bar.c \
-	home/channel_status.c \
-	home/channel_control.c \
-	about/about_dialog.c \
+	home/rpi_home.c \
+	home/rpi_home_frame.c \
+	home/rpi_menu.c \
+	home/rpi_channel_status.c \
+	home/rpi_channel_control.c \
+	about/rpi_about_dialog.c \
 	encrypt/rpi_encrypt.c \
 	encrypt/rpi_decrypt.c \
-	exit/exit_dialog.c \
-	help/help_window.c \
-	help/image_slider.c \
-	info/info_dialog.c \
-	resource/cpixbuf.c \
-	resource/get_resource_dir.c \
-	resource/get_resource_file.c \
-	resource/get_config_dir.c \
-	resource/get_config_file.c \
-	settings/settings_network_window.c \
-	settings/settings_general_window.c \
-	settings/settings_config.c \
-	warning/warning_dialog.c \
-	widgets/vertical_bar.h \
-	widgets/vertical_bar.c
+	exit/rpi_exit_dialog.c \
+	help/rpi_help_window.c \
+	help/rpi_image_slider.c \
+	info/rpi_info_dialog.c \
+	resource/rpi_cpixbuf.c \
+	resource/rpi_get_resource_dir.c \
+	resource/rpi_get_resource_file.c \
+	resource/rpi_get_config_dir.c \
+	resource/rpi_get_config_file.c \
+	settings/rpi_settings_network_window.c \
+	settings/rpi_settings_general_window.c \
+	settings/rpi_settings_config.c \
+	warning/rpi_warning_dialog.c \
+	widgets/rpi_vertical_bar.c
 
 uninstall-local:
 	-rm -r $(pkgdatadir)

@@ -19,7 +19,7 @@
 #pragma once
 
 #include <ctype.h>
-#include "../resource/resource.h"
+#include "../resource/rpi_resource.h"
 
 #define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
 #define START_REQ "start:"

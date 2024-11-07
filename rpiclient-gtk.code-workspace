@@ -6,8 +6,7 @@
 	],
 	"settings": {
 		"files.associations": {
-			"locale": "c",
-			"home.h": "c"
+			"locale": "c"
 		}
 	}
 }
