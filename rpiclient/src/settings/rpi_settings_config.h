@@ -18,7 +18,15 @@
  */
 #pragma once
 
-#include "../resource/rpi_resource.h"
+#include <glib.h>
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Settings configuration IO success status
+#define SUCCESS_IO_SETTINGS_CONFIGURATION 0
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Settings configuration IO failed status
+#define FAILED_IO_SETTINGS_CONFIGURATION 1
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings configuration structure
@@ -28,7 +36,7 @@ typedef struct _SettingsConfig SettingsConfig;
 /// @brief Write settings configuration to file
 /// @param instance is pointer to settings configuration to be written
 /// @return Integer status
-gint settings_write(const SettingsConfig* instance);
+guint settings_write(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Read configuration from files
