@@ -16,29 +16,35 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#if defined(USE_SETTINGS_PLAIN_CONFIG) && defined(USE_SETTINGS_SQLITE3)
+#error "You cannot use both USE_SETTINGS_PLAIN_CONFIG and USE_SETTINGS_SQLITE3 at the same time!"
+#endif
+
+#if defined(USE_SETTINGS_PLAIN_CONFIG) && ! defined(USE_SETTINGS_SQLITE3)
+#include "rpi_settings_plain.h"
+#endif
+
+#if ! defined(USE_SETTINGS_PLAIN_CONFIG) && defined(USE_SETTINGS_SQLITE3)
+#include "rpi_settings_sqlite.h"
+#endif
+
+#include "../resource/rpi_resource.h"
 #include "rpi_settings_config.h"
 
-static const gchar* CONFIGURATION_FILE_PROMPT = "/config/prompt.config";
-static const gchar* CONFIGURATION_FILE_SERVER_ADDRESS = "/config/server_address.config";
-static const gchar* CONFIGURATION_FILE_SERVER_PORT = "/config/server_port.config";
 static const gchar* SET_NOPROMPT = "no-prompt:disable";
 static const gchar* SET_PROMPT = "no-prompt:enable";
-static const gint SUCCESS_SETTINGS_CONFIGURATION = 0;
-static const gint FAILED_SETTINGS_CONFIGURATION = 1;
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ = "Failed to get prompt config file path for read\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ = "Failed to get server address config file path for read\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ = "Failed to get server port config file path for read\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ = "Failed to open prompt config file for read\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ = "Failed to open server address config file for read\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ = "Failed to open server port config file for read\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_READ = "Failed to allocate memory for settings configuration for read\n";
-static const gchar* WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE = "Missing setting parameter for write\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE = "Failed to get prompt config file path for write\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE = "Failed to get server address config file path for write\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE = "Failed to get server port config file path for write\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE = "Failed to open prompt config file for write\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE = "Failed to open server address config file for write\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE = "Failed to open server port config file for write\n";
+
+#if defined(USE_SETTINGS_PLAIN_CONFIG) && ! defined(USE_SETTINGS_SQLITE3)
+static const gchar* READ_MODE_SETTINGS_CONFIG = "rb";
+static const gchar* WRITE_MODE_SETTINGS_CONFIG = "wb";
+#endif
+
+#if defined(USE_SETTINGS_PLAIN_CONFIG) || defined(USE_SETTINGS_SQLITE3)
+static const gchar* WARNING_LOG_FAILED_WRITE_SETTINGS_CONFIG = "Failed to write settings configuration\n";
+#endif
+
+static const gchar* WARNING_LOG_FAILED_MALLOC_READ_SETTINGS_CONFIG = "Failed to allocate memory for read settings configuration\n";
+static const gchar* WARNING_LOG_FAILED_MISSING_PARAMETER_SETTINGS_CONFIG = "Missing settings parameter for write settings configuration\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings configuration structure
@@ -54,219 +60,95 @@ struct _SettingsConfig
 
 SettingsConfig* settings_read(void)
 {
-    gchar *prompt_config = rpi_get_config_file(CONFIGURATION_FILE_PROMPT);
-
-    if (!prompt_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_READ);
-        return NULL;
-    }
-
-    gchar *server_address_config = rpi_get_config_file(CONFIGURATION_FILE_SERVER_ADDRESS);
-
-    if (!server_address_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        return NULL;
-    }
-
-    gchar *server_port_config = rpi_get_config_file(CONFIGURATION_FILE_SERVER_PORT);
-
-    if (!server_port_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        return NULL;
-    }
-
-    FILE *file_prompt_config = fopen(prompt_config, "rb");
-
-    if (!file_prompt_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        return NULL;
-    }
-
-    FILE *file_server_address_config = fopen(server_address_config, "rb");
-
-    if (!file_server_address_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        fclose(file_prompt_config);
-        return NULL;
-    }
-
-    FILE *file_server_port_config = fopen(server_port_config, "rb");
-
-    if (!file_server_port_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        fclose(file_prompt_config);
-        fclose(file_server_address_config);
-        return NULL;
-    }
-
     SettingsConfig* instance = g_malloc(sizeof(SettingsConfig));
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        fclose(file_prompt_config);
-        fclose(file_server_address_config);
-        fclose(file_server_port_config);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_READ_SETTINGS_CONFIG);
         return NULL;
     }
 
-    gchar tmp[17];
+#if defined(USE_SETTINGS_PLAIN_CONFIG) && ! defined(USE_SETTINGS_SQLITE3)
+    FILE* file_prompt_config = rpi_get_prompt_settings_plain_file(READ_MODE_SETTINGS_CONFIG);
+    FILE* file_server_address_config = rpi_get_address_settings_plain_file(READ_MODE_SETTINGS_CONFIG);
+    FILE* file_server_port_config = rpi_get_port_settings_plain_file(READ_MODE_SETTINGS_CONFIG);
+    gboolean nok_files = (!file_prompt_config || !file_server_address_config || !file_server_port_config);
 
-    if (fscanf(file_prompt_config, "%16s", tmp) == EOF)
+    if (nok_files)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        fclose(file_prompt_config);
-        fclose(file_server_address_config);
-        fclose(file_server_port_config);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_READ_SETTINGS_CONFIG);
         return NULL;
     }
 
-    instance->no_prompt = g_strdup(tmp);
+    gchar* prompt_config = rpi_read_prompt_settings_plain_file(file_prompt_config);
+    gchar* address_config = rpi_read_address_settings_plain_file(file_server_address_config);
+    gchar* port_config = rpi_read_port_settings_plain_file(file_server_port_config);
+    gboolean nok_settings = (!prompt_config || !address_config || !port_config);
 
-    if (fscanf(file_server_address_config, "%16s", tmp) == EOF)
+    if (nok_settings)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        fclose(file_prompt_config);
-        fclose(file_server_address_config);
-        fclose(file_server_port_config);
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_READ_SETTINGS_CONFIG);
+        rpi_close_prompt_settings_plain_file(file_prompt_config);
+        rpi_close_address_settings_plain_file(file_server_address_config);
+        rpi_close_port_settings_plain_file(file_server_port_config);
         return NULL;
     }
 
-    instance->ip_address = g_strdup(tmp);
-
-    if (fscanf(file_server_port_config, "%16s", tmp) == EOF)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_READ);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        fclose(file_prompt_config);
-        fclose(file_server_address_config);
-        fclose(file_server_port_config);
-        return NULL;
-    }
-
-    instance->port_number = g_strdup(tmp);
-
-    g_free((gpointer)prompt_config);
-    g_free((gpointer)server_address_config);
-    g_free((gpointer)server_port_config);
-    fclose(file_prompt_config);
-    fclose(file_server_address_config);
-    fclose(file_server_port_config);
+    instance->no_prompt = g_strdup(prompt_config);
+    instance->ip_address = g_strdup(address_config);
+    instance->port_number = g_strdup(port_config);
+    rpi_close_prompt_settings_plain_file(file_prompt_config);
+    rpi_close_address_settings_plain_file(file_server_address_config);
+    rpi_close_port_settings_plain_file(file_server_port_config);
+#endif
 
     return instance;
 }
 
-gint settings_write(const SettingsConfig* instance)
+guint settings_write(const SettingsConfig* instance)
 {
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MISSING_SETTINGS_WRITE);
-        return FAILED_SETTINGS_CONFIGURATION;
+        g_warning("%s", WARNING_LOG_FAILED_MISSING_PARAMETER_SETTINGS_CONFIG);
+        return FAILED_IO_SETTINGS_CONFIGURATION;
     }
 
-    gchar *prompt_config = rpi_get_config_file(CONFIGURATION_FILE_PROMPT);
+#if defined(USE_SETTINGS_PLAIN_CONFIG) && ! defined(USE_SETTINGS_SQLITE3)
+    FILE* file_prompt_config = rpi_get_prompt_settings_plain_file(WRITE_MODE_SETTINGS_CONFIG);
+    FILE* file_server_address_config = rpi_get_address_settings_plain_file(WRITE_MODE_SETTINGS_CONFIG);
+    FILE* file_server_port_config = rpi_get_port_settings_plain_file(WRITE_MODE_SETTINGS_CONFIG);
+    gboolean nok_files = (!file_prompt_config || !file_server_address_config || !file_server_port_config);
 
-    if (!prompt_config)
+    if (nok_files)
     {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_WRITE);
-        return FAILED_SETTINGS_CONFIGURATION;
+        g_warning("%s", WARNING_LOG_FAILED_WRITE_SETTINGS_CONFIG);
+        return FAILED_IO_SETTINGS_CONFIGURATION;
     }
 
-    gchar *server_address_config = rpi_get_config_file(CONFIGURATION_FILE_SERVER_ADDRESS);
+    gint prompt_status = rpi_write_prompt_settings_plain_file(file_prompt_config, instance->no_prompt);
+    gint address_status = rpi_write_address_settings_plain_file(file_server_address_config, instance->ip_address);
+    gint port_status = rpi_write_port_settings_plain_file(file_server_port_config, instance->port_number);
+    gboolean nok_write_status = (
+        prompt_status == FAILED_SETTINGS_PLAIN ||
+        address_status == FAILED_SETTINGS_PLAIN ||
+        port_status == FAILED_SETTINGS_PLAIN
+    );
 
-    if (!server_address_config)
+    if (nok_write_status)
     {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_WRITE);
-        g_free((gpointer)prompt_config);
-        return FAILED_SETTINGS_CONFIGURATION;
-    }
-
-    gchar *server_port_config = rpi_get_config_file(CONFIGURATION_FILE_SERVER_PORT);
-
-    if (!server_port_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_WRITE);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        return FAILED_SETTINGS_CONFIGURATION;
-    }
-
-    FILE *file_prompt_config = fopen(prompt_config, "wb");
-
-    if (!file_prompt_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_WRITE);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        return FAILED_SETTINGS_CONFIGURATION;
-    }
-
-    FILE *file_server_address_config = fopen(server_address_config, "wb");
-
-    if (!file_server_address_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_WRITE);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
-        fclose(file_prompt_config);
-        return FAILED_SETTINGS_CONFIGURATION;
-    }
-
-    FILE *file_server_port_config = fopen(server_port_config, "wb");
-
-    if (!file_server_port_config)
-    {
-        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_WRITE);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)server_address_config);
-        g_free((gpointer)server_port_config);
+        g_warning("%s", WARNING_LOG_FAILED_WRITE_SETTINGS_CONFIG);
         fclose(file_prompt_config);
         fclose(file_server_address_config);
-        return FAILED_SETTINGS_CONFIGURATION;
+        fclose(file_server_port_config);
+        return FAILED_IO_SETTINGS_CONFIGURATION;
     }
 
-    fputs(instance->no_prompt, file_prompt_config);
-    fflush(file_prompt_config);
-    fputs(instance->ip_address, file_server_address_config);
-    fflush(file_server_address_config);
-    fputs(instance->port_number, file_server_port_config);
-    fflush(file_server_port_config);
     fclose(file_prompt_config);
     fclose(file_server_address_config);
     fclose(file_server_port_config);
+#endif
 
-    return SUCCESS_SETTINGS_CONFIGURATION;
+    return SUCCESS_IO_SETTINGS_CONFIGURATION;
 }
 
 

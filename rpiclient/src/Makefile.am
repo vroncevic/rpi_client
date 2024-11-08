@@ -67,6 +67,8 @@ rpiclient_SOURCES = \
 	settings/rpi_settings_network_window.c \
 	settings/rpi_settings_general_window.c \
 	settings/rpi_settings_config.c \
+	settings/rpi_settings_plain.c \
+	settings/rpi_settings_sqlite.c \
 	warning/rpi_warning_dialog.c \
 	widgets/rpi_vertical_bar.c
 

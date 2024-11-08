@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpi_resource.h
+ * rpi_settings_sqlite.h
  * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -18,35 +18,24 @@
  */
 #pragma once
 
-#include <gtk/gtk.h>
-
-extern gchar *resource_dir_path;
-extern gchar *config_dir_path;
+#include <glib.h>
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Gets pixel buffer from file path
-/// @param file_path is pixel file path
-/// @return Pixel buffer structure
-GdkPixbuf *rpi_cpixbuf(const gchar *file_path);
+/// @brief SQlite3 IO success status
+#define SUCCESS_SETTINGS_SQLITE3 0
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Gets resource directory path
-/// @return Directory path for resource
-gchar *rpi_get_resource_dir(void);
+/// @brief SQlite3 IO failed status
+#define FAILED_SETTINGS_SQLITE3 1
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Gets resource file path
-/// @param file_name is resource file name
-/// @return File path for resource
-gchar *rpi_get_resource_file(const gchar *file_name);
+/// @brief Reads server port settings configuration from file
+/// @param file_server_port_config is FILE pointer for port settings configuration
+/// @return Server port settings configuration parameter
+gint rpi_settings_sqlite_open(const gchar* db_name);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Gets configuration directory path
-/// @return Directory path for configuration
-gchar *rpi_get_config_dir(void);
-
-//////////////////////////////////////////////////////////////////////////////
-/// @brief Gets configuration file path
-/// @param file_name is configuration file name
-/// @return File path for configuration
-gchar *rpi_get_config_file(const gchar *file_name);
+/// @brief Reads server port settings configuration from file
+/// @param file_server_port_config is FILE pointer for port settings configuration
+/// @return Server port settings configuration parameter
+gint rpi_settings_sqlite_close(void);
