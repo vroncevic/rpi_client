@@ -24,8 +24,8 @@ static const gchar* TEXT_LABEL_EXIT_DIALOG = "Exit from RPIClient?";
 static const gchar* TEXT_OK_BUTTON_EXIT_DIALOG = "Ok";
 static const gchar* TEXT_CANCEL_BUTTON_EXIT_DIALOG = "Cancel";
 static const gint LABEL_MARGIN_EXIT_DIALOG = 20;
-static const gchar* WARNING_LOG_FAILED_PARENT_EXIT_DIALOG = "Missing parent widget parameter\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG = "Failed to allocate memory for exit dialog\n";
+static const gchar* WARNING_LOG_FAILED_PARENT_EXIT_DIALOG = "Missing parent widget parameter.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG = "Failed to allocate memory for exit dialog.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Exit dialog complex widget
@@ -69,7 +69,7 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
     if (!GTK_IS_DIALOG(instance->dialog))
     {
         g_warning("%s", WARNING_LOG_FAILED_MALLOC_EXIT_DIALOG);
-        g_free((gpointer)instance);
+        destroy_exit_dialog(instance);
         return NULL;
     }
 

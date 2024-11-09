@@ -19,9 +19,9 @@
 #include "../resource/rpi_resource.h"
 #include "rpi_info_dialog.h"
 
-static const gchar* WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG = "Missing parent widget parameter\n";
-static const gchar* WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG = "Missing message parameter\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_INFO_DIALOG = "Failed to allocate memory for info dialog\n";
+static const gchar* WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG = "Missing parent widget parameter.\n";
+static const gchar* WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG = "Missing message parameter.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_INFO_DIALOG = "Failed to allocate memory for info dialog.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Info dialog complex widget
@@ -68,6 +68,13 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
         destroy_info_dialog(instance);
         return NULL;
     }
+
+    g_signal_connect_swapped(
+        G_OBJECT(instance->dialog),
+        "response",
+        G_CALLBACK(destroy_info_dialog),
+        instance
+    );
 
     return instance;
 }

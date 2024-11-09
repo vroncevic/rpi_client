@@ -16,13 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "rpi_format.h"
 
-static const gchar* WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT = "Missing input sequence for decrypt\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT = "Failed to allocate memory for decrypt output\n";
+static const gchar* WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT = "Missing input sequence for decrypt.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT = "Failed to allocate memory for decrypt output.\n";
 
 gchar *rpi_decrypt(const gchar *in, guint shift)
 {
@@ -33,7 +32,7 @@ gchar *rpi_decrypt(const gchar *in, guint shift)
     }
 
     gint input_length = strlen(in);
-    gchar *out = malloc((input_length + 1) * sizeof(*out));
+    gchar *out = g_malloc((input_length + 1) * sizeof(*out));
 
     if (!out)
     {

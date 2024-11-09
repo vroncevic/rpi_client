@@ -18,7 +18,7 @@
  */
 #include "rpi_channel_status.h"
 
-static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS = "Failed to allocate memory for channel status\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS = "Failed to allocate memory for channel status.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channel status complex widget

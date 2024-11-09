@@ -25,9 +25,9 @@ static const gchar* TEXT_COPYRIGHT_ABOUT_DIALOG = "2025 (c) elektron.ronca@gmail
 static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistribute it and/or modify it.";
 static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";
 static const gchar* LOGO_FILE_NAME_ABOUT_DIALOG = "logo.png";
-static const gchar* WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG = "Failed to allocate memory for about dialog\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG = "Failed to allocate memory for about dialog.\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo..\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget
@@ -52,7 +52,7 @@ AboutDialog *new_about_dialog(void)
     if (!GTK_IS_ABOUT_DIALOG(instance->dialog))
     {
         g_warning("%s", WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
-        g_free((gpointer)instance);
+        destroy_about_dialog(instance);
         return NULL;
     }
 

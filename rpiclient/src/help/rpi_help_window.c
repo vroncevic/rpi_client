@@ -25,9 +25,9 @@ static const gint BORDER_WIDTH_HELP_WINDOW = 10;
 static const gint WIDTH_HELP_WINDOW = 300;
 static const gint HEIGHT_HELP_WINDOW = 200;
 static const gchar* ICON_HELP_WINDOW = "icon.png";
-static const gchar* WARNING_LOG_FAILED_MALLOC_HELP_WINDOW = "Failed to allocate memory for help window\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_HELP_WINDOW = "Failed to allocate memory for help window.\n";
 static const gchar* WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW = "Failed to create pixbuf from help icon.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW = "Failed to get resource path for help icon\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW = "Failed to get resource path for help icon.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Help window complex widget

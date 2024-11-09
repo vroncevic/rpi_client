@@ -18,7 +18,6 @@
  */
 #pragma once
 
-#include <glib.h>
 #include <gtk/gtk.h>
 #include "../widgets/rpi_vertical_bar.h"
 

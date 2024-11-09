@@ -22,9 +22,9 @@ static const gchar* TEXT_TITLE_WARNING_DIALOG = "Warning!";
 static const gchar* TEXT_SETUP_CONNECTION_SETTINGS_WARNING_DIALOG = "Please set ip address, port of server !";
 static const gchar* TEXT_SETUP_CONNECTION_WARNING_DIALOG = "Please make connection\nGo to Option > Connection";
 static const gchar* TEXT_ERROR_WARNING_DIALOG = "There was an error !";
-static const gchar* WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG = "Missing parent widget parameter\n";
-static const gchar* WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG = "Missing message parameter\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_WARNINGS_DIALOG = "Failed to allocate memory for warning dialog\n";
+static const gchar* WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG = "Missing parent widget parameter.\n";
+static const gchar* WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG = "Missing message parameter.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_WARNINGS_DIALOG = "Failed to allocate memory for warning dialog.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Warning dialog complex widget
@@ -71,6 +71,13 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
         destroy_warning_dialog(instance);
         return NULL;
     }
+
+    g_signal_connect_swapped(
+        G_OBJECT(instance->dialog),
+        "response",
+        G_CALLBACK(destroy_warning_dialog),
+        instance
+    );
 
     return instance;
 }
