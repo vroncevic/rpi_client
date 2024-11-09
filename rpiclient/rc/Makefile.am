@@ -19,19 +19,26 @@ dist_images_DATA = \
 	images/icon.png \
 	images/logo.png
 
-rcdir = $(pkgdatadir)/rc
+rpiclientdir = $(HOME)/.rpiclient
+rcdir = $(rpiclientdir)/rc
 configdir = $(rcdir)/config
 imagesdir = $(rcdir)/images
 
 config_DATA = $(dist_config_DATA)
 nodist_images_DATA = $(dist_images_DATA)
 
-all: install-data-local install-images
+all: install-data-local install-images install-rpiclient
 
 install-images:
-	mkdir -p $(DESTDIR)$(imagesdir)
-	cp $(nodist_images_DATA) $(DESTDIR)$(imagesdir)
+	mkdir -p $(imagesdir)
+	cp $(nodist_images_DATA) $(imagesdir)
 
 install-data-local:
-	mkdir -p $(DESTDIR)$(configdir)
-	cp $(config_DATA) $(DESTDIR)$(configdir)
+	mkdir -p $(configdir)
+	cp $(config_DATA) $(configdir)
+
+install-rpiclient:
+	mkdir -p $(rpiclientdir)
+	mkdir -p $(configdir) $(imagesdir)
+	cp $(config_DATA) $(configdir)
+	cp $(nodist_images_DATA) $(imagesdir)

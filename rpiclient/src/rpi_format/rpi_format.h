@@ -18,50 +18,41 @@
  */
 #pragma once
 
-#include <glib.h>
-
-// TODO: move to private section
-#define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
-#define START_REQ "start:"
-#define END_REQ ":end"
-#define SEPARATOR ":"
-#define ACTIVATE_PIN(num) "AP" #num
-#define DEACTIVATE_PIN(num) "DP" #num
-#define ACTIVATE_CHANNEL(num) "AC" #num
-#define DEACTIVATE_CHANNEL(num) "DC" #num
-#define USED_CHANNELS (8)
-
-// TODO: move to private section
-#define RPI_INIT()                                \
-	{                                             \
-		for (guint i = 0; i < USED_CHANNELS; i++) \
-		{                                         \
-			rpi.channel_data[i] = 0;              \
-			rpi.pins[0] = DEACT_PIN_1;            \
-			rpi.channels[0] = DEACTIVE_CHANNEL_1; \
-		}                                         \
-	}
+#include <gtk/gtk.h>
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief About dialog complex widget
-///   dialog - Gtk about dialog widget
-typedef struct
-{
-	gchar *pins[USED_CHANNELS];
-	gchar *channels[USED_CHANNELS];
-	gchar channel_data[USED_CHANNELS];
-} RPIChannels;
+/// @brief RPI channels complex structure
+typedef struct _RPIChannels RPIChannels;
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Encrypt input data sequence
+/// @param instance is pointer to RPI channels structure
+void rpi_format_init(RPIChannels *instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Prepares PIN operation in string format
+/// @param pin_operation is PIN operation
+/// @param pin_id is PIN ID
+/// @return PIN operation in string format | NULL
+gchar* pin_operation(const gchar* pin_operation, guint pin_id);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Prepares channel operation in string format
+/// @param channel_operation is channel operation
+/// @param channel_id is channel ID
+/// @return Channel operation in string format | NULL
+gchar* channel_operation(const gchar* channel_operation, guint channel_id);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Encrypt input data sequence
 /// @param in is pointer to input data sequence for encrpt operation
 /// @param shift is shift value
 /// @return encrypted data sequence
-gchar* rpi_encrypt(const gchar* in, guint shift);
+gchar* rpi_format_encrypt(const gchar* in, guint shift);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Decrypt input data sequence
 /// @param in is pointer to input data sequence for decrpt operation
 /// @param shift is shift value
 /// @return decrypted data sequence
-gchar* rpi_decrypt(const gchar* in, guint shift);
+gchar* rpi_format_decrypt(const gchar* in, guint shift);

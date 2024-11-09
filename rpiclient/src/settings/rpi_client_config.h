@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpi_get_config_dir.c
+ * rpi_client_config.h
  * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -16,13 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "rpi_resource.h"
+#pragma once
 
-static const gchar* home = "HOME";
-static const gchar* RPI_RESOURCE_CONFIGURATION = "/.rpiclient/rc/config/";
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Use SQLITE3 for keeping settings configuration
+#define USE_SETTINGS_SQLITE3 0
 
-gchar *rpi_get_config_dir(void)
-{
-    const char *home_directory = getenv(home);
-    return home_directory ? g_strjoin(NULL, home_directory, RPI_RESOURCE_CONFIGURATION, NULL) : NULL;
-}
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Use PLAIN file for keeping settings configuration
+#define USE_SETTINGS_PLAIN_CONFIG 0
