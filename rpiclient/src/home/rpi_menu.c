@@ -29,7 +29,7 @@ static const gchar* TEXT_MENU_SETTINGS_SUBMENU_NETWORK_RPI_MENU = "Network";
 static const gchar* TEXT_MENU_HELP_RPI_MENU = "Help";
 static const gchar* TEXT_MENU_HELP_SUBMENU_HELP_RPI_MENU = "Help";
 static const gchar* TEXT_MENU_HELP_SUBMENU_ABOUT_RPI_MENU = "About";
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_MENU = "Failed to allocate memory for menu bar\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_MENU = "Failed to allocate memory for menu bar.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Menu bar complex widget

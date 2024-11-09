@@ -31,7 +31,7 @@ static const gdouble PAGE_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
 static const gdouble PAGE_SIZE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
 static const gdouble CLIMB_RATE_SPINNER_BUTTON_CHANNEL_CONTROL = 1.0;
 static const gint DIGITS_SPINNER_BUTTON_CHANNEL_CONTROL = 0;
-static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL = "Failed to allocate memory for channel control\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL = "Failed to allocate memory for channel control.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channel control complex widget

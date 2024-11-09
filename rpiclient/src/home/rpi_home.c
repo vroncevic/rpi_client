@@ -26,13 +26,13 @@ static const gint WIDTH_WINDOW_RPI_HOME = 900;
 static const gint HEIGHT_WINDOW_RPI_HOME = 400;
 static const gint CONTAINER_BORDER_WIDTH_WINDOW_RPI_HOME = 2;
 static const gint VERTICAL_BOX_SPACING_WINDOW_RPI_HOME = 0;
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_HOME = "Failed to allocate memory for home\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_WINDOW_RPI_HOME = "Failed to allocate memory for home window\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_RPI_HOME = "Failed to create pixbuf from home icon.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_RPI_HOME = "Failed to get resource path for home icon\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_VBOX_RPI_HOME = "Failed to allocate memory for vertial box home\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_MENU_RPI_HOME = "Failed to allocate memory for menu bar home\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_HOME_FRAME_RPI_HOME = "Failed to allocate memory for frame home\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_HOME = "Failed to allocate memory for home.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_WINDOW_RPI_HOME = "Failed to allocate memory for home window.\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_RPI_HOME = "Failed to create pixbuf from home icon..\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_RPI_HOME = "Failed to get resource path for home icon.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_VBOX_RPI_HOME = "Failed to allocate memory for vertial box home.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_MENU_RPI_HOME = "Failed to allocate memory for menu bar home.\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_HOME_FRAME_RPI_HOME = "Failed to allocate memory for frame home.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPIHome complex widget

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <glib.h>
 #include "rpi_channel_status.h"
 #include "rpi_channel_control.h"
 #include "rpi_home_frame.h"
@@ -39,7 +38,7 @@ static const gint Y_POSITION_ACTIVATE_CHANNEL_STATUS_HOME_FRAME = 160;
 static const gint START_X_POSITION_LABEL_STATUS_HOME_FRAME = 0;
 static const gint Y_POSITION_LABEL_STATUS_HOME_FRAME = 200;
 static const gint SHIFT_X_POSITION_STATUS_HOME_FRAME = 125;
-static const gchar* WARNING_LOG_FAILED_MALLOC_HOME_FRAME = "Failed to allocate memory for home frame\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_HOME_FRAME = "Failed to allocate memory for home frame.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPIHomeFrame frame complex widget

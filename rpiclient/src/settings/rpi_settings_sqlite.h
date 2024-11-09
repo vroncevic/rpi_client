@@ -22,20 +22,41 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief SQlite3 IO success status
-#define SUCCESS_SETTINGS_SQLITE3 0
+#define SUCCESS_SETTINGS_SQLITE 0
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief SQlite3 IO failed status
-#define FAILED_SETTINGS_SQLITE3 1
+#define FAILED_SETTINGS_SQLITE 1
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Reads server port settings configuration from file
-/// @param file_server_port_config is FILE pointer for port settings configuration
-/// @return Server port settings configuration parameter
-gint rpi_settings_sqlite_open(const gchar* db_name);
+/// @brief Read no_prompt settings configuration from database
+/// @return Prompt settings configuration | NULL
+gchar* rpi_read_no_prompt_settings_sqlite(void);
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Reads server port settings configuration from file
-/// @param file_server_port_config is FILE pointer for port settings configuration
-/// @return Server port settings configuration parameter
-gint rpi_settings_sqlite_close(void);
+/// @brief Writes no_prompt settings configuration to database
+/// @param no_prompt is settings configuration for prompt option
+/// @return Integer status 0 - success | 1 - failed
+gint rpi_write_no_prompt_settings_sqlite(const gchar* no_prompt);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Read ip_address settings configuration from database
+/// @return Server ip address settings configuration | NULL
+gchar* rpi_read_ip_address_settings_sqlite(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Writes server port settings configuration from file
+/// @param ip_address is settings configuration for server ip address
+/// @return Integer status 0 - success | 1 - failed
+gint rpi_write_ip_address_settings_sqlite(const gchar* ip_address);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Read port_number settings configuration from database
+/// @return Server port number settings configuration | NULL
+gchar* rpi_read_port_number_settings_sqlite(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Writes server port settings configuration from file
+/// @param port_number is settings configuration for server port number
+/// @return Integer status 0 - success | 1 - failed
+gint rpi_write_port_number_settings_sqlite(const gchar* port_number);

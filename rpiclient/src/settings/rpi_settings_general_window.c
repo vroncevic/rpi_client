@@ -32,9 +32,9 @@ static const gchar* TEXT_BUTTON_CANCEL_HBOX_SETTINGS_GENERAL_WINDOW = "Cancel";
 static const gint WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW = 70;
 static const gint HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW = 30;
 static const gint SPACING_HBOX_SETTINGS_GENERAL_WINDOW = 3;
-static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW = "Failed to allocate memory for settings general window\n";
+static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW = "Failed to allocate memory for settings general window.\n";
 static const gchar* WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW = "Failed to create pixbuf from settings general icon.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW = "Failed to get resource path for settings general icon\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW = "Failed to get resource path for settings general icon.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings general window complex widget
@@ -233,5 +233,5 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
         }
 
         g_free((gpointer)instance);
-    }    
+    }
 }
