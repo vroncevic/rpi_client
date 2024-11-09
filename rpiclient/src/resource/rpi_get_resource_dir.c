@@ -18,9 +18,11 @@
  */
 #include "rpi_resource.h"
 
-static const gchar* RPI_RES_PATH = "/rc/images/";
+static const gchar* home = "HOME";
+static const gchar* RPI_RESOURCE_PATH = "/.rpiclient/rc/images/";
 
 gchar *rpi_get_resource_dir(void)
 {
-    return g_strjoin(NULL, g_get_current_dir(), RPI_RES_PATH, NULL);
+    const char *home_directory = getenv(home);
+    return home_directory ? g_strjoin(NULL, home_directory, RPI_RESOURCE_PATH, NULL) : NULL;
 }

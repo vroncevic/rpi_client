@@ -26,8 +26,8 @@ static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistri
 static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";
 static const gchar* LOGO_FILE_NAME_ABOUT_DIALOG = "logo.png";
 static const gchar* WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG = "Failed to allocate memory for about dialog.\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo..\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo.\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo_file_path..\n";
+static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo_file_path.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget
@@ -61,11 +61,11 @@ AboutDialog *new_about_dialog(void)
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COPYRIGHT_ABOUT_DIALOG);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COMMENTS_ABOUT_DIALOG);
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(instance->dialog), TEXT_WEBSITE_ABOUT_DIALOG);
-    const gchar *logo = rpi_get_resource_file(LOGO_FILE_NAME_ABOUT_DIALOG);
+    const gchar *logo_file_path = rpi_get_resource_file(LOGO_FILE_NAME_ABOUT_DIALOG);
 
-    if (logo)
+    if (logo_file_path)
     {
-        GdkPixbuf *pixbuf = rpi_cpixbuf(logo);
+        GdkPixbuf *pixbuf = rpi_cpixbuf(logo_file_path);
 
         if (GDK_IS_PIXBUF(pixbuf))
         {
@@ -77,13 +77,13 @@ AboutDialog *new_about_dialog(void)
             g_warning("%s", WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
         }
 
-        g_free((gpointer)logo);
-        logo = NULL;
+        g_free((gpointer)logo_file_path);
+        logo_file_path = NULL;
     }
     else
     {
         g_warning("%s", WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
-        logo = NULL;
+        logo_file_path = NULL;
     }
 
     g_signal_connect_swapped(

@@ -53,8 +53,7 @@ rpiclient_SOURCES = \
 	home/rpi_channel_status.c \
 	home/rpi_channel_control.c \
 	about/rpi_about_dialog.c \
-	encrypt/rpi_encrypt.c \
-	encrypt/rpi_decrypt.c \
+	rpi_format/rpi_format.c \
 	exit/rpi_exit_dialog.c \
 	help/rpi_help_window.c \
 	help/rpi_image_slider.c \

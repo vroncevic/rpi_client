@@ -16,25 +16,26 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#if defined(USE_SETTINGS_PLAIN_CONFIG) && defined(USE_SETTINGS_SQLITE3)
+#include "rpi_client_config.h"
+
+#if (USE_SETTINGS_PLAIN_CONFIG == 1) && (USE_SETTINGS_SQLITE3 == 1)
 #error "You cannot use both USE_SETTINGS_PLAIN_CONFIG and USE_SETTINGS_SQLITE3 at the same time!"
 #endif
 
-#if defined(USE_SETTINGS_PLAIN_CONFIG) && ! defined(USE_SETTINGS_SQLITE3)
+#if (USE_SETTINGS_PLAIN_CONFIG == 1) && (USE_SETTINGS_SQLITE3 == 0)
 #include "rpi_settings_plain.h"
 #endif
 
-#if ! defined(USE_SETTINGS_PLAIN_CONFIG) && defined(USE_SETTINGS_SQLITE3)
+#if (USE_SETTINGS_PLAIN_CONFIG == 0) && (USE_SETTINGS_SQLITE3 == 1)
 #include "rpi_settings_sqlite.h"
 #endif
 
-#include "../resource/rpi_resource.h"
 #include "rpi_settings_config.h"
 
 static const gchar* SET_NOPROMPT = "no-prompt:disable";
 static const gchar* SET_PROMPT = "no-prompt:enable";
 
-#if defined(USE_SETTINGS_PLAIN_CONFIG) || defined(USE_SETTINGS_SQLITE3)
+#if (USE_SETTINGS_PLAIN_CONFIG == 1) || (USE_SETTINGS_SQLITE3 == 1)
 static const gchar* WARNING_LOG_FAILED_READ_SETTINGS_CONFIG = "Failed to read settings configuration.\n";
 static const gchar* WARNING_LOG_FAILED_WRITE_SETTINGS_CONFIG = "Failed to write settings configuration.\n";
 #endif
@@ -64,7 +65,7 @@ SettingsConfig* settings_read(void)
         return NULL;
     }
 
-#if defined(USE_SETTINGS_PLAIN_CONFIG) && ! defined(USE_SETTINGS_SQLITE3)
+#if (USE_SETTINGS_PLAIN_CONFIG == 1) && (USE_SETTINGS_SQLITE3 == 0)
     gchar* prompt_config = rpi_read_prompt_settings_plain_file();
     gchar* address_config = rpi_read_address_settings_plain_file();
     gchar* port_config = rpi_read_port_settings_plain_file();
@@ -87,7 +88,7 @@ SettingsConfig* settings_read(void)
     g_free((gpointer)port_config);
 #endif
 
-#if ! defined(USE_SETTINGS_PLAIN_CONFIG) && defined(USE_SETTINGS_SQLITE3)
+#if (USE_SETTINGS_PLAIN_CONFIG == 0) && (USE_SETTINGS_SQLITE3 == 1)
     gchar* prompt_config = rpi_read_no_prompt_settings_sqlite();
     gchar* address_config = rpi_read_ip_address_settings_sqlite();
     gchar* port_config = rpi_read_port_number_settings_sqlite();
@@ -105,9 +106,9 @@ SettingsConfig* settings_read(void)
     instance->no_prompt = g_strdup(prompt_config);
     instance->ip_address = g_strdup(address_config);
     instance->port_number = g_strdup(port_config);
-    g_free((pointer)prompt_config);
-    g_free((pointer)address_config);
-    g_free((pointer)port_config);
+    g_free((gpointer)prompt_config);
+    g_free((gpointer)address_config);
+    g_free((gpointer)port_config);
 #endif
 
     return instance;
@@ -121,7 +122,7 @@ guint settings_write(const SettingsConfig* instance)
         return FAILED_IO_SETTINGS_CONFIGURATION;
     }
 
-#if defined(USE_SETTINGS_PLAIN_CONFIG) && ! defined(USE_SETTINGS_SQLITE3)
+#if (USE_SETTINGS_PLAIN_CONFIG == 1) && (USE_SETTINGS_SQLITE3 == 0)
     guint prompt_status = rpi_write_prompt_settings_plain_file(instance->no_prompt);
     guint address_status = rpi_write_address_settings_plain_file(instance->ip_address);
     guint port_status = rpi_write_port_settings_plain_file(instance->port_number);
@@ -138,7 +139,7 @@ guint settings_write(const SettingsConfig* instance)
     }
 #endif
 
-#if ! defined(USE_SETTINGS_PLAIN_CONFIG) && defined(USE_SETTINGS_SQLITE3)
+#if (USE_SETTINGS_PLAIN_CONFIG == 0) && (USE_SETTINGS_SQLITE3 == 1)
     guint prompt_status = rpi_write_no_prompt_settings_sqlite(instance->no_prompt);
     guint address_status = rpi_write_ip_address_settings_sqlite(instance->ip_address);
     guint port_status = rpi_write_port_number_settings_sqlite(instance->port_number);

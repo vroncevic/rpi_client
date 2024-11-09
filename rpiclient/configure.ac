@@ -26,6 +26,10 @@ PKG_CHECK_MODULES([SQLITE3], [sqlite3])
 AC_SUBST([SQLITE3_CFLAGS])
 AC_SUBST([SQLITE3_LIBS])
 
+AC_CONFIG_COMMANDS_PRE([
+  sed -i 's/#define USE_SETTINGS_SQLITE3 0/#define USE_SETTINGS_SQLITE3 1/' src/settings/rpi_client_config.h
+])
+
 AC_OUTPUT([
     Makefile
     src/Makefile
