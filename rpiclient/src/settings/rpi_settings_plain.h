@@ -31,7 +31,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Reads prompt settings configuration from file
-/// @return Prompt settings configuration parameter
+/// @return Prompt settings configuration parameter | NULL
 gchar* rpi_read_prompt_settings_plain_file(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ guint rpi_write_prompt_settings_plain_file(const gchar* prompt_config);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Reads server address settings configuration from file
-/// @return Server address settings configuration parameter
+/// @return Server address settings configuration parameter | NULL
 gchar* rpi_read_address_settings_plain_file(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ guint rpi_write_address_settings_plain_file(const gchar* address_config);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Reads server port settings configuration from file
-/// @return Server port settings configuration parameter
+/// @return Server port settings configuration parameter | NULL
 gchar* rpi_read_port_settings_plain_file(void);
 
 //////////////////////////////////////////////////////////////////////////////

@@ -6,6 +6,7 @@
 # Define installation paths
 imagesdir = $(prefix)/share/rpiclient/images
 
+# Media images
 dist_images_DATA = \
 	images/1.png \
 	images/2.png \

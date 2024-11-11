@@ -4,13 +4,16 @@
 ## @brief  Process this file with automake to produce Makefile.in
 ##
 
-AM_SUBDIRS = home about encrypt exit help info resource settings warning
+# Sub dirs with source modules
+AM_SUBDIRS = home about format exit help info resource settings warning widgets
 
+# Automake dirs
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\"
 
+# GCC flags
 AM_CFLAGS = \
 	-Wall \
 	-g \
@@ -35,16 +38,20 @@ AM_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(SQLITE3_CFLAGS)
 
+# LD flags
 rpiclient_LDFLAGS = \
 	-Wl, \
 	-export-dynamic
 
+# Libraries
 rpiclient_LDADD = \
 	$(GTK_LIBS) \
 	$(SQLITE3_LIBS)
 
+# Executable name
 bin_PROGRAMS = rpiclient
 
+# rpiclient source modules
 rpiclient_SOURCES = \
 	main.c \
 	home/rpi_home.c \
@@ -77,6 +84,7 @@ install-exec-hook:
 	@echo "Installing binary to /usr/local/bin"
 	@cp rpiclient /usr/local/bin/
 
+# Unistall rules
 uninstall-local:
 	-rm -r $(pkgdatadir)
 

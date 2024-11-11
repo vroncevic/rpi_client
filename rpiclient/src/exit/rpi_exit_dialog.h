@@ -18,7 +18,10 @@
  */
 #pragma once
 
-#include <gtk/gtk.h>
+#include "../resource/rpi_resource.h"
+
+#define CLOSE_ON_EXIT_DIALOG 0
+#define NOT_CLOSE_ON_EXIT_DIALOG 1
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Exit dialog complex widget

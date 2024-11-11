@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../resource/rpi_resource.h"
 #include "rpi_exit_dialog.h"
 
 static const gchar* TITLE_EXIT_DIALOG = "Confirm Exit";
@@ -115,14 +114,14 @@ gint show_exit_dialog(ExitDialog *instance)
             if (result == GTK_RESPONSE_ACCEPT)
             {
                 destroy_exit_dialog(instance);
-                return (0);
+                return CLOSE_ON_EXIT_DIALOG;
             }
 
             hide_exit_dialog(instance);
         }
     }
 
-    return (-1);
+    return NOT_CLOSE_ON_EXIT_DIALOG;
 }
 
 void hide_exit_dialog(ExitDialog *instance)

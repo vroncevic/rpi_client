@@ -32,13 +32,13 @@ RPIHome *app = NULL;
 gchar *resource_dir_path = NULL;
 gchar *config_dir_path = NULL;
 
-gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data);
-void on_option_connect(void);
-void on_option_disconnect(void);
-void on_show_settings_general(void);
-void on_show_settings_network(void);
-void on_show_help(void);
-void on_show_about(void);
+static gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data);
+static void on_option_connect(void);
+static void on_option_disconnect(void);
+static void on_show_settings_general(void);
+static void on_show_settings_network(void);
+static void on_show_help(void);
+static void on_show_about(void);
 
 int main(int argc, char *argv[])
 {
@@ -110,12 +110,12 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
+static gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     ExitDialog *exit_dialog = new_exit_dialog(get_window_from_rpi_home(app));
     gint exit_code = show_exit_dialog(exit_dialog);
 
-    if (exit_code == 0)
+    if (exit_code == CLOSE_ON_EXIT_DIALOG)
     {
         destroy_rpi_home(app);
         app = NULL;
@@ -130,17 +130,17 @@ gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
     return TRUE;
 }
 
-void on_option_connect(void)
+static void on_option_connect(void)
 {
     g_warning("%s", "connect\n");
 }
 
-void on_option_disconnect(void)
+static void on_option_disconnect(void)
 {
     g_warning("%s", "disconnect\n");
 }
 
-void on_show_settings_general(void)
+static void on_show_settings_general(void)
 {
     SettingsGeneralWindow *settings_general_window = new_settings_general_window();
 
@@ -150,7 +150,7 @@ void on_show_settings_general(void)
     }
 }
 
-void on_show_settings_network(void)
+static void on_show_settings_network(void)
 {
     SettingsNetworkWindow *settings_network_window = new_settings_network_window();
 
@@ -160,7 +160,7 @@ void on_show_settings_network(void)
     }
 }
 
-void on_show_help(void)
+static void on_show_help(void)
 {
     HelpWindow *help_window = new_help_window();
 
@@ -170,7 +170,7 @@ void on_show_help(void)
     }
 }
 
-void on_show_about(void)
+static void on_show_about(void)
 {
     AboutDialog *about_dialog = new_about_dialog();
 

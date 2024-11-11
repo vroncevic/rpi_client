@@ -26,7 +26,7 @@ static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistri
 static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";
 static const gchar* LOGO_FILE_NAME_ABOUT_DIALOG = "logo.png";
 static const gchar* WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG = "Failed to allocate memory for about dialog.\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo_file_path..\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo_file_path.\n";
 static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo_file_path.\n";
 
 //////////////////////////////////////////////////////////////////////////////

@@ -262,6 +262,8 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
             instance->button_cancel = NULL;
             instance->button_ok = NULL;
             instance->hbox = NULL;
+            instance->check_button_control_exit = NULL;
+            instance->frame_control_exit = NULL;
             instance->table = NULL;
         }
 
