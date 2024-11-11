@@ -11,7 +11,12 @@ To install this App type the following:
 #### AUTOGENERATION
 
 ```bash
-$ ./autogen.sh 
+./autogen.sh
+```
+
+output
+
+```
 **Warning**: I am going to run `configure' with no arguments.
 If you wish to pass any to it, please specify them on the
 `./autogen.sh' command line.
@@ -208,7 +213,12 @@ Now type `make' to compile.
 #### COMPILE
 
 ```bash
-$ make
+make
+```
+
+output
+
+```
 make  all-recursive
 make[1]: Entering directory '/home/jenkins/Downloads/rpiclient'
 Making all in src
@@ -256,7 +266,12 @@ make[1]: Leaving directory '/home/jenkins/Downloads/rpiclient'
 #### INSTALL
 
 ```bash
-$ sudo make install  
+sudo make install  
+```
+
+output
+
+```
 Making install in src
 make[1]: Entering directory '/home/jenkins/Downloads/rpiclient/src'
 make[2]: Entering directory '/home/jenkins/Downloads/rpiclient/src'

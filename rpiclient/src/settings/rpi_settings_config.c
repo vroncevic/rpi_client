@@ -32,9 +32,6 @@
 
 #include "rpi_settings_config.h"
 
-static const gchar* SET_NOPROMPT = "no-prompt:disable";
-static const gchar* SET_PROMPT = "no-prompt:enable";
-
 #if (USE_SETTINGS_PLAIN_CONFIG == 1) || (USE_SETTINGS_SQLITE3 == 1)
 static const gchar* WARNING_LOG_FAILED_READ_SETTINGS_CONFIG = "Failed to read settings configuration.\n";
 static const gchar* WARNING_LOG_FAILED_WRITE_SETTINGS_CONFIG = "Failed to write settings configuration.\n";
