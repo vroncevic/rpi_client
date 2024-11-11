@@ -1,13 +1,10 @@
 ##
 ## @info   gengtkpro ver.1.0
-## @author Vladimir Roncevic <elektron.ronca@gmail.com>
 ## @brief  Process this file with automake to produce Makefile.in
 ##
 
-dist_config_DATA = \
-	config/prompt.config \
-	config/server_address.config \
-	config/server_port.config
+# Define installation paths
+imagesdir = $(prefix)/share/rpiclient/images
 
 dist_images_DATA = \
 	images/1.png \
@@ -19,26 +16,15 @@ dist_images_DATA = \
 	images/icon.png \
 	images/logo.png
 
-rpiclientdir = $(HOME)/.rpiclient
-rcdir = $(rpiclientdir)/rc
-configdir = $(rcdir)/config
-imagesdir = $(rcdir)/images
-
-config_DATA = $(dist_config_DATA)
+# Use Automake's DATA primary for installing images
 nodist_images_DATA = $(dist_images_DATA)
+dist_imagesdir = $(imagesdir)
 
-all: install-data-local install-images install-rpiclient
-
+# Custom command for system-wide images installation (requires sudo)
 install-images:
-	mkdir -p $(imagesdir)
-	cp $(nodist_images_DATA) $(imagesdir)
+	@echo "Installing system-wide images to $(imagesdir)"
+	@mkdir -p $(imagesdir)
+	@cp $(nodist_images_DATA) $(imagesdir)
 
-install-data-local:
-	mkdir -p $(configdir)
-	cp $(config_DATA) $(configdir)
-
-install-rpiclient:
-	mkdir -p $(rpiclientdir)
-	mkdir -p $(configdir) $(imagesdir)
-	cp $(config_DATA) $(configdir)
-	cp $(nodist_images_DATA) $(imagesdir)
+# Ensure images are installed with sudo make install
+install-exec-hook: install-images

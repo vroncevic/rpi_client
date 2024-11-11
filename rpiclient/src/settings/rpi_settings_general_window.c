@@ -80,7 +80,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
         HEIGHT_SETTINGS_GENERAL_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_SETTINGS_GENERAL_WINDOW);
-    const gchar *icon = rpi_get_resource_file(ICON_SETTINGS_GENERAL_WINDOW);
+    const gchar *icon = rpi_get_resource_file_path(ICON_SETTINGS_GENERAL_WINDOW);
 
     if (icon)
     {

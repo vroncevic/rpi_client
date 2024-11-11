@@ -53,16 +53,16 @@ rpiclient_SOURCES = \
 	home/rpi_channel_status.c \
 	home/rpi_channel_control.c \
 	about/rpi_about_dialog.c \
-	rpi_format/rpi_format.c \
+	format/rpi_format.c \
 	exit/rpi_exit_dialog.c \
 	help/rpi_help_window.c \
 	help/rpi_image_slider.c \
 	info/rpi_info_dialog.c \
 	resource/rpi_cpixbuf.c \
 	resource/rpi_get_resource_dir.c \
-	resource/rpi_get_resource_file.c \
+	resource/rpi_get_resource_file_path.c \
 	resource/rpi_get_config_dir.c \
-	resource/rpi_get_config_file.c \
+	resource/rpi_get_config_file_path.c \
 	settings/rpi_settings_network_window.c \
 	settings/rpi_settings_general_window.c \
 	settings/rpi_settings_config.c \
@@ -71,6 +71,11 @@ rpiclient_SOURCES = \
 	settings/rpi_settings_sqlite.c \
 	warning/rpi_warning_dialog.c \
 	widgets/rpi_vertical_bar.c
+
+# Specify installation directory for the binary
+install-exec-hook:
+	@echo "Installing binary to /usr/local/bin"
+	@cp rpiclient /usr/local/bin/
 
 uninstall-local:
 	-rm -r $(pkgdatadir)

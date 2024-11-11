@@ -18,6 +18,7 @@
  */
 #pragma once
 
+#include <glib.h>
 #include <gtk/gtk.h>
 
 extern gchar *resource_dir_path;
@@ -38,7 +39,7 @@ gchar *rpi_get_resource_dir(void);
 /// @brief Gets resource file path
 /// @param file_name is resource file name
 /// @return File path for resource
-gchar *rpi_get_resource_file(const gchar *file_name);
+gchar *rpi_get_resource_file_path(const gchar *file_name);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets configuration directory path
@@ -48,5 +49,6 @@ gchar *rpi_get_config_dir(void);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets configuration file path
 /// @param file_name is configuration file name
+/// @param default_content is default parameter content
 /// @return File path for configuration
-gchar *rpi_get_config_file(const gchar *file_name);
+gchar *rpi_get_config_file_path(const gchar *file_name, const gchar *default_content);

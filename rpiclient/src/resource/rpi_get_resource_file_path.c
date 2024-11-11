@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpi_get_config_file.c
+ * rpi_get_resource_file_path.c
  * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -18,7 +18,20 @@
  */
 #include "rpi_resource.h"
 
-gchar *rpi_get_config_file(const gchar *file_name)
+gchar *rpi_get_resource_file_path(const gchar *file_name)
 {
-    return g_strjoin(NULL, config_dir_path, file_name, NULL);
+    if (!file_name || !resource_dir_path)
+    {
+        return NULL;
+    }
+
+    gchar *file_path = g_strjoin(NULL, resource_dir_path, file_name, NULL);
+
+    if (!g_file_test(file_path, G_FILE_TEST_EXISTS))
+    {
+        g_free((gpointer)file_path);
+        return NULL;
+    }
+
+    return file_path;
 }

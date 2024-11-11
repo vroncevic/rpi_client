@@ -32,7 +32,7 @@ AC_CONFIG_COMMANDS_PRE([
 
 AC_OUTPUT([
     Makefile
-    src/Makefile
     po/Makefile.in
+    src/Makefile
     rc/Makefile
 ])
