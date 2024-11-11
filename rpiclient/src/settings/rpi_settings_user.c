@@ -20,7 +20,7 @@
 #include <pwd.h>
 #include "rpi_settings_user.h"
 
-static const gchar* WARNING_LOG_FAILED_GET_USERNAME_SETTINGS_USER = "Unable to retrieve the username..\n";
+static const gchar* WARNING_LOG_FAILED_GET_USERNAME_SETTINGS_USER = "Unable to retrieve the username.\n";
 
 gchar* rpi_get_username_settings_user(void)
 {

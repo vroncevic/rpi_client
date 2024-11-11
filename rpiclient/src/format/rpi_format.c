@@ -33,9 +33,9 @@ static const gchar* WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT = "Failed to allocate 
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channels complex structure
-///   pins - 
-///   channels - 
-///   channel_data - 
+///   pins - TODO
+///   channels - TODO
+///   channel_data - TODO
 struct _RPIChannels
 {
 	gchar *pins[USED_CHANNELS];

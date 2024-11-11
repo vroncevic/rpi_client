@@ -45,7 +45,7 @@ static const gint WIDTH_BUTTON_HBOX_SETTINGS_NETWORK_WINDOW = 70;
 static const gint HEIGHT_BUTTON_HBOX_SETTINGS_NETWORK_WINDOW = 30;
 static const gint SPACING_HBOX_SETTINGS_NETWORK_WINDOW = 3;
 static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW = "Failed to allocate memory for settings network window.\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW = "Failed to create pixbuf from settings network icon..\n";
+static const gchar* WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW = "Failed to create pixbuf from settings network icon.\n";
 static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW = "Failed to get resource path for settings network icon.\n";
 
 //////////////////////////////////////////////////////////////////////////////
