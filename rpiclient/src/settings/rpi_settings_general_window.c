@@ -27,6 +27,8 @@ static const gint CONTAINER_BORDER_WIDTH_SETTINGS_GENERAL_WINDOW = 10;
 static const gint SPACING_VBOX_SETTINGS_GENERAL_WINDOW = 20;
 static const gint TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW = 10;
 static const gint TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW = 10;
+static const gchar* TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW = "Exit from rpiclient";
+static const gchar* TEXT_CHECK_BUTTON_CONTROL_EXIT_SETTINGS_NETWORK_WINDOW = "Display Exit Dialog on Quit?";
 static const gchar* TEXT_BUTTON_OK_HBOX_SETTINGS_GENERAL_WINDOW = "OK";
 static const gchar* TEXT_BUTTON_CANCEL_HBOX_SETTINGS_GENERAL_WINDOW = "Cancel";
 static const gint WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW = 70;
@@ -41,6 +43,8 @@ static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW = "Faile
 ///   window - Gtk window widget
 ///   vbox - Gtk widget for vertical box
 ///   table - Gtk widget for table
+///   frame_control_exit - Gtk widget for frame
+///   check_button_control_exit - Gtk widget for check box
 ///   hbox - Gtk widget for horizontal alignment
 ///   button_ok - Gtk widget for ok action
 ///   button_cancel - Gtk widget for cancel action
@@ -49,6 +53,8 @@ struct _SettingsGeneralWindow
     GtkWidget *window;
     GtkWidget *vbox;
     GtkWidget *table;
+    GtkWidget *frame_control_exit;
+    GtkWidget *check_button_control_exit;
     GtkWidget *hbox;
     GtkWidget *button_ok;
     GtkWidget *button_cancel;
@@ -138,6 +144,33 @@ SettingsGeneralWindow *new_settings_general_window(void)
         TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW
     );
     gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
+
+    instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW);
+
+    if (!GTK_IS_FRAME(instance->frame_control_exit))
+    {
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        destroy_settings_general_window(instance);
+        return NULL;
+    }
+
+    gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_control_exit), GTK_SHADOW_IN);
+    instance->check_button_control_exit = gtk_check_button_new_with_label(TEXT_CHECK_BUTTON_CONTROL_EXIT_SETTINGS_NETWORK_WINDOW);
+
+    if (!GTK_IS_CHECK_BUTTON(instance->check_button_control_exit))
+    {
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        destroy_settings_general_window(instance);
+        return NULL;
+    }
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_exit), TRUE);
+    gtk_container_add(
+        GTK_CONTAINER(instance->frame_control_exit),
+        GTK_WIDGET(instance->check_button_control_exit)
+    );
+
+    gtk_grid_attach(GTK_GRID(instance->table), GTK_WIDGET(instance->frame_control_exit), 0, 0, 1, 1);
     instance->hbox = gtk_box_new(
         GTK_ORIENTATION_HORIZONTAL,
         SPACING_HBOX_SETTINGS_GENERAL_WINDOW

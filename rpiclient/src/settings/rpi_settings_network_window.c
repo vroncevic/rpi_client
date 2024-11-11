@@ -27,16 +27,16 @@ static const gint CONTAINER_BORDER_WIDTH_SETTINGS_NETWORK_WINDOW = 10;
 static const gint SPACING_VBOX_SETTINGS_NETWORK_WINDOW = 20;
 static const gint TABLE_ROW_SPACINGS_TABLE_SETTINGS_NETWORK_WINDOW = 10;
 static const gint TABLE_COL_SPACINGS_TABLE_SETTINGS_NETWORK_WINDOW = 10;
-static const gchar* TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW = "Exit Operation";
-static const gchar* TEXT_CHECK_BUTTON_CONTROL_EXIT_SETTINGS_NETWORK_WINDOW = "Display Exit Dialog on Quit?";
+static const gchar* TEXT_FRAME_CONTORL_PROMPT_SETTINGS_NETWORK_WINDOW = "Prompt settings";
+static const gchar* TEXT_CHECK_BUTTON_CONTROL_PROMPT_SETTINGS_NETWORK_WINDOW = "Enable prompt to be visible?";
 static const gchar* TEXT_FRAME_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = "Server IP Address";
 static const gint MAX_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = 50;
-static const gchar* TEXT_EXAMPLE_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = " exm: 192.168.1.115";
+static const gchar* TEXT_EXAMPLE_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = " exm: 192.168.1.100";
 static const gint NEW_TEXT_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = (-1);
 static const gint START_POSITION_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = 0;
 static const gchar* TEXT_FRAME_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = "Server Port Number";
 static const gint MAX_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = 50;
-static const gchar* TEXT_EXAMPLE_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = " exm: 9009";
+static const gchar* TEXT_EXAMPLE_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = " exm: 8888";
 static const gint NEW_TEXT_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = (-1);
 static const gint START_POSITION_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = 0;
 static const gchar* TEXT_BUTTON_OK_HBOX_SETTINGS_NETWORK_WINDOW = "OK";
@@ -53,8 +53,8 @@ static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW = "Faile
 ///   window - Gtk window widget
 ///   vbox - Gtk widget for vertical box
 ///   table - Gtk widget for table
-///   frame_control_exit - Gtk widget for frame 
-///   check_button_control_exit - Gtk widget for check box
+///   frame_control_prompt - Gtk widget for frame
+///   check_button_control_prompt - Gtk widget for check box
 ///   frame_entry_address - Gtk widget for frame
 ///   entry_address - Gtk widget for entry
 ///   cur_pos_address - Cursor position
@@ -69,8 +69,8 @@ struct _SettingsNetworkWindow
     GtkWidget *window;
     GtkWidget *vbox;
     GtkWidget *table;
-    GtkWidget *frame_control_exit;
-    GtkWidget *check_button;
+    GtkWidget *frame_control_prompt;
+    GtkWidget *check_button_control_prompt;
     GtkWidget *frame_entry_address;
     GtkWidget *entry_address;
     gint cur_pos_address;
@@ -165,29 +165,29 @@ SettingsNetworkWindow *new_settings_network_window(void)
         GTK_GRID(instance->table),
         TABLE_COL_SPACINGS_TABLE_SETTINGS_NETWORK_WINDOW
     );
-    instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW);
+    instance->frame_control_prompt = gtk_frame_new(TEXT_FRAME_CONTORL_PROMPT_SETTINGS_NETWORK_WINDOW);
 
-    if (!GTK_IS_FRAME(instance->frame_control_exit))
+    if (!GTK_IS_FRAME(instance->frame_control_prompt))
     {
         g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
 
-    gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_control_exit), GTK_SHADOW_IN);
-    instance->check_button = gtk_check_button_new_with_label(TEXT_CHECK_BUTTON_CONTROL_EXIT_SETTINGS_NETWORK_WINDOW);
+    gtk_frame_set_shadow_type(GTK_FRAME(instance->frame_control_prompt), GTK_SHADOW_IN);
+    instance->check_button_control_prompt = gtk_check_button_new_with_label(TEXT_CHECK_BUTTON_CONTROL_PROMPT_SETTINGS_NETWORK_WINDOW);
 
-    if (!GTK_IS_CHECK_BUTTON(instance->check_button))
+    if (!GTK_IS_CHECK_BUTTON(instance->check_button_control_prompt))
     {
         g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
         destroy_settings_network_window(instance);
         return NULL;
     }
 
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button), TRUE);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_prompt), TRUE);
     gtk_container_add(
-        GTK_CONTAINER(instance->frame_control_exit),
-        GTK_WIDGET(instance->check_button)
+        GTK_CONTAINER(instance->frame_control_prompt),
+        GTK_WIDGET(instance->check_button_control_prompt)
     );
     instance->frame_entry_address = gtk_frame_new(TEXT_FRAME_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW);
 
@@ -263,7 +263,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
         len_port
     );
     gtk_container_add(GTK_CONTAINER(instance->frame_entry_port), GTK_WIDGET(instance->entry_port));
-    gtk_grid_attach(GTK_GRID(instance->table), GTK_WIDGET(instance->frame_control_exit), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(instance->table), GTK_WIDGET(instance->frame_control_prompt), 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(instance->table), GTK_WIDGET(instance->frame_entry_address), 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(instance->table), GTK_WIDGET(instance->frame_entry_port), 0, 2, 1, 1);
     gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->table), TRUE, TRUE, 0);
@@ -355,10 +355,10 @@ void destroy_settings_network_window(SettingsNetworkWindow *instance)
             instance->button_cancel = NULL;
             instance->button_ok = NULL;
             instance->hbox = NULL;
-            instance->check_button = NULL;
+            instance->check_button_control_prompt = NULL;
             instance->entry_address = NULL;
             instance->entry_port = NULL;
-            instance->frame_control_exit = NULL;
+            instance->frame_control_prompt = NULL;
             instance->frame_entry_address = NULL;
             instance->frame_entry_port = NULL;
             instance->table = NULL;
