@@ -74,7 +74,7 @@ HelpWindow *new_help_window(void)
         HEIGHT_HELP_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_HELP_WINDOW);
-    const gchar *icon = rpi_get_resource_file(ICON_HELP_WINDOW);
+    const gchar *icon = rpi_get_resource_file_path(ICON_HELP_WINDOW);
 
     if (icon)
     {

@@ -18,11 +18,26 @@
  */
 #include "rpi_resource.h"
 
-static const gchar* home = "HOME";
-static const gchar* RPI_RESOURCE_PATH = "/.rpiclient/rc/images/";
+static const gchar* RPI_RESOURCE_PATH = "/usr/local/share/rpiclient/images/";
+static const gchar* RPI_RESOURCE_PATH_WITH_PREFIX = "../share/rpiclient/images/";
 
 gchar *rpi_get_resource_dir(void)
 {
-    const char *home_directory = getenv(home);
-    return home_directory ? g_strjoin(NULL, home_directory, RPI_RESOURCE_PATH, NULL) : NULL;
+    gchar* image_dir = g_strdup(RPI_RESOURCE_PATH);
+
+    if (g_file_test(image_dir, G_FILE_TEST_IS_DIR))
+    {
+        return image_dir;
+    }
+
+    g_free((gpointer)image_dir);
+    gchar *image_dir_prefix = g_strdup(RPI_RESOURCE_PATH_WITH_PREFIX);
+
+    if (g_file_test(image_dir_prefix, G_FILE_TEST_IS_DIR))
+    {
+        return image_dir_prefix;
+    }
+
+    g_free((gpointer)image_dir_prefix);
+    return NULL;    
 }

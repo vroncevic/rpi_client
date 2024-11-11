@@ -16,22 +16,28 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../resource/rpi_resource.h"
 #include "rpi_settings_user.h"
 #include "rpi_settings_plain.h"
 
-#define PROMPT_FILE_SETTINGS_PLAIN "/home/%s/.rpiclient/config/prompt.config"
-#define SERVER_ADDRESS_FILE_SETTINGS_PLAIN "/home/%s/.rpiclient/config/server_address.config"
-#define SERVER_PORT_FILE_SETTINGS_PLAIN "/home/%s/.rpiclient/config/server_port.config"
-
+static const gchar* PROMPT_FILE_NAME_SETTINGS_PLAIN = "prompt.config";
+static const gchar* SERVER_ADDRESS_FILE_NAME_SETTINGS_PLAIN = "server_address.config";
+static const gchar* SERVER_PORT_FILE_NAME_SETTINGS_PLAIN = "server_port.config";
+static const gchar* DEFAULT_PROMPT_PARAMETER_SETTINGS_PLAIN = "false";
+static const gchar* DEFAULT_SERVER_ADDRESS_PARAMETER_SETTINGS_PLAIN = "192.168.1.100";
+static const gchar* DEFAULT_SERVER_PORT_PARAMETER_SETTINGS_PLAIN = "8888";
 static const gchar* READ_MODE_SETTINGS_PLAIN = "rb";
 static const gchar* WRITE_MODE_SETTINGS_PLAIN = "wb";
+static const gchar* WARNING_LOG_FAILED_MISSING_MODE_FILE_PROMPT_SETTINGS_PLAIN = "Missing mode for prompt config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_PLAIN = "Failed to get prompt config file path.\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_PLAIN = "Failed to get server address config file pat.\n";
-static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_PLAIN = "Failed to get server port config file path.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_PLAIN = "Failed to open prompt config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_READ_SETTINGS_PLAIN = "Failed to read prompt config file.\n";
+static const gchar* WARNING_LOG_FAILED_MISSING_MODE_FILE_ADDRESS_SETTINGS_PLAIN = "Missing mode for address config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_PLAIN = "Failed to get server address config file pat.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_PLAIN = "Failed to open server address config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_READ_SETTINGS_PLAIN = "Failed to read server address config file.\n";
+static const gchar* WARNING_LOG_FAILED_MISSING_MODE_FILE_PORT_SETTINGS_PLAIN = "Missing mode for port config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_PLAIN = "Failed to get server port config file path.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_PLAIN = "Failed to open server port config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_READ_SETTINGS_PLAIN = "Failed to read server port config file.\n";
 
@@ -44,23 +50,23 @@ static void rpi_close_port_settings_plain_file(FILE* file_server_port_config);
 
 static FILE* rpi_open_prompt_settings_plain_file(const gchar* mode)
 {
-    gchar* username = rpi_get_username_settings_user();
-
-    if (!username)
+    if (!mode)
     {
-        return NULL;        
+        g_warning("%s", WARNING_LOG_FAILED_MISSING_MODE_FILE_PROMPT_SETTINGS_PLAIN);
+        return NULL;
     }
 
-    gchar *prompt_config_file_path = g_strdup_printf(PROMPT_FILE_SETTINGS_PLAIN, username);
+    config_dir_path = rpi_get_config_dir();
+    gchar *prompt_config_file_path = rpi_get_config_file_path(
+        PROMPT_FILE_NAME_SETTINGS_PLAIN, DEFAULT_PROMPT_PARAMETER_SETTINGS_PLAIN
+    );
 
     if (!prompt_config_file_path)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_PLAIN);
-        g_free((gpointer)username);
         return NULL;
     }
 
-    g_free((gpointer)username);
     FILE *file_prompt_config = fopen(prompt_config_file_path, mode);
 
     if (!file_prompt_config)
@@ -128,23 +134,23 @@ static void rpi_close_prompt_settings_plain_file(FILE* file_prompt_config)
 
 static FILE* rpi_open_address_settings_plain_file(const gchar* mode)
 {
-    gchar* username = rpi_get_username_settings_user();
-
-    if (!username)
+    if (!mode)
     {
-        return NULL;        
+        g_warning("%s", WARNING_LOG_FAILED_MISSING_MODE_FILE_ADDRESS_SETTINGS_PLAIN);
+        return NULL;
     }
 
-    gchar *server_address_config_file_path = g_strdup_printf(SERVER_ADDRESS_FILE_SETTINGS_PLAIN, username);
+    config_dir_path = rpi_get_config_dir();
+    gchar *server_address_config_file_path = rpi_get_config_file_path(
+        PROMPT_FILE_NAME_SETTINGS_PLAIN, DEFAULT_SERVER_ADDRESS_PARAMETER_SETTINGS_PLAIN
+    );
 
     if (!server_address_config_file_path)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_PLAIN);
-        g_free((gpointer)username);
         return NULL;
     }
 
-    g_free((gpointer)username);
     FILE *file_server_address_config = fopen(server_address_config_file_path, mode);
 
     if (!file_server_address_config)
@@ -208,23 +214,23 @@ static void rpi_close_address_settings_plain_file(FILE* file_server_address_conf
 
 static FILE* rpi_open_port_settings_plain_file(const gchar* mode)
 {
-    gchar* username = rpi_get_username_settings_user();
-
-    if (!username)
+    if (!mode)
     {
-        return NULL;        
+        g_warning("%s", WARNING_LOG_FAILED_MISSING_MODE_FILE_PORT_SETTINGS_PLAIN);
+        return NULL;
     }
 
-    gchar *server_port_config_file_path = g_strdup_printf(SERVER_PORT_FILE_SETTINGS_PLAIN, username);
+    config_dir_path = rpi_get_config_dir();
+    gchar *server_port_config_file_path = rpi_get_config_file_path(
+        PROMPT_FILE_NAME_SETTINGS_PLAIN, DEFAULT_SERVER_PORT_PARAMETER_SETTINGS_PLAIN
+    );
 
     if (!server_port_config_file_path)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_PLAIN);
-        g_free((gpointer)username);
         return NULL;
     }
 
-    g_free((gpointer)username);
     FILE *file_server_port_config = fopen(server_port_config_file_path, mode);
 
     if (!file_server_port_config)

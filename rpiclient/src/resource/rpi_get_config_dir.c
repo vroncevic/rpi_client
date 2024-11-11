@@ -19,10 +19,27 @@
 #include "rpi_resource.h"
 
 static const gchar* home = "HOME";
-static const gchar* RPI_RESOURCE_CONFIGURATION = "/.rpiclient/rc/config/";
+static const gchar* RPI_RESOURCE_CONFIGURATION = "/.rpiclient/config/";
 
 gchar *rpi_get_config_dir(void)
 {
     const char *home_directory = getenv(home);
-    return home_directory ? g_strjoin(NULL, home_directory, RPI_RESOURCE_CONFIGURATION, NULL) : NULL;
+
+    if (home_directory)
+    {
+        gchar *config_dir = g_strjoin(NULL, home_directory, RPI_RESOURCE_CONFIGURATION, NULL);
+        
+        if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR))
+        {
+            if (g_mkdir_with_parents(config_dir, 0700) != 0)
+            {
+                g_free((gpointer)config_dir);
+                return NULL;
+            }
+        }
+
+        return config_dir;
+    }
+
+    return NULL;
 }

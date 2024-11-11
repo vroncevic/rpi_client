@@ -75,7 +75,7 @@ ImageSlider *new_image_slider(void)
         return NULL;
     }
 
-    const gchar *image = rpi_get_resource_file(FIRST_IMAGE_HELP_IMAGE_SLIDER);
+    const gchar *image = rpi_get_resource_file_path(FIRST_IMAGE_HELP_IMAGE_SLIDER);
 
     if (!image)
     {

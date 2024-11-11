@@ -73,7 +73,7 @@ RPIHome *new_rpi_home(void)
         WIDTH_WINDOW_RPI_HOME,
         HEIGHT_WINDOW_RPI_HOME
     );
-    const gchar *icon = rpi_get_resource_file("icon.png");
+    const gchar *icon = rpi_get_resource_file_path("icon.png");
 
     if (icon)
     {

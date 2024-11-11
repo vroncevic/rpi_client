@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "resource/rpi_resource.h"
 #include "home/rpi_home.h"
 #include "home/rpi_menu.h"

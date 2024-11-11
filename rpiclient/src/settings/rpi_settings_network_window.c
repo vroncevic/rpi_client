@@ -108,7 +108,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
         HEIGHT_SETTINGS_NETWORK_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_SETTINGS_NETWORK_WINDOW);
-    const gchar *icon = rpi_get_resource_file(ICON_SETTINGS_NETWORK_WINDOW);
+    const gchar *icon = rpi_get_resource_file_path(ICON_SETTINGS_NETWORK_WINDOW);
 
     if (icon)
     {
