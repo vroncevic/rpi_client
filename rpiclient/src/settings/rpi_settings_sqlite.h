@@ -60,3 +60,14 @@ gchar* rpi_read_port_number_settings_sqlite(void);
 /// @param port_number is settings configuration for server port number
 /// @return Integer status 0 - success | 1 - failed
 gint rpi_write_port_number_settings_sqlite(const gchar* port_number);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Read no_exit settings configuration from database
+/// @return Exit settings configuration | NULL
+gchar* rpi_read_no_exit_settings_sqlite(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Writes no_exit settings configuration to database
+/// @param no_exit is settings configuration for exit option
+/// @return Integer status 0 - success | 1 - failed
+gint rpi_write_no_exit_settings_sqlite(const gchar* no_exit);

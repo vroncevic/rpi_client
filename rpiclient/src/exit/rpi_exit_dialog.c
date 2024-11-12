@@ -148,6 +148,7 @@ void destroy_exit_dialog(ExitDialog *instance)
             instance->dialog = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

@@ -74,29 +74,31 @@ HelpWindow *new_help_window(void)
         HEIGHT_HELP_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_HELP_WINDOW);
-    const gchar *icon = rpi_get_resource_file_path(ICON_HELP_WINDOW);
+    gchar *icon_file_path = rpi_get_resource_file_path(ICON_HELP_WINDOW);
 
-    if (icon)
+    if (icon_file_path)
     {
-        GdkPixbuf *pixbuf = rpi_cpixbuf(icon);
+        GdkPixbuf *pixbuf = rpi_cpixbuf(icon_file_path);
 
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
             g_object_unref(pixbuf);
+            pixbuf = NULL;
         }
         else
         {
             g_warning("%s", WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW);
+            pixbuf = NULL;
         }
             
-        g_free((gpointer)icon);
-        icon = NULL;
+        g_free(icon_file_path);
+        icon_file_path = NULL;
     }
     else
     {
         g_warning("%s", WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW);
-        icon = NULL;
+        icon_file_path = NULL;
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
@@ -162,6 +164,7 @@ void destroy_help_window(HelpWindow *instance)
             instance->window = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

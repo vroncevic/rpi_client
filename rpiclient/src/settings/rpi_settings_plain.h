@@ -61,3 +61,14 @@ gchar* rpi_read_port_settings_plain_file(void);
 /// @param port_config is server port configuration parameter
 /// @return Integer status 0 - success | 1 - failed
 guint rpi_write_port_settings_plain_file(const gchar* port_config);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Reads exit settings configuration from file
+/// @return Exit settings configuration parameter | NULL
+gchar* rpi_read_exit_settings_plain_file(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Writes exit settings configuration parameter to file
+/// @param exit_config is exit configuration parameter
+/// @return Integer status 0 - success | 1 - failed
+guint rpi_write_exit_settings_plain_file(const gchar* exit_config);

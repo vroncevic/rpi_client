@@ -332,6 +332,7 @@ void destroy_rpi_channel_control(RPIChannelControl *instance)
             instance->control_channel_gpio_check_box = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

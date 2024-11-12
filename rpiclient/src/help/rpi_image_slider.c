@@ -75,26 +75,26 @@ ImageSlider *new_image_slider(void)
         return NULL;
     }
 
-    const gchar *image = rpi_get_resource_file_path(FIRST_IMAGE_HELP_IMAGE_SLIDER);
+    gchar *image_file_path = rpi_get_resource_file_path(FIRST_IMAGE_HELP_IMAGE_SLIDER);
 
-    if (!image)
+    if (!image_file_path)
     {
         g_warning("%s", WARNING_LOG_FAILED_RESOURCE_IMAGE_SLIDER);
         destroy_image_slider(instance);
         return NULL;
     }
 
-    instance->image = gtk_image_new_from_file(image);
+    instance->image = gtk_image_new_from_file(image_file_path);
 
     if (!GTK_IS_IMAGE(instance->image))
     {
         g_warning("%s", WARNING_LOG_FAILED_MALLOC_IMAGE_SLIDER);
-        g_free((gpointer)image);
+        g_free(image_file_path);
         destroy_image_slider(instance);
         return NULL;
     }
 
-    g_free((gpointer)image);
+    g_free(image_file_path);
     gtk_fixed_put(
         GTK_FIXED(instance->fixed),
         GTK_WIDGET(instance->image),
@@ -196,6 +196,7 @@ void destroy_image_slider(ImageSlider *instance)
             instance->button_right = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

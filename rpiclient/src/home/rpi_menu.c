@@ -492,6 +492,7 @@ void destroy_rpi_menu(RPIMenu *instance)
             instance->menu_bar = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

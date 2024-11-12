@@ -61,7 +61,7 @@ AboutDialog *new_about_dialog(void)
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COPYRIGHT_ABOUT_DIALOG);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(instance->dialog), TEXT_COMMENTS_ABOUT_DIALOG);
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(instance->dialog), TEXT_WEBSITE_ABOUT_DIALOG);
-    const gchar *logo_file_path = rpi_get_resource_file_path(LOGO_FILE_NAME_ABOUT_DIALOG);
+    gchar *logo_file_path = rpi_get_resource_file_path(LOGO_FILE_NAME_ABOUT_DIALOG);
 
     if (logo_file_path)
     {
@@ -71,13 +71,15 @@ AboutDialog *new_about_dialog(void)
         {
             gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(instance->dialog), pixbuf);
             g_object_unref(pixbuf);
+            pixbuf = NULL;
         }
         else
         {
             g_warning("%s", WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
+            pixbuf = NULL;
         }
 
-        g_free((gpointer)logo_file_path);
+        g_free(logo_file_path);
         logo_file_path = NULL;
     }
     else
@@ -134,6 +136,7 @@ void destroy_about_dialog(AboutDialog *instance)
             instance->dialog = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

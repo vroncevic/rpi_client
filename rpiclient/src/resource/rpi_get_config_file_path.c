@@ -52,6 +52,7 @@ gchar *rpi_get_config_file_path(const gchar *file_name, const gchar *default_con
         }
 
         g_object_unref(stream);
+        stream = NULL;
     }
 
     return file_path;

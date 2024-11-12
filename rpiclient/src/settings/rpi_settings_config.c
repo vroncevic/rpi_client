@@ -45,11 +45,13 @@ static const gchar* WARNING_LOG_FAILED_MISSING_PARAMETER_SETTINGS_CONFIG = "Miss
 ///   no_prompt - Configuration point for prompt
 ///   ip_address - Configuration point for server ip address
 ///   port_number - Configuration point for server port number
+///   no_exit - Configuration point for exit
 struct _SettingsConfig
 {
     gchar *no_prompt;
     gchar *ip_address;
     gchar *port_number;
+    gchar *no_exit;
 };
 
 SettingsConfig* settings_read(void)
@@ -66,46 +68,54 @@ SettingsConfig* settings_read(void)
     gchar* prompt_config = rpi_read_prompt_settings_plain_file();
     gchar* address_config = rpi_read_address_settings_plain_file();
     gchar* port_config = rpi_read_port_settings_plain_file();
-    gboolean nok_settings = (!prompt_config || !address_config || !port_config);
+    gchar* exit_config = rpi_read_exit_settings_plain_file();
+    gboolean nok_settings = (!prompt_config || !address_config || !port_config || !exit_config);
 
     if (nok_settings)
     {
         g_warning("%s", WARNING_LOG_FAILED_READ_SETTINGS_CONFIG);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)address_config);
-        g_free((gpointer)port_config);
+        g_free(prompt_config);
+        g_free(address_config);
+        g_free(port_config);
+        g_free(exit_config);
         return NULL;
     }
 
     instance->no_prompt = g_strdup(prompt_config);
     instance->ip_address = g_strdup(address_config);
     instance->port_number = g_strdup(port_config);
-    g_free((gpointer)prompt_config);
-    g_free((gpointer)address_config);
-    g_free((gpointer)port_config);
+    instance->no_exit = g_strdup(exit_config);
+    g_free(prompt_config);
+    g_free(address_config);
+    g_free(port_config);
+    g_free(exit_config);
 #endif
 
 #if (USE_SETTINGS_PLAIN_CONFIG == 0) && (USE_SETTINGS_SQLITE3 == 1)
     gchar* prompt_config = rpi_read_no_prompt_settings_sqlite();
     gchar* address_config = rpi_read_ip_address_settings_sqlite();
     gchar* port_config = rpi_read_port_number_settings_sqlite();
-    gboolean nok_settings = (!prompt_config || !address_config || !port_config);
+    gchar* exit_config = rpi_read_no_exit_settings_sqlite();
+    gboolean nok_settings = (!prompt_config || !address_config || !port_config || !exit_config);
 
     if (nok_settings)
     {
         g_warning("%s", WARNING_LOG_FAILED_READ_SETTINGS_CONFIG);
-        g_free((gpointer)prompt_config);
-        g_free((gpointer)address_config);
-        g_free((gpointer)port_config);
+        g_free(prompt_config);
+        g_free(address_config);
+        g_free(port_config);
+        g_free(exit_config);
         return NULL;
     }
 
     instance->no_prompt = g_strdup(prompt_config);
     instance->ip_address = g_strdup(address_config);
     instance->port_number = g_strdup(port_config);
-    g_free((gpointer)prompt_config);
-    g_free((gpointer)address_config);
-    g_free((gpointer)port_config);
+    instance->no_exit = g_strdup(exit_config);
+    g_free(prompt_config);
+    g_free(address_config);
+    g_free(port_config);
+    g_free(exit_config);
 #endif
 
     return instance;
@@ -123,10 +133,12 @@ guint settings_write(const SettingsConfig* instance)
     guint prompt_status = rpi_write_prompt_settings_plain_file(instance->no_prompt);
     guint address_status = rpi_write_address_settings_plain_file(instance->ip_address);
     guint port_status = rpi_write_port_settings_plain_file(instance->port_number);
+    guint exit_status = rpi_write_exit_settings_plain_file(instance->no_exit);
     gboolean nok_write_status = (
         prompt_status == FAILED_SETTINGS_PLAIN ||
         address_status == FAILED_SETTINGS_PLAIN ||
-        port_status == FAILED_SETTINGS_PLAIN
+        port_status == FAILED_SETTINGS_PLAIN ||
+        exit_status == FAILED_SETTINGS_PLAIN
     );
 
     if (nok_write_status)
@@ -140,10 +152,12 @@ guint settings_write(const SettingsConfig* instance)
     guint prompt_status = rpi_write_no_prompt_settings_sqlite(instance->no_prompt);
     guint address_status = rpi_write_ip_address_settings_sqlite(instance->ip_address);
     guint port_status = rpi_write_port_number_settings_sqlite(instance->port_number);
+    guint exit_status = rpi_write_no_exit_settings_sqlite(instance->no_exit);
     gboolean nok_write_status = (
         prompt_status == FAILED_SETTINGS_SQLITE ||
         address_status == FAILED_SETTINGS_SQLITE ||
-        port_status == FAILED_SETTINGS_SQLITE
+        port_status == FAILED_SETTINGS_SQLITE ||
+        exit_status == FAILED_SETTINGS_SQLITE
     );
 
     if (nok_write_status)
@@ -156,6 +170,25 @@ guint settings_write(const SettingsConfig* instance)
     return SUCCESS_IO_SETTINGS_CONFIGURATION;
 }
 
+gboolean is_prompt_enabled_settings(const SettingsConfig* instance)
+{
+    return instance && (g_strstr_len(instance->no_prompt, -1, "true") != NULL) ? TRUE : FALSE;
+}
+
+gchar* get_server_ip_address_from_settings(const SettingsConfig* instance)
+{
+    return instance ? g_strdup(instance->ip_address) : NULL;
+}
+
+gchar* get_server_port_number_from_settings(const SettingsConfig* instance)
+{
+    return instance ? g_strdup(instance->port_number) : NULL;
+}
+
+gboolean is_exit_enabled_settings(const SettingsConfig* instance)
+{
+    return instance && (g_strstr_len(instance->no_exit, -1, "true") != NULL) ? TRUE : FALSE;
+}
 
 void settings_free(SettingsConfig *instance)
 {
@@ -163,22 +196,29 @@ void settings_free(SettingsConfig *instance)
     {
         if (instance->no_prompt)
         {
-            g_free((gpointer)instance->no_prompt);
+            g_free(instance->no_prompt);
             instance->no_prompt = NULL;
         }
 
         if (instance->ip_address)
         {
-            g_free((gpointer)instance->ip_address);
+            g_free(instance->ip_address);
             instance->ip_address = NULL;
         }
 
         if (instance->port_number)
         {
-            g_free((gpointer)instance->port_number);
+            g_free(instance->port_number);
             instance->port_number = NULL;
         }
 
-        g_free((gpointer)instance);
+        if (instance->no_exit)
+        {
+            g_free(instance->no_exit);
+            instance->no_exit = NULL;
+        }
+
+        g_free(instance);
+        instance = NULL;
     }
 }

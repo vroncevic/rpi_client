@@ -33,7 +33,7 @@ gchar *rpi_get_config_dir(void)
         {
             if (g_mkdir_with_parents(config_dir, 0700) != 0)
             {
-                g_free((gpointer)config_dir);
+                g_free(config_dir);
                 return NULL;
             }
         }
