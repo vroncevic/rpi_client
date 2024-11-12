@@ -282,7 +282,6 @@ void destroy_rpi_home_frame(RPIHomeFrame *instance)
         instance->fixed_status = NULL;
         instance->frame_control = NULL;
         instance->fixed_control = NULL;
-
         g_free(instance);
         instance = NULL;
     }

@@ -73,10 +73,7 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
     }
 
     g_signal_connect_swapped(
-        G_OBJECT(instance->dialog),
-        "response",
-        G_CALLBACK(destroy_warning_dialog),
-        instance
+        G_OBJECT(instance->dialog), "response", G_CALLBACK(destroy_warning_dialog), instance
     );
 
     return instance;

@@ -24,7 +24,7 @@ typedef struct _AboutDialog AboutDialog;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget about dialog
-/// @return About dialog complex widget pointer
+/// @return About dialog complex widget pointer | NULL
 AboutDialog *new_about_dialog(void);
 
 //////////////////////////////////////////////////////////////////////////////

@@ -34,7 +34,7 @@ typedef struct _SettingsConfig SettingsConfig;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Read configuration from files
-/// @return Settings configuration structure pointer
+/// @return Settings configuration structure pointer | NULL
 SettingsConfig* settings_read(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -46,25 +46,25 @@ guint settings_write(const SettingsConfig* instance);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets prompt from settings file
 /// @param instance is pointer to settings configuration to be written
-/// @return Boolean statis is prompt enabled
+/// @return Boolean status is prompt enabled
 gboolean is_prompt_enabled_settings(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets server ip address from settings file
 /// @param instance is pointer to settings configuration to be written
-/// @return IP server address in string format
+/// @return IP server address in string format | NULL
 gchar* get_server_ip_address_from_settings(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets server port number from settings file
 /// @param instance is pointer to settings configuration to be written
-/// @return Port number of server in string format
+/// @return Port number of server in string format | NULL
 gchar* get_server_port_number_from_settings(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets exit from settings file
 /// @param instance is pointer to settings configuration to be written
-/// @return Boolean statis is exit enabled
+/// @return Boolean status is exit enabled
 gboolean is_exit_enabled_settings(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////

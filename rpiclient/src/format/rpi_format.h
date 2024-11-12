@@ -45,14 +45,14 @@ gchar* channel_operation(const gchar* channel_operation, guint channel_id);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Encrypt input data sequence
-/// @param in is pointer to input data sequence for encrpt operation
+/// @param in is pointer to input data sequence for encrypt operation
 /// @param shift is shift value
-/// @return encrypted data sequence
+/// @return encrypted data sequence | NULL
 gchar* rpi_format_encrypt(const gchar* in, guint shift);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Decrypt input data sequence
-/// @param in is pointer to input data sequence for decrpt operation
+/// @param in is pointer to input data sequence for decrypt operation
 /// @param shift is shift value
-/// @return decrypted data sequence
+/// @return decrypted data sequence | NULL
 gchar* rpi_format_decrypt(const gchar* in, guint shift);

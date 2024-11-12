@@ -26,7 +26,7 @@ typedef struct _RPIMenu RPIMenu;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget RPI menu bar
-/// @return RPI menu bar complex widget pointer
+/// @return RPI menu bar complex widget pointer | NULL
 RPIMenu *new_rpi_menu(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -42,49 +42,49 @@ void hide_rpi_menu(RPIMenu *instance);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets menu bar from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return Menu bar widget from RPI menu bar complex widget
+/// @return Menu bar widget from RPI menu bar complex widget | NULL
 GtkWidget* get_menu_bar_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets exit item from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return Exit item from RPI menu bar complex widget
+/// @return Exit item from RPI menu bar complex widget | NULL
 GtkWidget* get_exit_item_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets connect item from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return Connect item from RPI menu bar complex widget
+/// @return Connect item from RPI menu bar complex widget | NULL
 GtkWidget* get_connect_item_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets disconnect item from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return Disconnect item from RPI menu bar complex widget
+/// @return Disconnect item from RPI menu bar complex widget | NULL
 GtkWidget* get_disconnect_item_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets general settings item from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return General settings item from RPI menu bar complex widget
+/// @return General settings item from RPI menu bar complex widget | NULL
 GtkWidget* get_general_item_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets network settings item from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return Network settings item from RPI menu bar complex widget
+/// @return Network settings item from RPI menu bar complex widget | NULL
 GtkWidget* get_network_item_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets help item from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return Help item from RPI menu bar complex widget
+/// @return Help item from RPI menu bar complex widget | NULL
 GtkWidget* get_help_item_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets about item from RPI menu bar complex widget
 /// @param instance is pointer to complex widget RPI menu bar
-/// @return About item from RPI menu bar complex widget
+/// @return About item from RPI menu bar complex widget | NULL
 GtkWidget* get_about_item_from_rpi_menu(RPIMenu *instance);
 
 //////////////////////////////////////////////////////////////////////////////

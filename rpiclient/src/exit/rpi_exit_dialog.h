@@ -29,13 +29,14 @@ typedef struct _ExitDialog ExitDialog;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget exit dialog
-/// @param widget is parent widget
-/// @return Exit dialog complex widget pointer
+/// @param widget is parent widget (another window | dialog)
+/// @return Exit dialog complex widget pointer | NULL
 ExitDialog *new_exit_dialog(GtkWidget *widget);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Show exit dialog complex widget
 /// @param instance is pointer to complex widget exit dialog
+/// @return Integer status 0 - close | 1 - not close
 gint show_exit_dialog(ExitDialog *instance);
 
 //////////////////////////////////////////////////////////////////////////////

@@ -113,9 +113,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
     gtk_window_set_default_size(
-        GTK_WINDOW(instance->window),
-        WIDTH_SETTINGS_NETWORK_WINDOW,
-        HEIGHT_SETTINGS_NETWORK_WINDOW
+        GTK_WINDOW(instance->window), WIDTH_SETTINGS_NETWORK_WINDOW, HEIGHT_SETTINGS_NETWORK_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_SETTINGS_NETWORK_WINDOW);
     gchar *icon_file_path = rpi_get_resource_file_path(ICON_SETTINGS_NETWORK_WINDOW);
@@ -147,8 +145,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(
-        GTK_CONTAINER(instance->window),
-        CONTAINER_BORDER_WIDTH_SETTINGS_NETWORK_WINDOW
+        GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_SETTINGS_NETWORK_WINDOW
     );
     instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING_VBOX_SETTINGS_NETWORK_WINDOW);
 
@@ -199,8 +196,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gboolean is_prompt_enabled = is_prompt_enabled_settings(instance->settings);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_prompt), is_prompt_enabled);
     gtk_container_add(
-        GTK_CONTAINER(instance->frame_control_prompt),
-        GTK_WIDGET(instance->check_button_control_prompt)
+        GTK_CONTAINER(instance->frame_control_prompt), GTK_WIDGET(instance->check_button_control_prompt)
     );
     instance->frame_entry_address = gtk_frame_new(TEXT_FRAME_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW);
 
@@ -222,8 +218,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
     }
 
     gtk_entry_set_max_length(
-        GTK_ENTRY(instance->entry_address),
-        MAX_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW
+        GTK_ENTRY(instance->entry_address), MAX_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW
     );
     gint len_address = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_address)), -1);
     instance->cur_pos_address = len_address;
@@ -269,8 +264,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
     }
 
     gtk_entry_set_max_length(
-        GTK_ENTRY(instance->entry_port),
-        MAX_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW
+        GTK_ENTRY(instance->entry_port), MAX_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW
     );
     gint len_port = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_port)), -1);
     instance->cur_pos_port = len_port;
@@ -341,10 +335,7 @@ SettingsNetworkWindow *new_settings_network_window(void)
     gtk_container_add(GTK_CONTAINER(instance->hbox), GTK_WIDGET(instance->button_cancel));
     gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->hbox), FALSE, FALSE, 0);
     g_signal_connect_swapped(
-        G_OBJECT(instance->window),
-        "delete-event",
-        G_CALLBACK(destroy_settings_network_window),
-        instance
+        G_OBJECT(instance->window), "delete-event", G_CALLBACK(destroy_settings_network_window), instance
     );
 
     return instance;

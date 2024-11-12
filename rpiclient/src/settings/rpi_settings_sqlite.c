@@ -58,7 +58,7 @@ static void rpi_settings_sqlite_open(const gchar* db_name)
 
     if (status != SQLITE_OK)
     {
-        g_warning("%s", sqlite3_errmsg(db));
+        g_warning("%s\n", sqlite3_errmsg(db));
     }
 }
 

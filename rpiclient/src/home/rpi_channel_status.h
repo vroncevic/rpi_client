@@ -27,7 +27,7 @@ typedef struct _RPIChannelStatus RPIChannelStatus;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget channel status
-/// @return Channel status complex widget pointer
+/// @return Channel status complex widget pointer | NULL
 RPIChannelStatus *new_rpi_channel_status(gint channel_id);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -43,19 +43,19 @@ void hide_rpi_channel_status(RPIChannelStatus *instance);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets check box from channel status complex widget
 /// @param instance is pointer to complex widget channel status
-/// @return Check box from complex widget channel status
+/// @return Check box from complex widget channel status | NULL
 GtkWidget* get_check_box_from_rpi_channel_status(RPIChannelStatus *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets label from channel status complex widget
 /// @param instance is pointer to complex widget channel status
-/// @return Label from complex widget channel status
+/// @return Label from complex widget channel status | NULL
 GtkWidget* get_label_from_rpi_channel_status(RPIChannelStatus *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets vertical bar from channel status complex widget
 /// @param instance is pointer to complex widget channel status
-/// @return Bar from complex widget channel status
+/// @return Bar from complex widget channel status | NULL
 GtkVB* get_vertical_bar_from_rpi_channel_status(RPIChannelStatus *instance);
 
 //////////////////////////////////////////////////////////////////////////////

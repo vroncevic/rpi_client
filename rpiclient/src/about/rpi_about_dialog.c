@@ -89,10 +89,7 @@ AboutDialog *new_about_dialog(void)
     }
 
     g_signal_connect_swapped(
-        G_OBJECT(instance->dialog),
-        "response",
-        G_CALLBACK(destroy_about_dialog),
-        instance
+        G_OBJECT(instance->dialog), "response", G_CALLBACK(destroy_about_dialog), instance
     );
 
     return instance;

@@ -256,7 +256,7 @@ void hide_rpi_menu(RPIMenu *instance)
     if (instance)
     {
         gboolean is_rpi_menu = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_rpi_menu_visible = !gtk_widget_get_visible(GTK_WIDGET(instance->menu_bar));
+        gboolean is_rpi_menu_visible = gtk_widget_get_visible(GTK_WIDGET(instance->menu_bar));
 
         if (is_rpi_menu && is_rpi_menu_visible)
         {

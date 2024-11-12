@@ -22,5 +22,5 @@
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets username from passwd database
-/// @return Username from passwd database
+/// @return Username from passwd database | NULL
 gchar* rpi_get_username_settings_user(void);
