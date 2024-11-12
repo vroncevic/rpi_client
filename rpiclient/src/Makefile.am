@@ -38,12 +38,12 @@ AM_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(SQLITE3_CFLAGS)
 
-# LD flags
+# Linker flags for building executable (symbols are accessible for dynamic linking)
 rpiclient_LDFLAGS = \
 	-Wl, \
 	-export-dynamic
 
-# Libraries
+# Additional libraries to link
 rpiclient_LDADD = \
 	$(GTK_LIBS) \
 	$(SQLITE3_LIBS)

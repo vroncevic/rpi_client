@@ -30,7 +30,8 @@ gchar *rpi_get_resource_dir(void)
         return image_dir;
     }
 
-    g_free((gpointer)image_dir);
+    g_free(image_dir);
+    image_dir = NULL;
     gchar *image_dir_prefix = g_strdup(RPI_RESOURCE_PATH_WITH_PREFIX);
 
     if (g_file_test(image_dir_prefix, G_FILE_TEST_IS_DIR))
@@ -38,6 +39,7 @@ gchar *rpi_get_resource_dir(void)
         return image_dir_prefix;
     }
 
-    g_free((gpointer)image_dir_prefix);
+    g_free(image_dir_prefix);
+    image_dir_prefix = NULL;
     return NULL;    
 }

@@ -17,6 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../resource/rpi_resource.h"
+#include "rpi_settings_config.h"
 #include "rpi_settings_general_window.h"
 
 static const gchar* TITLE_SETTINGS_GENERAL_WINDOW = "Settings General";
@@ -48,6 +49,7 @@ static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW = "Faile
 ///   hbox - Gtk widget for horizontal alignment
 ///   button_ok - Gtk widget for ok action
 ///   button_cancel - Gtk widget for cancel action
+///   settings - Custom structure for keeping settings
 struct _SettingsGeneralWindow
 {
     GtkWidget *window;
@@ -58,6 +60,7 @@ struct _SettingsGeneralWindow
     GtkWidget *hbox;
     GtkWidget *button_ok;
     GtkWidget *button_cancel;
+    SettingsConfig* settings;
 };
 
 SettingsGeneralWindow *new_settings_general_window(void)
@@ -67,6 +70,15 @@ SettingsGeneralWindow *new_settings_general_window(void)
     if (!instance)
     {
         g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        return NULL;
+    }
+
+    instance->settings = settings_read();
+
+    if (!instance->settings)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        destroy_settings_general_window(instance);
         return NULL;
     }
 
@@ -86,29 +98,31 @@ SettingsGeneralWindow *new_settings_general_window(void)
         HEIGHT_SETTINGS_GENERAL_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_SETTINGS_GENERAL_WINDOW);
-    const gchar *icon = rpi_get_resource_file_path(ICON_SETTINGS_GENERAL_WINDOW);
+    gchar *icon_file_path = rpi_get_resource_file_path(ICON_SETTINGS_GENERAL_WINDOW);
 
-    if (icon)
+    if (icon_file_path)
     {
-        GdkPixbuf *pixbuf = rpi_cpixbuf(icon);
+        GdkPixbuf *pixbuf = rpi_cpixbuf(icon_file_path);
 
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
             g_object_unref(pixbuf);
+            pixbuf = NULL;
         }
         else
         {
             g_warning("%s", WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW);
+            pixbuf = NULL;
         }
 
-        g_free((gpointer)icon);
-        icon = NULL;
+        g_free(icon_file_path);
+        icon_file_path = NULL;
     }
     else
     {
         g_warning("%s", WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW);
-        icon = NULL;
+        icon_file_path = NULL;
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
@@ -164,7 +178,8 @@ SettingsGeneralWindow *new_settings_general_window(void)
         return NULL;
     }
 
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_exit), TRUE);
+    gboolean is_exit_enabled = is_exit_enabled_settings(instance->settings);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_exit), is_exit_enabled);
     gtk_container_add(
         GTK_CONTAINER(instance->frame_control_exit),
         GTK_WIDGET(instance->check_button_control_exit)
@@ -256,17 +271,25 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
 {
     if (instance)
     {
+        if (instance->settings)
+        {
+            settings_free(instance->settings);
+            instance->settings = NULL;
+        }
+
         if (GTK_IS_WINDOW(instance->window))
         {
             gtk_widget_destroy(GTK_WIDGET(instance->window));
-            instance->button_cancel = NULL;
-            instance->button_ok = NULL;
-            instance->hbox = NULL;
-            instance->check_button_control_exit = NULL;
-            instance->frame_control_exit = NULL;
-            instance->table = NULL;
+            instance->window = NULL;
         }
 
-        g_free((gpointer)instance);
+        instance->button_cancel = NULL;
+        instance->button_ok = NULL;
+        instance->hbox = NULL;
+        instance->check_button_control_exit = NULL;
+        instance->frame_control_exit = NULL;
+        instance->table = NULL;
+        g_free(instance);
+        instance = NULL;
     }
 }

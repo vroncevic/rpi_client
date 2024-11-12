@@ -210,6 +210,7 @@ void destroy_rpi_channel_status(RPIChannelStatus *instance)
             instance->status_channel_vertical_bar = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

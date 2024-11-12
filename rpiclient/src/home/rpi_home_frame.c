@@ -259,6 +259,31 @@ void destroy_rpi_home_frame(RPIHomeFrame *instance)
             instance->frame_home = NULL;
         }
 
-        g_free((gpointer)instance);
+        for (guint i = 0; i < MAX_CHANNELS_CONTROL_HOME_FRAME; i++)
+        {
+            if (instance->channels_control[i])
+            {
+                destroy_rpi_channel_control(instance->channels_control[i]);
+                instance->channels_control[i] = NULL;
+            }
+        }
+
+        for (guint i = 0; i < MAX_CHANNELS_STATUS_HOME_FRAME; i++)
+        {
+            if (instance->channels_status[i])
+            {
+                destroy_rpi_channel_status(instance->channels_status[i]);
+                instance->channels_status[i] = NULL;
+            }
+        }
+
+        instance->vpaned = NULL;
+        instance->frame_status = NULL;
+        instance->fixed_status = NULL;
+        instance->frame_control = NULL;
+        instance->fixed_control = NULL;
+
+        g_free(instance);
+        instance = NULL;
     }
 }

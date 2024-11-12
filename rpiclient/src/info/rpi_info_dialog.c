@@ -122,6 +122,7 @@ void destroy_info_dialog(InfoDialog *instance)
             instance->dialog = NULL;
         }
 
-        g_free((gpointer)instance);
+        g_free(instance);
+        instance = NULL;
     }
 }

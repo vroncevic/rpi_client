@@ -29,7 +29,8 @@ gchar *rpi_get_resource_file_path(const gchar *file_name)
 
     if (!g_file_test(file_path, G_FILE_TEST_EXISTS))
     {
-        g_free((gpointer)file_path);
+        g_free(file_path);
+        file_path = NULL;
         return NULL;
     }
 

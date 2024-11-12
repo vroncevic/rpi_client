@@ -17,6 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../resource/rpi_resource.h"
+#include "rpi_settings_config.h"
 #include "rpi_settings_network_window.h"
 
 static const gchar* TITLE_SETTINGS_NETWORK_WINDOW = "Settings Network";
@@ -31,12 +32,10 @@ static const gchar* TEXT_FRAME_CONTORL_PROMPT_SETTINGS_NETWORK_WINDOW = "Prompt 
 static const gchar* TEXT_CHECK_BUTTON_CONTROL_PROMPT_SETTINGS_NETWORK_WINDOW = "Enable prompt to be visible?";
 static const gchar* TEXT_FRAME_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = "Server IP Address";
 static const gint MAX_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = 50;
-static const gchar* TEXT_EXAMPLE_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = " exm: 192.168.1.100";
 static const gint NEW_TEXT_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = (-1);
 static const gint START_POSITION_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW = 0;
 static const gchar* TEXT_FRAME_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = "Server Port Number";
 static const gint MAX_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = 50;
-static const gchar* TEXT_EXAMPLE_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = " exm: 8888";
 static const gint NEW_TEXT_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = (-1);
 static const gint START_POSITION_ENTRY_PORT_SETTINGS_NETWORK_WINDOW = 0;
 static const gchar* TEXT_BUTTON_OK_HBOX_SETTINGS_NETWORK_WINDOW = "OK";
@@ -64,6 +63,7 @@ static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW = "Faile
 ///   hbox - Gtk widget for horizontal alignment
 ///   button_ok - Gtk widget for ok action
 ///   button_cancel - Gtk widget for cancel action
+///   settings - Custom structure for keeping settings
 struct _SettingsNetworkWindow
 {
     GtkWidget *window;
@@ -80,6 +80,7 @@ struct _SettingsNetworkWindow
     GtkWidget *hbox;
     GtkWidget *button_ok;
     GtkWidget *button_cancel;
+    SettingsConfig* settings;
 };
 
 SettingsNetworkWindow *new_settings_network_window(void)
@@ -89,6 +90,15 @@ SettingsNetworkWindow *new_settings_network_window(void)
     if (!instance)
     {
         g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        return NULL;
+    }
+
+    instance->settings = settings_read();
+
+    if (!instance->settings)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        destroy_settings_network_window(instance);
         return NULL;
     }
 
@@ -108,29 +118,31 @@ SettingsNetworkWindow *new_settings_network_window(void)
         HEIGHT_SETTINGS_NETWORK_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_SETTINGS_NETWORK_WINDOW);
-    const gchar *icon = rpi_get_resource_file_path(ICON_SETTINGS_NETWORK_WINDOW);
+    gchar *icon_file_path = rpi_get_resource_file_path(ICON_SETTINGS_NETWORK_WINDOW);
 
-    if (icon)
+    if (icon_file_path)
     {
-        GdkPixbuf *pixbuf = rpi_cpixbuf(icon);
+        GdkPixbuf *pixbuf = rpi_cpixbuf(icon_file_path);
 
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
             g_object_unref(pixbuf);
+            pixbuf = NULL;
         }
         else
         {
             g_warning("%s", WARNING_LOG_FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW);
+            pixbuf = NULL;
         }
 
-        g_free((gpointer)icon);
-        icon = NULL;
+        g_free(icon_file_path);
+        icon_file_path = NULL;
     }
     else
     {
         g_warning("%s", WARNING_LOG_FAILED_RESOURCE_SETTINGS_NETWORK_WINDOW);
-        icon = NULL;
+        icon_file_path = NULL;
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
@@ -184,7 +196,8 @@ SettingsNetworkWindow *new_settings_network_window(void)
         return NULL;
     }
 
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_prompt), TRUE);
+    gboolean is_prompt_enabled = is_prompt_enabled_settings(instance->settings);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_prompt), is_prompt_enabled);
     gtk_container_add(
         GTK_CONTAINER(instance->frame_control_prompt),
         GTK_WIDGET(instance->check_button_control_prompt)
@@ -214,12 +227,22 @@ SettingsNetworkWindow *new_settings_network_window(void)
     );
     gint len_address = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_address)), -1);
     instance->cur_pos_address = len_address;
+    gchar* ip_address_server = get_server_ip_address_from_settings(instance->settings);
+
+    if (!ip_address_server)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        destroy_settings_network_window(instance);
+        return NULL;
+    }
+
     gtk_editable_insert_text(
         GTK_EDITABLE(instance->entry_address),
-        TEXT_EXAMPLE_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW,
+        ip_address_server,
         NEW_TEXT_LENGTH_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW,
         &(instance->cur_pos_address)
     );
+    g_free(ip_address_server);
     gtk_editable_select_region(
         GTK_EDITABLE(instance->entry_address),
         START_POSITION_ENTRY_ADDRESS_SETTINGS_NETWORK_WINDOW,
@@ -251,12 +274,22 @@ SettingsNetworkWindow *new_settings_network_window(void)
     );
     gint len_port = g_utf8_strlen(gtk_entry_get_text(GTK_ENTRY(instance->entry_port)), -1);
     instance->cur_pos_port = len_port;
+    gchar* port_number_server = get_server_port_number_from_settings(instance->settings);
+
+    if (!port_number_server)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_NETWORK_WINDOW);
+        destroy_settings_network_window(instance);
+        return NULL;
+    }
+
     gtk_editable_insert_text(
         GTK_EDITABLE(instance->entry_port),
-        TEXT_EXAMPLE_ENTRY_PORT_SETTINGS_NETWORK_WINDOW,
+        port_number_server,
         NEW_TEXT_LENGTH_ENTRY_PORT_SETTINGS_NETWORK_WINDOW,
         &(instance->cur_pos_port)
     );
+    g_free(port_number_server);
     gtk_editable_select_region(
         GTK_EDITABLE(instance->entry_port),
         START_POSITION_ENTRY_PORT_SETTINGS_NETWORK_WINDOW,
@@ -349,21 +382,29 @@ void destroy_settings_network_window(SettingsNetworkWindow *instance)
 {
     if (instance)
     {
+        if (instance->settings)
+        {
+            settings_free(instance->settings);
+            instance->settings = NULL;
+        }
+
         if (GTK_IS_WINDOW(instance->window))
         {
             gtk_widget_destroy(GTK_WIDGET(instance->window));
-            instance->button_cancel = NULL;
-            instance->button_ok = NULL;
-            instance->hbox = NULL;
-            instance->check_button_control_prompt = NULL;
-            instance->entry_address = NULL;
-            instance->entry_port = NULL;
-            instance->frame_control_prompt = NULL;
-            instance->frame_entry_address = NULL;
-            instance->frame_entry_port = NULL;
-            instance->table = NULL;
+            instance->window = NULL;
         }
 
-        g_free((gpointer)instance);
+        instance->button_cancel = NULL;
+        instance->button_ok = NULL;
+        instance->hbox = NULL;
+        instance->check_button_control_prompt = NULL;
+        instance->entry_address = NULL;
+        instance->entry_port = NULL;
+        instance->frame_control_prompt = NULL;
+        instance->frame_entry_address = NULL;
+        instance->frame_entry_port = NULL;
+        instance->table = NULL;
+        g_free(instance);
+        instance = NULL;
     }
 }

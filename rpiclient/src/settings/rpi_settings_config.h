@@ -33,15 +33,39 @@
 typedef struct _SettingsConfig SettingsConfig;
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Write settings configuration to file
-/// @param instance is pointer to settings configuration to be written
-/// @return Integer status
-guint settings_write(const SettingsConfig* instance);
-
-//////////////////////////////////////////////////////////////////////////////
 /// @brief Read configuration from files
 /// @return Settings configuration structure pointer
 SettingsConfig* settings_read(void);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Write settings configuration to file
+/// @param instance is pointer to settings configuration to be written
+/// @return Integer status 0 - success | 1 - failed
+guint settings_write(const SettingsConfig* instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets prompt from settings file
+/// @param instance is pointer to settings configuration to be written
+/// @return Boolean statis is prompt enabled
+gboolean is_prompt_enabled_settings(const SettingsConfig* instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets server ip address from settings file
+/// @param instance is pointer to settings configuration to be written
+/// @return IP server address in string format
+gchar* get_server_ip_address_from_settings(const SettingsConfig* instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets server port number from settings file
+/// @param instance is pointer to settings configuration to be written
+/// @return Port number of server in string format
+gchar* get_server_port_number_from_settings(const SettingsConfig* instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Gets exit from settings file
+/// @param instance is pointer to settings configuration to be written
+/// @return Boolean statis is exit enabled
+gboolean is_exit_enabled_settings(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Free settings configuration memory

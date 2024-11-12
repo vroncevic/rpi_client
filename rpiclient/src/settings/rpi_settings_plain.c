@@ -23,7 +23,9 @@
 static const gchar* PROMPT_FILE_NAME_SETTINGS_PLAIN = "prompt.config";
 static const gchar* SERVER_ADDRESS_FILE_NAME_SETTINGS_PLAIN = "server_address.config";
 static const gchar* SERVER_PORT_FILE_NAME_SETTINGS_PLAIN = "server_port.config";
+static const gchar* EXIT_FILE_NAME_SETTINGS_PLAIN = "exit.config";
 static const gchar* DEFAULT_PROMPT_PARAMETER_SETTINGS_PLAIN = "false";
+static const gchar* DEFAULT_EXIT_PARAMETER_SETTINGS_PLAIN = "true";
 static const gchar* DEFAULT_SERVER_ADDRESS_PARAMETER_SETTINGS_PLAIN = "192.168.1.100";
 static const gchar* DEFAULT_SERVER_PORT_PARAMETER_SETTINGS_PLAIN = "8888";
 static const gchar* READ_MODE_SETTINGS_PLAIN = "rb";
@@ -32,14 +34,26 @@ static const gchar* WARNING_LOG_FAILED_MISSING_MODE_FILE_PROMPT_SETTINGS_PLAIN =
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_SETTINGS_PLAIN = "Failed to get prompt config file path.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_PLAIN = "Failed to open prompt config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_READ_SETTINGS_PLAIN = "Failed to read prompt config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_WRITE_SETTINGS_PLAIN = "Failed to write prompt config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_CLOSE_SETTINGS_PLAIN = "Failed to close prompt config file.\n";
 static const gchar* WARNING_LOG_FAILED_MISSING_MODE_FILE_ADDRESS_SETTINGS_PLAIN = "Missing mode for address config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_SETTINGS_PLAIN = "Failed to get server address config file pat.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_PLAIN = "Failed to open server address config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_READ_SETTINGS_PLAIN = "Failed to read server address config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_WRITE_SETTINGS_PLAIN = "Failed to write server address config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_CLOSE_SETTINGS_PLAIN = "Failed to close server address config file.\n";
 static const gchar* WARNING_LOG_FAILED_MISSING_MODE_FILE_PORT_SETTINGS_PLAIN = "Missing mode for port config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_SETTINGS_PLAIN = "Failed to get server port config file path.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_PLAIN = "Failed to open server port config file.\n";
 static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_READ_SETTINGS_PLAIN = "Failed to read server port config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_WRITE_SETTINGS_PLAIN = "Failed to write server port config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_CLOSE_SETTINGS_PLAIN = "Failed to close server port config file.\n";
+static const gchar* WARNING_LOG_FAILED_MISSING_MODE_FILE_EXIT_SETTINGS_PLAIN = "Missing mode for exit config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_SETTINGS_PLAIN = "Failed to get exit config file path.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_OPEN_SETTINGS_PLAIN = "Failed to open exit config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_READ_SETTINGS_PLAIN = "Failed to read exit config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_WRITE_SETTINGS_PLAIN = "Failed to write exit config file.\n";
+static const gchar* WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_CLOSE_SETTINGS_PLAIN = "Failed to close exit config file.\n";
 
 static FILE* rpi_open_prompt_settings_plain_file(const gchar* mode);
 static void rpi_close_prompt_settings_plain_file(FILE* prompt_config_file);
@@ -47,6 +61,8 @@ static FILE* rpi_open_address_settings_plain_file(const gchar* mode);
 static void rpi_close_address_settings_plain_file(FILE* file_server_address_config);
 static FILE* rpi_open_port_settings_plain_file(const gchar* mode);
 static void rpi_close_port_settings_plain_file(FILE* file_server_port_config);
+static FILE* rpi_open_exit_settings_plain_file(const gchar* mode);
+static void rpi_close_exit_settings_plain_file(FILE* file_exit_config);
 
 static FILE* rpi_open_prompt_settings_plain_file(const gchar* mode)
 {
@@ -72,11 +88,11 @@ static FILE* rpi_open_prompt_settings_plain_file(const gchar* mode)
     if (!file_prompt_config)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_OPEN_SETTINGS_PLAIN);
-        g_free((gpointer)prompt_config_file_path);
+        g_free(prompt_config_file_path);
         return NULL;
     }
 
-    g_free((gpointer)prompt_config_file_path);
+    g_free(prompt_config_file_path);
     return file_prompt_config;
 }
 
@@ -89,10 +105,18 @@ gchar* rpi_read_prompt_settings_plain_file(void)
     {
         prompt_config = g_malloc(17 * sizeof(gchar));
 
+        if (!prompt_config)
+        {
+            g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_READ_SETTINGS_PLAIN);
+            rpi_close_prompt_settings_plain_file(prompt_config_file);
+            return NULL;
+        }
+
         if (fscanf(prompt_config_file, "%16s", prompt_config) != 1)
         {
             g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_READ_SETTINGS_PLAIN);
-            g_free((gpointer)prompt_config);
+            g_free(prompt_config);
+            rpi_close_prompt_settings_plain_file(prompt_config_file);
             return NULL;
         }
 
@@ -116,6 +140,7 @@ guint rpi_write_prompt_settings_plain_file(const gchar* prompt_config)
 
     if (status_put < 0 || status_flash < 0)
     {
+        g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_WRITE_SETTINGS_PLAIN);
         rpi_close_prompt_settings_plain_file(prompt_config_file);
         return FAILED_SETTINGS_PLAIN;
     }
@@ -128,7 +153,12 @@ static void rpi_close_prompt_settings_plain_file(FILE* file_prompt_config)
 {
     if (file_prompt_config)
     {
-        fclose(file_prompt_config);
+        gint status = fclose(file_prompt_config);
+
+        if (status < 0)
+        {
+            g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_PROMPT_CLOSE_SETTINGS_PLAIN);
+        }
     }
 }
 
@@ -142,7 +172,7 @@ static FILE* rpi_open_address_settings_plain_file(const gchar* mode)
 
     config_dir_path = rpi_get_config_dir();
     gchar *server_address_config_file_path = rpi_get_config_file_path(
-        PROMPT_FILE_NAME_SETTINGS_PLAIN, DEFAULT_SERVER_ADDRESS_PARAMETER_SETTINGS_PLAIN
+        SERVER_ADDRESS_FILE_NAME_SETTINGS_PLAIN, DEFAULT_SERVER_ADDRESS_PARAMETER_SETTINGS_PLAIN
     );
 
     if (!server_address_config_file_path)
@@ -156,11 +186,11 @@ static FILE* rpi_open_address_settings_plain_file(const gchar* mode)
     if (!file_server_address_config)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_OPEN_SETTINGS_PLAIN);
-        g_free((gpointer)server_address_config_file_path);
+        g_free(server_address_config_file_path);
         return NULL;
     }
 
-    g_free((gpointer)server_address_config_file_path);
+    g_free(server_address_config_file_path);
     return file_server_address_config;
 }
 
@@ -170,10 +200,18 @@ gchar* rpi_read_address_settings_plain_file(void)
 
     gchar* address_config = g_malloc(17 * sizeof(gchar));
 
+    if (!address_config)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_READ_SETTINGS_PLAIN);
+        rpi_close_address_settings_plain_file(file_server_address_config);
+        return NULL;
+    }
+
     if (fscanf(file_server_address_config, "%16s", address_config) != 1)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_READ_SETTINGS_PLAIN);
-        g_free((gpointer)address_config);
+        g_free(address_config);
+        rpi_close_address_settings_plain_file(file_server_address_config);
         return NULL;
     }
 
@@ -196,6 +234,7 @@ guint rpi_write_address_settings_plain_file(const gchar* address_config)
 
     if (status_put < 0 || status_flash < 0)
     {
+        g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_WRITE_SETTINGS_PLAIN);
         rpi_close_address_settings_plain_file(file_server_address_config);
         return FAILED_SETTINGS_PLAIN;
     }
@@ -208,7 +247,12 @@ static void rpi_close_address_settings_plain_file(FILE* file_server_address_conf
 {
     if (file_server_address_config)
     {
-        fclose(file_server_address_config);
+        gint status = fclose(file_server_address_config);
+
+        if (status < 0)
+        {
+            g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_ADDRESS_CLOSE_SETTINGS_PLAIN);
+        }
     }
 }
 
@@ -222,7 +266,7 @@ static FILE* rpi_open_port_settings_plain_file(const gchar* mode)
 
     config_dir_path = rpi_get_config_dir();
     gchar *server_port_config_file_path = rpi_get_config_file_path(
-        PROMPT_FILE_NAME_SETTINGS_PLAIN, DEFAULT_SERVER_PORT_PARAMETER_SETTINGS_PLAIN
+        SERVER_PORT_FILE_NAME_SETTINGS_PLAIN, DEFAULT_SERVER_PORT_PARAMETER_SETTINGS_PLAIN
     );
 
     if (!server_port_config_file_path)
@@ -236,11 +280,11 @@ static FILE* rpi_open_port_settings_plain_file(const gchar* mode)
     if (!file_server_port_config)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_OPEN_SETTINGS_PLAIN);
-        g_free((gpointer)server_port_config_file_path);
+        g_free(server_port_config_file_path);
         return NULL;
     }
 
-    g_free((gpointer)server_port_config_file_path);
+    g_free(server_port_config_file_path);
     return file_server_port_config;
 }
 
@@ -250,10 +294,18 @@ gchar* rpi_read_port_settings_plain_file(void)
 
     gchar* port_config = g_malloc(17 * sizeof(gchar));
 
+    if (!port_config)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_READ_SETTINGS_PLAIN);
+        rpi_close_port_settings_plain_file(file_server_port_config);
+        return NULL;
+    }
+
     if (fscanf(file_server_port_config, "%16s", port_config) != 1)
     {
         g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_READ_SETTINGS_PLAIN);
-        g_free((gpointer)port_config);
+        g_free(port_config);
+        rpi_close_port_settings_plain_file(file_server_port_config);
         return NULL;
     }
 
@@ -276,6 +328,7 @@ guint rpi_write_port_settings_plain_file(const gchar* port_config)
 
     if (status_put < 0 || status_flash < 0)
     {
+        g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_WRITE_SETTINGS_PLAIN);
         rpi_close_port_settings_plain_file(file_server_port_config);
         return FAILED_SETTINGS_PLAIN;
     }
@@ -288,6 +341,109 @@ static void rpi_close_port_settings_plain_file(FILE* file_server_port_config)
 {
     if (file_server_port_config)
     {
-        fclose(file_server_port_config);
+        gint status = fclose(file_server_port_config);
+
+        if (status < 0)
+        {
+            g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_PORT_CLOSE_SETTINGS_PLAIN);
+        }
+    }
+}
+
+static FILE* rpi_open_exit_settings_plain_file(const gchar* mode)
+{
+    if (!mode)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_MISSING_MODE_FILE_EXIT_SETTINGS_PLAIN);
+        return NULL;
+    }
+
+    config_dir_path = rpi_get_config_dir();
+    gchar *exit_config_file_path = rpi_get_config_file_path(
+        EXIT_FILE_NAME_SETTINGS_PLAIN, DEFAULT_EXIT_PARAMETER_SETTINGS_PLAIN
+    );
+
+    if (!exit_config_file_path)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_SETTINGS_PLAIN);
+        return NULL;
+    }
+
+    FILE *file_exit_config = fopen(exit_config_file_path, mode);
+
+    if (!file_exit_config)
+    {
+        g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_OPEN_SETTINGS_PLAIN);
+        g_free(exit_config_file_path);
+        return NULL;
+    }
+
+    g_free(exit_config_file_path);
+    return file_exit_config;
+}
+
+gchar* rpi_read_exit_settings_plain_file(void)
+{
+    gchar* exit_config = NULL;
+    FILE* exit_config_file = rpi_open_exit_settings_plain_file(READ_MODE_SETTINGS_PLAIN);
+
+    if (exit_config_file)
+    {
+        exit_config = g_malloc(17 * sizeof(gchar));
+
+        if (!exit_config)
+        {
+            g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_READ_SETTINGS_PLAIN);
+            rpi_close_exit_settings_plain_file(exit_config_file);
+            return NULL;
+        }
+
+        if (fscanf(exit_config_file, "%16s", exit_config) != 1)
+        {
+            g_warning("%s", WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_READ_SETTINGS_PLAIN);
+            g_free(exit_config);
+            rpi_close_exit_settings_plain_file(exit_config_file);
+            return NULL;
+        }
+
+        rpi_close_exit_settings_plain_file(exit_config_file);
+    }
+
+    return exit_config;
+}
+
+guint rpi_write_exit_settings_plain_file(const gchar* exit_config)
+{
+    FILE* exit_config_file = rpi_open_prompt_settings_plain_file(WRITE_MODE_SETTINGS_PLAIN);
+
+    if (!exit_config_file || !exit_config)
+    {
+        return FAILED_SETTINGS_PLAIN;
+    }
+
+    gint status_put = fputs(exit_config, exit_config_file);
+    gint status_flash = fflush(exit_config_file);
+
+    if (status_put < 0 || status_flash < 0)
+    {
+        g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_WRITE_SETTINGS_PLAIN);
+        rpi_close_exit_settings_plain_file(exit_config_file);
+        return FAILED_SETTINGS_PLAIN;
+    }
+
+    rpi_close_exit_settings_plain_file(exit_config_file);
+    return SUCCESS_SETTINGS_PLAIN;
+}
+
+static void rpi_close_exit_settings_plain_file(FILE* file_exit_config)
+{
+    if (file_exit_config)
+    {
+        gint status = fclose(file_exit_config);
+
+        if (status < 0)
+        {
+            g_warning("%s\n", WARNING_LOG_FAILED_CONFIGURATION_FILE_EXIT_CLOSE_SETTINGS_PLAIN);
+        }
     }
 }

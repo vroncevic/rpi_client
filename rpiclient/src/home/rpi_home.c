@@ -22,6 +22,7 @@
 #include "rpi_home.h"
 
 static const gchar* TITLE_WINDOW_RPI_HOME = "RPIClient v1.0";
+static const gchar* LOGO_RPI_HOME = "icon.png";
 static const gint WIDTH_WINDOW_RPI_HOME = 900;
 static const gint HEIGHT_WINDOW_RPI_HOME = 400;
 static const gint CONTAINER_BORDER_WIDTH_WINDOW_RPI_HOME = 2;
@@ -73,29 +74,31 @@ RPIHome *new_rpi_home(void)
         WIDTH_WINDOW_RPI_HOME,
         HEIGHT_WINDOW_RPI_HOME
     );
-    const gchar *icon = rpi_get_resource_file_path("icon.png");
+    gchar *icon_file_path = rpi_get_resource_file_path(LOGO_RPI_HOME);
 
-    if (icon)
+    if (icon_file_path)
     {
-        GdkPixbuf *pixbuf = rpi_cpixbuf(icon);
+        GdkPixbuf *pixbuf = rpi_cpixbuf(icon_file_path);
 
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
             g_object_unref(pixbuf);
+            pixbuf = NULL;
         }
         else
         {
             g_warning("%s", WARNING_LOG_FAILED_PIXBUF_RPI_HOME);
+            pixbuf = NULL;
         }
 
-        g_free((gpointer)icon);
-        icon = NULL;
+        g_free(icon_file_path);
+        icon_file_path = NULL;
     }
     else
     {
         g_warning("%s", WARNING_LOG_FAILED_RESOURCE_RPI_HOME);
-        icon = NULL;
+        icon_file_path = NULL;
     }
 
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_WINDOW_RPI_HOME);
@@ -231,6 +234,8 @@ void destroy_rpi_home(RPIHome *instance)
             instance->window = NULL;
         }
 
-        g_free((gpointer)instance);
+        instance->vbox = NULL;
+        g_free(instance);
+        instance = NULL;
     }
 }
