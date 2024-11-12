@@ -28,7 +28,7 @@ typedef struct _WarningDialog WarningDialog;
 /// @brief Construct complex widget warning dialog
 /// @param parent is parent widget for dialog
 /// @param msg is message for warning dialog
-/// @return About dialog complex widget pointer
+/// @return About dialog complex widget pointer | NULL
 WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg);
 
 //////////////////////////////////////////////////////////////////////////////

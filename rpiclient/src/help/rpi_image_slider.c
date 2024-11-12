@@ -96,16 +96,10 @@ ImageSlider *new_image_slider(void)
 
     g_free(image_file_path);
     gtk_fixed_put(
-        GTK_FIXED(instance->fixed),
-        GTK_WIDGET(instance->image),
-        X_POSITION_IMAGE_SLIDER,
-        Y_POSITION_IMAGE_SLIDER
+        GTK_FIXED(instance->fixed), GTK_WIDGET(instance->image),
+        X_POSITION_IMAGE_SLIDER, Y_POSITION_IMAGE_SLIDER
     );
-    gtk_widget_set_size_request(
-        GTK_WIDGET(instance->image),
-        WIDTH_IMAGE_SLIDER,
-        HEIGHT_IMAGE_SLIDER
-    );
+    gtk_widget_set_size_request(GTK_WIDGET(instance->image), WIDTH_IMAGE_SLIDER, HEIGHT_IMAGE_SLIDER);
     instance->button_left = gtk_button_new_with_label(TEXT_BUTTON_LEFT_IMAGE_SLIDER);
 
     if (!GTK_IS_BUTTON(instance->button_left))
@@ -116,15 +110,11 @@ ImageSlider *new_image_slider(void)
     }
 
     gtk_widget_set_size_request(
-        GTK_WIDGET(instance->button_left),
-        WIDTH_BUTTON_LEFT_IMAGE_SLIDER,
-        HEIGHT_BUTTON_LEFT_IMAGE_SLIDER
+        GTK_WIDGET(instance->button_left), WIDTH_BUTTON_LEFT_IMAGE_SLIDER, HEIGHT_BUTTON_LEFT_IMAGE_SLIDER
     );
     gtk_fixed_put(
-        GTK_FIXED(instance->fixed),
-        GTK_WIDGET(instance->button_left),
-        X_POSITION_BUTTON_LEFT_IMAGE_SLIDER,
-        Y_POSITION_BUTTON_LEFT_IMAGE_SLIDER
+        GTK_FIXED(instance->fixed), GTK_WIDGET(instance->button_left),
+        X_POSITION_BUTTON_LEFT_IMAGE_SLIDER, Y_POSITION_BUTTON_LEFT_IMAGE_SLIDER
     );
     instance->button_right = gtk_button_new_with_label(TEXT_BUTTON_RIGHT_IMAGE_SLIDER);
 
@@ -136,15 +126,11 @@ ImageSlider *new_image_slider(void)
     }
 
     gtk_widget_set_size_request(
-        GTK_WIDGET(instance->button_right),
-        WIDTH_BUTTON_RIGHT_IMAGE_SLIDER,
-        HEIGHT_BUTTON_RIGHT_IMAGE_SLIDER
+        GTK_WIDGET(instance->button_right), WIDTH_BUTTON_RIGHT_IMAGE_SLIDER, HEIGHT_BUTTON_RIGHT_IMAGE_SLIDER
     );
     gtk_fixed_put(
-        GTK_FIXED(instance->fixed),
-        GTK_WIDGET(instance->button_right),
-        X_POSITION_BUTTON_RIGHT_IMAGE_SLIDER,
-        Y_POSITION_BUTTON_RIGHT_IMAGE_SLIDER
+        GTK_FIXED(instance->fixed), GTK_WIDGET(instance->button_right),
+        X_POSITION_BUTTON_RIGHT_IMAGE_SLIDER, Y_POSITION_BUTTON_RIGHT_IMAGE_SLIDER
     );
 
     return instance;
@@ -191,11 +177,11 @@ void destroy_image_slider(ImageSlider *instance)
         {
             gtk_widget_destroy(GTK_WIDGET(instance->fixed));
             instance->fixed = NULL;
-            instance->image = NULL;
-            instance->button_left = NULL;
-            instance->button_right = NULL;
         }
 
+        instance->image = NULL;
+        instance->button_left = NULL;
+        instance->button_right = NULL;
         g_free(instance);
         instance = NULL;
     }

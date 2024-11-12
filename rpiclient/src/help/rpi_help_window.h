@@ -24,7 +24,7 @@ typedef struct _HelpWindow HelpWindow;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget help window
-/// @return Help window complex widget pointer
+/// @return Help window complex widget pointer | NULL
 HelpWindow *new_help_window(void);
 
 //////////////////////////////////////////////////////////////////////////////

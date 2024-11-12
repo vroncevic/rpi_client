@@ -28,7 +28,7 @@ typedef struct _InfoDialog InfoDialog;
 /// @brief Construct complex widget info dialog
 /// @param parent is parent widget
 /// @param msg is message for info dialog
-/// @return Info dialog complex widget pointer
+/// @return Info dialog complex widget pointer | NULL
 InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg);
 
 //////////////////////////////////////////////////////////////////////////////

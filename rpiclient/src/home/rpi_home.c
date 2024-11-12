@@ -69,11 +69,7 @@ RPIHome *new_rpi_home(void)
     }
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
-    gtk_window_set_default_size(
-        GTK_WINDOW(instance->window),
-        WIDTH_WINDOW_RPI_HOME,
-        HEIGHT_WINDOW_RPI_HOME
-    );
+    gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_WINDOW_RPI_HOME, HEIGHT_WINDOW_RPI_HOME);
     gchar *icon_file_path = rpi_get_resource_file_path(LOGO_RPI_HOME);
 
     if (icon_file_path)
@@ -103,14 +99,8 @@ RPIHome *new_rpi_home(void)
 
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_WINDOW_RPI_HOME);
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
-    gtk_container_set_border_width(
-        GTK_CONTAINER(instance->window),
-        CONTAINER_BORDER_WIDTH_WINDOW_RPI_HOME
-    );
-    instance->vbox = gtk_box_new(
-        GTK_ORIENTATION_VERTICAL,
-        VERTICAL_BOX_SPACING_WINDOW_RPI_HOME
-    );
+    gtk_container_set_border_width(GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_WINDOW_RPI_HOME);
+    instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, VERTICAL_BOX_SPACING_WINDOW_RPI_HOME);
 
     if (!GTK_IS_BOX(instance->vbox))
     {

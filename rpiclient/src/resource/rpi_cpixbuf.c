@@ -27,7 +27,7 @@ GdkPixbuf *rpi_cpixbuf(const gchar *file_path)
 
     if (!GDK_IS_PIXBUF(pixbuf))
     {
-        fprintf(stderr, "%s\n", error->message);
+        g_warning("%s\n", error->message);
         g_error_free(error);
         error = NULL;
     }

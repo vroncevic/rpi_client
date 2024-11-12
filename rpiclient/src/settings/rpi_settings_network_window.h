@@ -24,7 +24,7 @@ typedef struct _SettingsNetworkWindow SettingsNetworkWindow;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget settings network window
-/// @return Settings network window complex widget pointer
+/// @return Settings network window complex widget pointer | NULL
 SettingsNetworkWindow *new_settings_network_window(void);
 
 //////////////////////////////////////////////////////////////////////////////

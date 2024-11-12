@@ -27,28 +27,28 @@ extern gchar *config_dir_path;
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets pixel buffer from file path
 /// @param file_path is pixel file path
-/// @return Pixel buffer structure
+/// @return Pixel buffer structure | NULL
 GdkPixbuf *rpi_cpixbuf(const gchar *file_path);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets resource directory path
-/// @return Directory path for resource
+/// @return Directory path for resource | NULL
 gchar *rpi_get_resource_dir(void);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets resource file path
 /// @param file_name is resource file name
-/// @return File path for resource
+/// @return File path for resource | NULL
 gchar *rpi_get_resource_file_path(const gchar *file_name);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets configuration directory path
-/// @return Directory path for configuration
+/// @return Directory path for configuration | NULL
 gchar *rpi_get_config_dir(void);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets configuration file path
 /// @param file_name is configuration file name
 /// @param default_content is default parameter content
-/// @return File path for configuration
+/// @return File path for configuration | NULL
 gchar *rpi_get_config_file_path(const gchar *file_name, const gchar *default_content);

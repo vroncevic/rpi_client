@@ -24,7 +24,7 @@ typedef struct _SettingsGeneralWindow SettingsGeneralWindow;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget settings general window
-/// @return Settings general window complex widget pointer
+/// @return Settings general window complex widget pointer | NULL
 SettingsGeneralWindow *new_settings_general_window(void);
 
 //////////////////////////////////////////////////////////////////////////////

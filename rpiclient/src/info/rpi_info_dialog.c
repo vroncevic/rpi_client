@@ -69,10 +69,7 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
     }
 
     g_signal_connect_swapped(
-        G_OBJECT(instance->dialog),
-        "response",
-        G_CALLBACK(destroy_info_dialog),
-        instance
+        G_OBJECT(instance->dialog), "response", G_CALLBACK(destroy_info_dialog), instance
     );
 
     return instance;

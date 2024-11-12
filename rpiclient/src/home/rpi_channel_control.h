@@ -27,7 +27,8 @@ typedef struct _RPIChannelControl RPIChannelControl;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget channel control
-/// @return Channel control complex widget pointer
+/// @param channel_id is channel identification number
+/// @return Channel control complex widget pointer | NULL
 RPIChannelControl *new_rpi_channel_control(gint channel_id);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -43,25 +44,25 @@ void hide_rpi_channel_control(RPIChannelControl *instance);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets vertical bar from channel control complex widget
 /// @param instance is pointer to complex widget channel control
-/// @return Vertical bar from complex widget channel control
+/// @return Vertical bar from complex widget channel control | NULL
 GtkVB* get_vertical_bar_from_rpi_channel_control(RPIChannelControl *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets scale from channel control complex widget
 /// @param instance is pointer to complex widget channel control
-/// @return Scale from complex widget channel control
+/// @return Scale from complex widget channel control | NULL
 GtkWidget* get_scale_from_rpi_channel_control(RPIChannelControl *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets spinner button from channel control complex widget
 /// @param instance is pointer to complex widget channel control
-/// @return Spinner button from complex widget channel control
+/// @return Spinner button from complex widget channel control | NULL
 GtkWidget* get_spinner_button_from_rpi_channel_control(RPIChannelControl *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets check box from channel control complex widget
 /// @param instance is pointer to complex widget channel control
-/// @return Check box from complex widget channel control
+/// @return Check box from complex widget channel control | NULL
 GtkWidget* get_check_box_from_rpi_channel_control(RPIChannelControl *instance);
 
 //////////////////////////////////////////////////////////////////////////////

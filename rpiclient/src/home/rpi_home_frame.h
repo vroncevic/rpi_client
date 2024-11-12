@@ -29,7 +29,7 @@ typedef struct _RPIRPIHomeFrame RPIHomeFrame;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget home frame
-/// @return RPIHome frame complex widget pointer
+/// @return RPIHome frame complex widget pointer | NULL
 RPIHomeFrame *new_rpi_home_frame(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@ void hide_rpi_home_frame(RPIHomeFrame *instance);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets frame from home frame complex widget
 /// @param instance is pointer to complex widget home frame
-/// @return Frame from complex widget home frame
+/// @return Frame from complex widget home frame | NULL
 GtkWidget* get_frame_from_rpi_home_frame(RPIHomeFrame *instance);
 
 //////////////////////////////////////////////////////////////////////////////

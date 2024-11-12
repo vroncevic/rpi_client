@@ -26,7 +26,7 @@ typedef struct _RPIHome RPIHome;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget home
-/// @return RPIHome view complex widget pointer
+/// @return RPIHome view complex widget pointer | NULL
 RPIHome *new_rpi_home(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -42,13 +42,13 @@ void hide_rpi_home(RPIHome *instance);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets window from home complex widget
 /// @param instance is pointer to complex widget home
-/// @return Window from complex widget home
+/// @return Window from complex widget home | NULL
 GtkWidget* get_window_from_rpi_home(RPIHome *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets menu bar from home complex widget
 /// @param instance is pointer to complex widget home
-/// @return Menu bar from complex widget home
+/// @return Menu bar from complex widget home | NULL
 RPIMenu* get_menu_bar_from_rpi_home(RPIHome *instance);
 
 //////////////////////////////////////////////////////////////////////////////

@@ -69,7 +69,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
     gchar tooltip_text_vbar[10] = {0};
     snprintf(tooltip_text_vbar, sizeof(tooltip_text_vbar), "Channel %d", channel_id);
     gtk_widget_set_tooltip_text(GTK_WIDGET(instance->status_channel_vertical_bar), tooltip_text_vbar);
-    gchar status_label[14] = {0};
+    gchar status_label[16] = {0};
     snprintf(status_label, sizeof(status_label), "CH%d Status: 0", channel_id);
     instance->status_channel_label = gtk_label_new(status_label);
 

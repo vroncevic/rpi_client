@@ -68,11 +68,7 @@ HelpWindow *new_help_window(void)
     }
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
-    gtk_window_set_default_size(
-        GTK_WINDOW(instance->window),
-        WIDTH_HELP_WINDOW,
-        HEIGHT_HELP_WINDOW
-    );
+    gtk_window_set_default_size(GTK_WINDOW(instance->window), WIDTH_HELP_WINDOW, HEIGHT_HELP_WINDOW);
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_HELP_WINDOW);
     gchar *icon_file_path = rpi_get_resource_file_path(ICON_HELP_WINDOW);
 
@@ -102,19 +98,12 @@ HelpWindow *new_help_window(void)
     }
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
-    gtk_container_set_border_width(
-        GTK_CONTAINER(instance->window),
-        BORDER_WIDTH_HELP_WINDOW
-    );
+    gtk_container_set_border_width(GTK_CONTAINER(instance->window), BORDER_WIDTH_HELP_WINDOW);
     gtk_container_add(
-        GTK_CONTAINER(instance->window),
-        GTK_WIDGET(get_fixed_image_slider(instance->image_slider))
+        GTK_CONTAINER(instance->window), GTK_WIDGET(get_fixed_image_slider(instance->image_slider))
     );
     g_signal_connect_swapped(
-        G_OBJECT(instance->window),
-        "delete-event",
-        G_CALLBACK(destroy_help_window),
-        instance
+        G_OBJECT(instance->window), "delete-event", G_CALLBACK(destroy_help_window), instance
     );
 
     return instance;

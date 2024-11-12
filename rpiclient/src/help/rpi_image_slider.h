@@ -26,7 +26,7 @@ typedef struct _ImageSlider ImageSlider;
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Construct complex widget image slider
-/// @return Image slider complex widget pointer
+/// @return Image slider complex widget pointer | NULL
 ImageSlider *new_image_slider(void);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ void hide_image_slider(ImageSlider *instance);
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets fixed container from image slider complex widget
 /// @param instance is pointer to complex widget image slider
-/// @return Fixed container widget
+/// @return Fixed container widget | NULL
 GtkWidget *get_fixed_image_slider(ImageSlider *instance);
 
 //////////////////////////////////////////////////////////////////////////////

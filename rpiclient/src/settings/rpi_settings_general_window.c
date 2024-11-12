@@ -93,9 +93,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     gtk_window_set_position(GTK_WINDOW(instance->window), GTK_WIN_POS_CENTER);
     gtk_window_set_default_size(
-        GTK_WINDOW(instance->window),
-        WIDTH_SETTINGS_GENERAL_WINDOW,
-        HEIGHT_SETTINGS_GENERAL_WINDOW
+        GTK_WINDOW(instance->window), WIDTH_SETTINGS_GENERAL_WINDOW, HEIGHT_SETTINGS_GENERAL_WINDOW
     );
     gtk_window_set_title(GTK_WINDOW(instance->window), TITLE_SETTINGS_GENERAL_WINDOW);
     gchar *icon_file_path = rpi_get_resource_file_path(ICON_SETTINGS_GENERAL_WINDOW);
@@ -127,8 +125,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     gtk_window_set_resizable(GTK_WINDOW(instance->window), FALSE);
     gtk_container_set_border_width(
-        GTK_CONTAINER(instance->window),
-        CONTAINER_BORDER_WIDTH_SETTINGS_GENERAL_WINDOW
+        GTK_CONTAINER(instance->window), CONTAINER_BORDER_WIDTH_SETTINGS_GENERAL_WINDOW
     );
     instance->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING_VBOX_SETTINGS_GENERAL_WINDOW);
 
@@ -149,16 +146,9 @@ SettingsGeneralWindow *new_settings_general_window(void)
         return NULL;
     }
 
-    gtk_grid_set_row_spacing(
-        GTK_GRID(instance->table),
-        TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW
-    );
-    gtk_grid_set_column_spacing(
-        GTK_GRID(instance->table),
-        TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW
-    );
+    gtk_grid_set_row_spacing(GTK_GRID(instance->table), TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
+    gtk_grid_set_column_spacing(GTK_GRID(instance->table), TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
     gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
-
     instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW);
 
     if (!GTK_IS_FRAME(instance->frame_control_exit))
@@ -181,15 +171,11 @@ SettingsGeneralWindow *new_settings_general_window(void)
     gboolean is_exit_enabled = is_exit_enabled_settings(instance->settings);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(instance->check_button_control_exit), is_exit_enabled);
     gtk_container_add(
-        GTK_CONTAINER(instance->frame_control_exit),
-        GTK_WIDGET(instance->check_button_control_exit)
+        GTK_CONTAINER(instance->frame_control_exit), GTK_WIDGET(instance->check_button_control_exit)
     );
 
     gtk_grid_attach(GTK_GRID(instance->table), GTK_WIDGET(instance->frame_control_exit), 0, 0, 1, 1);
-    instance->hbox = gtk_box_new(
-        GTK_ORIENTATION_HORIZONTAL,
-        SPACING_HBOX_SETTINGS_GENERAL_WINDOW
-    );
+    instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS_GENERAL_WINDOW);
 
     if (!GTK_IS_BOX(instance->hbox))
     {
@@ -230,10 +216,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
     gtk_container_add(GTK_CONTAINER(instance->hbox), GTK_WIDGET(instance->button_cancel));
     gtk_box_pack_start(GTK_BOX(instance->vbox), GTK_WIDGET(instance->hbox), FALSE, FALSE, 0);
     g_signal_connect_swapped(
-        G_OBJECT(instance->window),
-        "delete-event",
-        G_CALLBACK(destroy_settings_general_window),
-        instance
+        G_OBJECT(instance->window), "delete-event", G_CALLBACK(destroy_settings_general_window), instance
     );
 
     return instance;
