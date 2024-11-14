@@ -20,6 +20,8 @@
 #include "rpi_channel_control.h"
 #include "rpi_home_frame.h"
 
+#define FAILED_MALLOC_HOME_FRAME "Failed to allocate memory for home frame.\n"
+
 static const gchar* CONTROL_FRAME_LABEL_HOME_FRAME = "RPI Control";
 static const gint START_X_POSITION_VERTICAL_BAR_CONTROL_HOME_FRAME = 0;
 static const gint Y_POSITION_VERTICAL_BAR_CONTROL_HOME_FRAME = 20;
@@ -38,7 +40,6 @@ static const gint Y_POSITION_ACTIVATE_CHANNEL_STATUS_HOME_FRAME = 160;
 static const gint START_X_POSITION_LABEL_STATUS_HOME_FRAME = 0;
 static const gint Y_POSITION_LABEL_STATUS_HOME_FRAME = 200;
 static const gint SHIFT_X_POSITION_STATUS_HOME_FRAME = 125;
-static const gchar* WARNING_LOG_FAILED_MALLOC_HOME_FRAME = "Failed to allocate memory for home frame.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPIHomeFrame frame complex widget
@@ -68,7 +69,7 @@ RPIHomeFrame *new_rpi_home_frame(void)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HOME_FRAME);
+        g_critical(FAILED_MALLOC_HOME_FRAME);
         return NULL;
     }
 
@@ -76,7 +77,7 @@ RPIHomeFrame *new_rpi_home_frame(void)
 
     if (!GTK_IS_FRAME(instance->frame_home))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HOME_FRAME);
+        g_critical(FAILED_MALLOC_HOME_FRAME);
         destroy_rpi_home_frame(instance);
         return NULL;
     }
@@ -85,7 +86,7 @@ RPIHomeFrame *new_rpi_home_frame(void)
 
     if (!GTK_IS_PANED(instance->vpaned))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HOME_FRAME);
+        g_critical(FAILED_MALLOC_HOME_FRAME);
         destroy_rpi_home_frame(instance);
         return NULL;
     }
@@ -96,7 +97,7 @@ RPIHomeFrame *new_rpi_home_frame(void)
 
     if (!GTK_IS_FRAME(instance->frame_control))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HOME_FRAME);
+        g_critical(FAILED_MALLOC_HOME_FRAME);
         destroy_rpi_home_frame(instance);
         return NULL;
     }
@@ -105,7 +106,7 @@ RPIHomeFrame *new_rpi_home_frame(void)
 
     if (!GTK_IS_FIXED(instance->fixed_control))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HOME_FRAME);
+        g_critical(FAILED_MALLOC_HOME_FRAME);
         destroy_rpi_home_frame(instance);
         return NULL;
     }
@@ -116,7 +117,7 @@ RPIHomeFrame *new_rpi_home_frame(void)
 
     if (!GTK_IS_FRAME(instance->frame_status))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HOME_FRAME);
+        g_critical(FAILED_MALLOC_HOME_FRAME);
         destroy_rpi_home_frame(instance);
         return NULL;
     }
@@ -125,7 +126,7 @@ RPIHomeFrame *new_rpi_home_frame(void)
 
     if (!GTK_IS_FIXED(instance->fixed_status))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HOME_FRAME);
+        g_critical(FAILED_MALLOC_HOME_FRAME);
         destroy_rpi_home_frame(instance);
         return NULL;
     }
@@ -283,6 +284,5 @@ void destroy_rpi_home_frame(RPIHomeFrame *instance)
         instance->frame_control = NULL;
         instance->fixed_control = NULL;
         g_free(instance);
-        instance = NULL;
     }
 }

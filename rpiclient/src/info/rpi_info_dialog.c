@@ -18,9 +18,9 @@
  */
 #include "rpi_info_dialog.h"
 
-static const gchar* WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG = "Missing parent widget parameter.\n";
-static const gchar* WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG = "Missing message parameter.\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_INFO_DIALOG = "Failed to allocate memory for info dialog.\n";
+#define FAILED_PARENT_WARNINGS_DIALOG "Missing parent widget parameter.\n"
+#define FAILED_MESSAGE_WARNINGS_DIALOG "Missing message parameter.\n"
+#define FAILED_MALLOC_INFO_DIALOG "Failed to allocate memory for info dialog.\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Info dialog complex widget
@@ -34,13 +34,13 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
 {
     if (!parent)
     {
-        g_warning("%s", WARNING_LOG_FAILED_PARENT_WARNINGS_DIALOG);
+        g_critical(FAILED_PARENT_WARNINGS_DIALOG);
         return NULL;
     }
 
     if (!msg)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MESSAGE_WARNINGS_DIALOG);
+        g_critical(FAILED_MESSAGE_WARNINGS_DIALOG);
         return NULL;
     }
 
@@ -48,7 +48,7 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_INFO_DIALOG);
+        g_critical(FAILED_MALLOC_INFO_DIALOG);
         return NULL;
     }
 
@@ -63,7 +63,7 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
 
     if (!GTK_IS_MESSAGE_DIALOG(instance->dialog))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_INFO_DIALOG);
+        g_critical(FAILED_MALLOC_INFO_DIALOG);
         destroy_info_dialog(instance);
         return NULL;
     }
@@ -120,6 +120,5 @@ void destroy_info_dialog(InfoDialog *instance)
         }
 
         g_free(instance);
-        instance = NULL;
     }
 }

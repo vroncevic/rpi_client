@@ -50,10 +50,22 @@ guint settings_write(const SettingsConfig* instance);
 gboolean is_prompt_enabled_settings(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
+/// @brief Sets exit configuration to settings
+/// @param instance is pointer to settings configuration
+/// @param no_exit_state is exit configuration collected from UI
+void set_exit_enabled_settings(SettingsConfig* instance, const gboolean no_exit_state);
+
+//////////////////////////////////////////////////////////////////////////////
 /// @brief Gets server ip address from settings file
 /// @param instance is pointer to settings configuration to be written
 /// @return IP server address in string format | NULL
 gchar* get_server_ip_address_from_settings(const SettingsConfig* instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Sets server IP address configuration to settings
+/// @param instance is pointer to settings configuration
+/// @param ip_address is server IP address configuration collected from UI
+void set_server_ip_address_settings(SettingsConfig* instance, const gchar* ip_address);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Gets server port number from settings file
@@ -62,10 +74,22 @@ gchar* get_server_ip_address_from_settings(const SettingsConfig* instance);
 gchar* get_server_port_number_from_settings(const SettingsConfig* instance);
 
 //////////////////////////////////////////////////////////////////////////////
+/// @brief Sets server port number configuration to settings
+/// @param instance is pointer to settings configuration
+/// @param no_prompt_state is server port number configuration collected from UI
+void set_server_port_number_settings(SettingsConfig* instance, const gchar* port_number);
+
+//////////////////////////////////////////////////////////////////////////////
 /// @brief Gets exit from settings file
 /// @param instance is pointer to settings configuration to be written
 /// @return Boolean status is exit enabled
 gboolean is_exit_enabled_settings(const SettingsConfig* instance);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Sets prompt configuration to settings
+/// @param instance is pointer to settings configuration
+/// @param no_prompt_state is prompt configuration collected from UI
+void set_prompt_enabled_settings(SettingsConfig* instance, const gboolean no_prompt_state);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Free settings configuration memory

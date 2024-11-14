@@ -21,19 +21,20 @@
 #include "rpi_home_frame.h"
 #include "rpi_home.h"
 
+#define FAILED_MALLOC_RPI_HOME "Failed to allocate memory for home.\n"
+#define FAILED_MALLOC_WINDOW_RPI_HOME "Failed to allocate memory for home window.\n"
+#define FAILED_PIXBUF_RPI_HOME "Failed to create pixbuf from home icon.\n"
+#define FAILED_RESOURCE_RPI_HOME "Failed to get resource path for home icon.\n"
+#define FAILED_MALLOC_VBOX_RPI_HOME "Failed to allocate memory for vertial box home.\n"
+#define FAILED_MALLOC_RPI_MENU_RPI_HOME "Failed to allocate memory for menu bar home.\n"
+#define FAILED_MALLOC_RPI_HOME_FRAME_RPI_HOME "Failed to allocate memory for frame home.\n"
+
 static const gchar* TITLE_WINDOW_RPI_HOME = "RPIClient v1.0";
 static const gchar* LOGO_RPI_HOME = "icon.png";
 static const gint WIDTH_WINDOW_RPI_HOME = 900;
 static const gint HEIGHT_WINDOW_RPI_HOME = 400;
 static const gint CONTAINER_BORDER_WIDTH_WINDOW_RPI_HOME = 2;
 static const gint VERTICAL_BOX_SPACING_WINDOW_RPI_HOME = 0;
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_HOME = "Failed to allocate memory for home.\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_WINDOW_RPI_HOME = "Failed to allocate memory for home window.\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_RPI_HOME = "Failed to create pixbuf from home icon.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_RPI_HOME = "Failed to get resource path for home icon.\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_VBOX_RPI_HOME = "Failed to allocate memory for vertial box home.\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_MENU_RPI_HOME = "Failed to allocate memory for menu bar home.\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_HOME_FRAME_RPI_HOME = "Failed to allocate memory for frame home.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPIHome complex widget
@@ -55,7 +56,7 @@ RPIHome *new_rpi_home(void)
 
     if(!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_HOME);
+        g_critical(FAILED_MALLOC_RPI_HOME);
         return NULL;
     }
 
@@ -63,7 +64,7 @@ RPIHome *new_rpi_home(void)
 
     if (!GTK_IS_WINDOW(instance->window))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_WINDOW_RPI_HOME);
+        g_critical(FAILED_MALLOC_WINDOW_RPI_HOME);
         destroy_rpi_home(instance);
         return NULL;
     }
@@ -84,7 +85,7 @@ RPIHome *new_rpi_home(void)
         }
         else
         {
-            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_RPI_HOME);
+            g_critical(FAILED_PIXBUF_RPI_HOME);
             pixbuf = NULL;
         }
 
@@ -93,7 +94,7 @@ RPIHome *new_rpi_home(void)
     }
     else
     {
-        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_RPI_HOME);
+        g_critical(FAILED_RESOURCE_RPI_HOME);
         icon_file_path = NULL;
     }
 
@@ -104,7 +105,7 @@ RPIHome *new_rpi_home(void)
 
     if (!GTK_IS_BOX(instance->vbox))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_VBOX_RPI_HOME);
+        g_critical(FAILED_MALLOC_VBOX_RPI_HOME);
         destroy_rpi_home(instance);
         return NULL;
     }
@@ -113,7 +114,7 @@ RPIHome *new_rpi_home(void)
 
     if (!instance->menu_bar)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU_RPI_HOME);
+        g_critical(FAILED_MALLOC_RPI_MENU_RPI_HOME);
         destroy_rpi_home(instance);
         return NULL;
     }
@@ -122,7 +123,7 @@ RPIHome *new_rpi_home(void)
 
     if (!instance->frame_home)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_HOME_FRAME_RPI_HOME);
+        g_critical(FAILED_MALLOC_RPI_HOME_FRAME_RPI_HOME);
         destroy_rpi_home(instance);
         return NULL;
     }
@@ -226,6 +227,5 @@ void destroy_rpi_home(RPIHome *instance)
 
         instance->vbox = NULL;
         g_free(instance);
-        instance = NULL;
     }
 }

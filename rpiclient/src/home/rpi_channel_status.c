@@ -18,7 +18,7 @@
  */
 #include "rpi_channel_status.h"
 
-static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS = "Failed to allocate memory for channel status.\n";
+#define FAILED_MALLOC_CHANNEL_STATUS "Failed to allocate memory for channel status.\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channel status complex widget
@@ -38,7 +38,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
+        g_critical(FAILED_MALLOC_CHANNEL_STATUS);
         return NULL;
     }
 
@@ -48,7 +48,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!GTK_IS_CHECK_BUTTON(instance->activate_channel_check_box))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
+        g_critical(FAILED_MALLOC_CHANNEL_STATUS);
         destroy_rpi_channel_status(instance);
         return NULL;
     }
@@ -61,7 +61,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!GTK_IS_VB(instance->status_channel_vertical_bar))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
+        g_critical(FAILED_MALLOC_CHANNEL_STATUS);
         destroy_rpi_channel_status(instance);
         return NULL;
     }
@@ -75,7 +75,7 @@ RPIChannelStatus *new_rpi_channel_status(gint channel_id)
 
     if (!GTK_IS_LABEL(instance->status_channel_label))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_STATUS);
+        g_critical(FAILED_MALLOC_CHANNEL_STATUS);
         destroy_rpi_channel_status(instance);
         return NULL;
     }
@@ -211,6 +211,5 @@ void destroy_rpi_channel_status(RPIChannelStatus *instance)
         }
 
         g_free(instance);
-        instance = NULL;
     }
 }

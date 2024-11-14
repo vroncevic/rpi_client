@@ -16,9 +16,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "rpi_client_config.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_settings_config.h"
 #include "rpi_settings_general_window.h"
+
+#define FAILED_MALLOC_SETTINGS_GENERAL_WINDOW "Failed to allocate memory for settings general window.\n"
+#define FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW "Failed to create pixbuf from settings general icon.\n"
+#define FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW "Failed to get resource path for settings general icon.\n"
 
 static const gchar* TITLE_SETTINGS_GENERAL_WINDOW = "Settings General";
 static const gchar* ICON_SETTINGS_GENERAL_WINDOW = "icon.png";
@@ -35,15 +40,12 @@ static const gchar* TEXT_BUTTON_CANCEL_HBOX_SETTINGS_GENERAL_WINDOW = "Cancel";
 static const gint WIDTH_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW = 70;
 static const gint HEIGHT_BUTTON_HBOX_SETTINGS_GENERAL_WINDOW = 30;
 static const gint SPACING_HBOX_SETTINGS_GENERAL_WINDOW = 3;
-static const gchar* WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW = "Failed to allocate memory for settings general window.\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW = "Failed to create pixbuf from settings general icon.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW = "Failed to get resource path for settings general icon.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Settings general window complex widget
 ///   window - Gtk window widget
 ///   vbox - Gtk widget for vertical box
-///   table - Gtk widget for table
+///   grid - Gtk widget for grid
 ///   frame_control_exit - Gtk widget for frame
 ///   check_button_control_exit - Gtk widget for check box
 ///   hbox - Gtk widget for horizontal alignment
@@ -54,7 +56,7 @@ struct _SettingsGeneralWindow
 {
     GtkWidget *window;
     GtkWidget *vbox;
-    GtkWidget *table;
+    GtkWidget *grid;
     GtkWidget *frame_control_exit;
     GtkWidget *check_button_control_exit;
     GtkWidget *hbox;
@@ -63,13 +65,16 @@ struct _SettingsGeneralWindow
     SettingsConfig* settings;
 };
 
+static void on_button_ok_clicked(GtkWidget *widget, SettingsGeneralWindow *instance);
+static void on_button_cancel_clicked(GtkWidget *widget, SettingsGeneralWindow *instance);
+
 SettingsGeneralWindow *new_settings_general_window(void)
 {
     SettingsGeneralWindow *instance = g_malloc(sizeof(SettingsGeneralWindow));
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         return NULL;
     }
 
@@ -77,7 +82,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     if (!instance->settings)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -86,7 +91,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     if (!GTK_IS_WINDOW(instance->window))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -110,7 +115,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
         }
         else
         {
-            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW);
+            g_critical(FAILED_PIXBUF_SETTINGS_GENERAL_WINDOW);
             pixbuf = NULL;
         }
 
@@ -119,7 +124,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
     }
     else
     {
-        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_RESOURCE_SETTINGS_GENERAL_WINDOW);
         icon_file_path = NULL;
     }
 
@@ -131,29 +136,29 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     if (!GTK_IS_BOX(instance->vbox))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
 
     gtk_container_add(GTK_CONTAINER(instance->window), GTK_WIDGET(instance->vbox));
-    instance->table = gtk_grid_new();
+    instance->grid = gtk_grid_new();
 
-    if (!GTK_IS_GRID(instance->table))
+    if (!GTK_IS_GRID(instance->grid))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
 
-    gtk_grid_set_row_spacing(GTK_GRID(instance->table), TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
-    gtk_grid_set_column_spacing(GTK_GRID(instance->table), TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
-    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->table, TRUE, TRUE, 0);
+    gtk_grid_set_row_spacing(GTK_GRID(instance->grid), TABLE_ROW_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
+    gtk_grid_set_column_spacing(GTK_GRID(instance->grid), TABLE_COL_SPACINGS_TABLE_SETTINGS_GENERAL_WINDOW);
+    gtk_box_pack_start(GTK_BOX(instance->vbox), instance->grid, TRUE, TRUE, 0);
     instance->frame_control_exit = gtk_frame_new(TEXT_FRAME_CONTORL_EXIT_SETTINGS_NETWORK_WINDOW);
 
     if (!GTK_IS_FRAME(instance->frame_control_exit))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -163,7 +168,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     if (!GTK_IS_CHECK_BUTTON(instance->check_button_control_exit))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -174,12 +179,12 @@ SettingsGeneralWindow *new_settings_general_window(void)
         GTK_CONTAINER(instance->frame_control_exit), GTK_WIDGET(instance->check_button_control_exit)
     );
 
-    gtk_grid_attach(GTK_GRID(instance->table), GTK_WIDGET(instance->frame_control_exit), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(instance->grid), GTK_WIDGET(instance->frame_control_exit), 0, 0, 1, 1);
     instance->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING_HBOX_SETTINGS_GENERAL_WINDOW);
 
     if (!GTK_IS_BOX(instance->hbox))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -188,7 +193,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     if (!GTK_IS_BUTTON(instance->button_ok))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -197,7 +202,7 @@ SettingsGeneralWindow *new_settings_general_window(void)
 
     if (!GTK_IS_BUTTON(instance->button_cancel))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
+        g_critical(FAILED_MALLOC_SETTINGS_GENERAL_WINDOW);
         destroy_settings_general_window(instance);
         return NULL;
     }
@@ -218,6 +223,12 @@ SettingsGeneralWindow *new_settings_general_window(void)
     g_signal_connect_swapped(
         G_OBJECT(instance->window), "delete-event", G_CALLBACK(destroy_settings_general_window), instance
     );
+    g_signal_connect(
+        G_OBJECT(instance->button_ok), "clicked", G_CALLBACK(on_button_ok_clicked), instance
+    );
+    g_signal_connect(
+        G_OBJECT(instance->button_cancel), "clicked", G_CALLBACK(on_button_cancel_clicked), instance
+    );
 
     return instance;
 }
@@ -226,6 +237,71 @@ void show_settings_general_window(SettingsGeneralWindow *instance)
 {
     if (instance)
     {
+#if GTK_MAJOR_VERSION == 4
+        gboolean is_window = GTK_IS_WINDOW(instance->window);
+        gboolean is_window_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_window && is_window_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->window));
+        }
+
+        gboolean is_vbox = GTK_IS_BOX(instance->window);
+        gboolean is_vbox_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+
+        if (is_vbox && is_vbox_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->vbox));
+        }
+
+        gboolean is_grid = GTK_IS_GRID(instance->grid);
+        gboolean is_grid_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->grid));
+
+        if (is_grid && is_grid_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->grid));
+        }
+
+        gboolean is_frame_control_exit = GTK_IS_FRAME(instance->frame_control_exit);
+        gboolean is_frame_control_exit_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->frame_control_exit));
+
+        if (is_frame_control_exit && is_frame_control_exit_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->frame_control_exit));
+        }
+
+        gboolean is_check_button_control_exit = GTK_IS_CHECK_BUTTON(instance->check_button_control_exit);
+        gboolean is_check_button_control_exit_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->check_button_control_exit));
+
+        if (is_check_button_control_exit && is_check_button_control_exit_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->check_button_control_exit));
+        }
+
+        gboolean is_hbox = GTK_IS_BOX(instance->hbox);
+        gboolean is_hbox_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->hbox));
+
+        if (is_hbox && is_hbox_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->hbox));
+        }
+
+        gboolean is_button_ok = GTK_IS_BUTTON(instance->button_ok);
+        gboolean is_button_ok_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->button_ok));
+
+        if (is_button_ok && is_button_ok_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->button_ok));
+        }
+
+        gboolean is_button_cancel = GTK_IS_BUTTON(instance->button_cancel);
+        gboolean is_button_cancel_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->button_cancel));
+
+        if (is_button_cancel && is_button_cancel_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->button_cancel));
+        }
+#elif GTK_MAJOR_VERSION == 3
         gboolean is_window = GTK_IS_WINDOW(instance->window);
         gboolean is_window_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
 
@@ -233,6 +309,9 @@ void show_settings_general_window(SettingsGeneralWindow *instance)
         {
             gtk_widget_show_all(GTK_WIDGET(instance->window));
         }
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
     }
 }
 
@@ -248,6 +327,26 @@ void hide_settings_general_window(SettingsGeneralWindow *instance)
             gtk_widget_hide(GTK_WIDGET(instance->window));
         }
     }
+}
+
+static void on_button_ok_clicked(GtkWidget *widget, SettingsGeneralWindow *instance)
+{
+    const gboolean no_exit_state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(instance->check_button_control_exit));
+    set_exit_enabled_settings(instance->settings, no_exit_state);
+    guint status = settings_write(instance->settings);
+
+    if (status == FAILED_IO_SETTINGS_CONFIGURATION)
+    {
+        // TODO: warning dialog
+        return;
+    }
+
+    destroy_settings_general_window(instance);
+}
+
+static void on_button_cancel_clicked(GtkWidget *widget, SettingsGeneralWindow *instance)
+{
+    destroy_settings_general_window(instance);
 }
 
 void destroy_settings_general_window(SettingsGeneralWindow *instance)
@@ -271,8 +370,7 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
         instance->hbox = NULL;
         instance->check_button_control_exit = NULL;
         instance->frame_control_exit = NULL;
-        instance->table = NULL;
+        instance->grid = NULL;
         g_free(instance);
-        instance = NULL;
     }
 }

@@ -18,7 +18,7 @@
  */
 #pragma once
 
-#include <gtk/gtk.h>
+#include <glib.h>
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channels complex structure

@@ -26,10 +26,11 @@
 #define END_REQ ":end"
 #define SEPARATOR ":"
 
-static const gchar* WARNING_LOG_FAILED_MISSING_IN_SEQ_ENC_ENCRYPT = "Missing input sequence for encrypt.\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_ENC_ENCRYPT = "Failed to allocate memory for encrypt output.\n";
-static const gchar* WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT = "Missing input sequence for decrypt.\n";
-static const gchar* WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT = "Failed to allocate memory for decrypt output.\n";
+#define MISSING_IN_SEQ_ENC_ENCRYPT "Missing input sequence for encrypt.\n"
+#define MISSING_IN_SEQ_DEC_ENCRYPT "Missing input sequence for decrypt.\n"
+
+#define FAILED_MALLOC_ENC_ENCRYPT "Failed to allocate memory for encrypt output.\n"
+#define FAILED_MALLOC_DEC_ENCRYPT "Failed to allocate memory for decrypt output.\n"
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channels complex structure
@@ -47,33 +48,33 @@ void rpi_format_init(RPIChannels *instance)
 {
     for (guint i = 0; i < USED_CHANNELS; i++) 
     {
-        instance->pins[i] = channel_operation("DP", i);
+        instance->pins[i] = pin_operation("DP", i);
         instance->channels[i] = channel_operation("DC", i);
         instance->channel_data[i] = 0; 
     }
 }
 
-gchar* pin_operation(const gchar* pin_operation, guint pin_id)
+gchar* pin_operation(const gchar* op, guint pin_id)
 {
-    if (!pin_operation || pin_id > USED_CHANNELS)
+    if (!op || pin_id > USED_CHANNELS)
     {
         return NULL;
     }
 
-    gchar* operation = g_malloc(g_utf8_strlen(pin_operation, -1) + 2);
-    snprintf(operation, g_utf8_strlen(pin_operation, -1) + 2, "%s%d", pin_operation, pin_id);
+    gchar* operation = g_malloc(g_utf8_strlen(op, -1) + 2);
+    snprintf(operation, g_utf8_strlen(op, -1) + 2, "%s%d", op, pin_id);
     return operation; 
 }
 
-gchar* channel_operation(const gchar* channel_operation, guint channel_id)
+gchar* channel_operation(const gchar* op, guint channel_id)
 {
-    if (!channel_operation || channel_id > USED_CHANNELS)
+    if (!op || channel_id > USED_CHANNELS)
     {
         return NULL;
     }
 
-    gchar* operation = g_malloc(g_utf8_strlen(channel_operation, -1) + 2);
-    snprintf(operation, g_utf8_strlen(channel_operation, -1) + 2, "%s%d", channel_operation, channel_id);
+    gchar* operation = g_malloc(g_utf8_strlen(op, -1) + 2);
+    snprintf(operation, g_utf8_strlen(op, -1) + 2, "%s%d", op, channel_id);
     return operation; 
 }
 
@@ -81,7 +82,7 @@ gchar *rpi_format_encrypt(const gchar *in, guint shift)
 {
     if (!in)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MISSING_IN_SEQ_ENC_ENCRYPT);
+        g_critical(MISSING_IN_SEQ_ENC_ENCRYPT);
         return NULL;
     }
 
@@ -90,7 +91,7 @@ gchar *rpi_format_encrypt(const gchar *in, guint shift)
 
     if (!out)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_ENC_ENCRYPT);
+        g_critical(FAILED_MALLOC_ENC_ENCRYPT);
         return NULL;
     }
 
@@ -117,7 +118,7 @@ gchar *rpi_format_decrypt(const gchar *in, guint shift)
 {
     if (!in)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MISSING_IN_SEQ_DEC_ENCRYPT);
+        g_critical(MISSING_IN_SEQ_DEC_ENCRYPT);
         return NULL;
     }
 
@@ -126,7 +127,7 @@ gchar *rpi_format_decrypt(const gchar *in, guint shift)
 
     if (!out)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_DEC_ENCRYPT);
+        g_critical(FAILED_MALLOC_DEC_ENCRYPT);
         return NULL;
     }
 

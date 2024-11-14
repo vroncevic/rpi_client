@@ -19,15 +19,16 @@
 #include "../resource/rpi_resource.h"
 #include "rpi_about_dialog.h"
 
+#define FAILED_MALLOC_ABOUT_DIALOG "Failed to allocate memory for about dialog.\n"
+#define FAILED_PIXBUF_ABOUT_DIALOG "Failed to create pixbuf from about logo_file_path.\n"
+#define FAILED_RESOURCE_ABOUT_DIALOG "Failed to get resource path for about logo_file_path.\n"
+
 static const gchar* TEXT_NAME_ABOUT_DIALOG = "About RPIClient";
 static const gchar* TEXT_VERSION_ABOUT_DIALOG = "1.0.0";
 static const gchar* TEXT_COPYRIGHT_ABOUT_DIALOG = "2025 (c) elektron.ronca@gmail.com";
 static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistribute it and/or modify it.";
 static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";
 static const gchar* LOGO_FILE_NAME_ABOUT_DIALOG = "logo.png";
-static const gchar* WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG = "Failed to allocate memory for about dialog.\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG = "Failed to create pixbuf from about logo_file_path.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG = "Failed to get resource path for about logo_file_path.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief About dialog complex widget
@@ -43,7 +44,7 @@ AboutDialog *new_about_dialog(void)
 
     if(!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_critical(FAILED_MALLOC_ABOUT_DIALOG);
         return NULL;
     }
 
@@ -51,7 +52,7 @@ AboutDialog *new_about_dialog(void)
 
     if (!GTK_IS_ABOUT_DIALOG(instance->dialog))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_ABOUT_DIALOG);
+        g_critical(FAILED_MALLOC_ABOUT_DIALOG);
         destroy_about_dialog(instance);
         return NULL;
     }
@@ -75,7 +76,7 @@ AboutDialog *new_about_dialog(void)
         }
         else
         {
-            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_ABOUT_DIALOG);
+            g_warning(FAILED_PIXBUF_ABOUT_DIALOG);
             pixbuf = NULL;
         }
 
@@ -84,7 +85,7 @@ AboutDialog *new_about_dialog(void)
     }
     else
     {
-        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_ABOUT_DIALOG);
+        g_warning(FAILED_RESOURCE_ABOUT_DIALOG);
         logo_file_path = NULL;
     }
 
@@ -134,6 +135,5 @@ void destroy_about_dialog(AboutDialog *instance)
         }
 
         g_free(instance);
-        instance = NULL;
     }
 }

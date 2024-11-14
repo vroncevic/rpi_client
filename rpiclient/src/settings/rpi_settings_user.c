@@ -18,9 +18,14 @@
  */
 #include <unistd.h>
 #include <pwd.h>
+#include "rpi_client_config.h"
 #include "rpi_settings_user.h"
 
-static const gchar* WARNING_LOG_FAILED_GET_USERNAME_SETTINGS_USER = "Unable to retrieve the username.\n";
+#if RPI_VERBOSE == 1
+#define USERNAME_SETTINGS_USER "Successfully get username: %s.\n"
+#endif
+
+#define FAILED_GET_USERNAME_SETTINGS_USER "Unable to retrieve the username.\n"
 
 gchar* rpi_get_username_settings_user(void)
 {
@@ -30,7 +35,7 @@ gchar* rpi_get_username_settings_user(void)
 
     if (!pw)
     {
-        g_warning("%s", WARNING_LOG_FAILED_GET_USERNAME_SETTINGS_USER);
+        g_critical(FAILED_GET_USERNAME_SETTINGS_USER);
         return NULL;
     }
 
@@ -38,6 +43,10 @@ gchar* rpi_get_username_settings_user(void)
     {
         username = g_strdup(pw->pw_name);
     }
+
+#if RPI_VERBOSE == 1
+    g_debug(USERNAME_SETTINGS_USER, username);
+#endif
 
     return username;
 }
