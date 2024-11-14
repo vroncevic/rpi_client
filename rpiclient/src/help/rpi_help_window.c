@@ -20,14 +20,15 @@
 #include "rpi_image_slider.h"
 #include "rpi_help_window.h"
 
+#define FAILED_MALLOC_HELP_WINDOW "Failed to allocate memory for help window.\n"
+#define FAILED_PIXBUF_HELP_WINDOW "Failed to create pixbuf from help icon.\n"
+#define FAILED_RESOURCE_HELP_WINDOW "Failed to get resource path for help icon.\n"
+
 static const gchar* TITLE_HELP_WINDOW = "Help";
 static const gint BORDER_WIDTH_HELP_WINDOW = 10;
 static const gint WIDTH_HELP_WINDOW = 300;
 static const gint HEIGHT_HELP_WINDOW = 200;
 static const gchar* ICON_HELP_WINDOW = "icon.png";
-static const gchar* WARNING_LOG_FAILED_MALLOC_HELP_WINDOW = "Failed to allocate memory for help window.\n";
-static const gchar* WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW = "Failed to create pixbuf from help icon.\n";
-static const gchar* WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW = "Failed to get resource path for help icon.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Help window complex widget
@@ -45,7 +46,7 @@ HelpWindow *new_help_window(void)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        g_critical(FAILED_MALLOC_HELP_WINDOW);
         return NULL;
     }
 
@@ -53,7 +54,7 @@ HelpWindow *new_help_window(void)
 
     if (!GTK_IS_WINDOW(instance->window))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        g_critical(FAILED_MALLOC_HELP_WINDOW);
         destroy_help_window(instance);
         return NULL;
     }
@@ -62,7 +63,7 @@ HelpWindow *new_help_window(void)
 
     if (!instance->image_slider)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_HELP_WINDOW);
+        g_critical(FAILED_MALLOC_HELP_WINDOW);
         destroy_help_window(instance);
         return NULL;
     }
@@ -84,7 +85,7 @@ HelpWindow *new_help_window(void)
         }
         else
         {
-            g_warning("%s", WARNING_LOG_FAILED_PIXBUF_HELP_WINDOW);
+            g_critical(FAILED_PIXBUF_HELP_WINDOW);
             pixbuf = NULL;
         }
             
@@ -93,7 +94,7 @@ HelpWindow *new_help_window(void)
     }
     else
     {
-        g_warning("%s", WARNING_LOG_FAILED_RESOURCE_HELP_WINDOW);
+        g_critical(FAILED_RESOURCE_HELP_WINDOW);
         icon_file_path = NULL;
     }
 
@@ -154,6 +155,5 @@ void destroy_help_window(HelpWindow *instance)
         }
 
         g_free(instance);
-        instance = NULL;
     }
 }

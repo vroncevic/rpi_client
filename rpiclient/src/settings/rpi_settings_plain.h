@@ -18,8 +18,7 @@
  */
 #pragma once
 
-#include <stdio.h>
-#include <gtk/gtk.h>
+#include <glib.h>
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Plain file IO success status

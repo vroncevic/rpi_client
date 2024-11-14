@@ -18,6 +18,8 @@
  */
 #include "rpi_channel_control.h"
 
+#define FAILED_MALLOC_CHANNEL_CONTROL "Failed to allocate memory for channel control.\n"
+
 static const gint WIDTH_SCALE_CHANNEL_CONTROL = 50;
 static const gint HEIGHT_SCALE_CHANNEL_CONTROL = 180;
 static const gdouble MIN_VALUE_SCALE_CHANNEL_CONTROL = 0.0;
@@ -31,7 +33,6 @@ static const gdouble PAGE_INCREMENT_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
 static const gdouble PAGE_SIZE_SPINNER_ADJUSTMENT_CHANNEL_CONTROL = 0.0;
 static const gdouble CLIMB_RATE_SPINNER_BUTTON_CHANNEL_CONTROL = 1.0;
 static const gint DIGITS_SPINNER_BUTTON_CHANNEL_CONTROL = 0;
-static const gchar* WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL = "Failed to allocate memory for channel control.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channel control complex widget
@@ -55,7 +56,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
+        g_critical(FAILED_MALLOC_CHANNEL_CONTROL);
         return NULL;
     }
 
@@ -63,7 +64,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_VB(instance->control_channel_vertical_bar))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
+        g_critical(FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;        
     }
@@ -80,7 +81,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_SCALE(instance->control_channel_scale))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
+        g_critical(FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -106,7 +107,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
+        g_critical(FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -119,7 +120,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
+        g_critical(FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -133,7 +134,7 @@ RPIChannelControl *new_rpi_channel_control(gint channel_id)
 
     if (!GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_CHANNEL_CONTROL);
+        g_critical(FAILED_MALLOC_CHANNEL_CONTROL);
         destroy_rpi_channel_control(instance);
         return NULL;
     }
@@ -333,6 +334,5 @@ void destroy_rpi_channel_control(RPIChannelControl *instance)
         }
 
         g_free(instance);
-        instance = NULL;
     }
 }

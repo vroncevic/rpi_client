@@ -36,7 +36,7 @@ gchar *rpi_get_config_file_path(const gchar *file_name, const gchar *default_con
 
         if (error)
         {
-            g_warning("Failed to create file: %s", error->message);
+            g_critical("Failed to create file: %s", error->message);
             g_error_free(error);
             g_free(file_path);
             error = NULL;
@@ -49,7 +49,7 @@ gchar *rpi_get_config_file_path(const gchar *file_name, const gchar *default_con
 
         if (error)
         {
-            g_warning("Failed to write to file: %s", error->message);
+            g_critical("Failed to write to file: %s", error->message);
             g_error_free(error);
             error = NULL;
         }

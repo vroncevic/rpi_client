@@ -19,9 +19,13 @@
 #pragma once
 
 //////////////////////////////////////////////////////////////////////////////
+/// @brief Enables verbose log messages
+#define RPI_VERBOSE 1
+
+//////////////////////////////////////////////////////////////////////////////
 /// @brief Use SQLITE3 for keeping settings configuration
-#define USE_SETTINGS_SQLITE3 0
+#define RPI_USE_SETTINGS_SQLITE3 0
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Use PLAIN file for keeping settings configuration
-#define USE_SETTINGS_PLAIN_CONFIG 0
+#define RPI_USE_SETTINGS_PLAIN_CONFIG 0

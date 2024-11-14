@@ -18,6 +18,8 @@
  */
 #include "rpi_menu.h"
 
+#define FAILED_MALLOC_RPI_MENU "Failed to allocate memory for menu bar.\n"
+
 static const gchar* TEXT_MENU_FILE_RPI_MENU = "File";
 static const gchar* TEXT_MENU_FILE_SUBMENU_EXIT_RPI_MENU = "Exit";
 static const gchar* TEXT_MENU_OPTION_RPI_MENU = "Option";
@@ -29,7 +31,6 @@ static const gchar* TEXT_MENU_SETTINGS_SUBMENU_NETWORK_RPI_MENU = "Network";
 static const gchar* TEXT_MENU_HELP_RPI_MENU = "Help";
 static const gchar* TEXT_MENU_HELP_SUBMENU_HELP_RPI_MENU = "Help";
 static const gchar* TEXT_MENU_HELP_SUBMENU_ABOUT_RPI_MENU = "About";
-static const gchar* WARNING_LOG_FAILED_MALLOC_RPI_MENU = "Failed to allocate memory for menu bar.\n";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Menu bar complex widget
@@ -70,7 +71,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!instance)
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         return NULL;
     }
 
@@ -78,7 +79,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_BAR(instance->menu_bar))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -87,7 +88,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU(instance->menu_file))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -96,7 +97,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_file_item))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -105,7 +106,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_file_submenu_exit))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -114,7 +115,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU(instance->menu_option))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -123,7 +124,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_option_item))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -132,7 +133,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_option_submenu_connect))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -141,7 +142,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_option_submenu_disconnect))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -150,7 +151,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU(instance->menu_settings))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -159,7 +160,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_settings_item))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -168,7 +169,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_settings_submenu_general))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -177,7 +178,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_settings_submenu_network))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -186,7 +187,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU(instance->menu_help))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -195,7 +196,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_help_item))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -204,7 +205,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_help_submenu_help))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -213,7 +214,7 @@ RPIMenu *new_rpi_menu(void)
 
     if (!GTK_IS_MENU_ITEM(instance->menu_help_submenu_about))
     {
-        g_warning("%s", WARNING_LOG_FAILED_MALLOC_RPI_MENU);
+        g_critical(FAILED_MALLOC_RPI_MENU);
         destroy_rpi_menu(instance);
         return NULL;
     }
@@ -493,6 +494,5 @@ void destroy_rpi_menu(RPIMenu *instance)
         }
 
         g_free(instance);
-        instance = NULL;
     }
 }

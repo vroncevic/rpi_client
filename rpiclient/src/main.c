@@ -132,12 +132,12 @@ static gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
 
 static void on_option_connect(void)
 {
-    g_warning("%s", "connect\n");
+    g_info("%s", "connect\n");
 }
 
 static void on_option_disconnect(void)
 {
-    g_warning("%s", "disconnect\n");
+    g_info("%s", "disconnect\n");
 }
 
 static void on_show_settings_general(void)
