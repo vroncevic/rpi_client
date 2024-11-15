@@ -117,7 +117,7 @@ gint show_exit_dialog(ExitDialog *instance)
 
             if (result == GTK_RESPONSE_ACCEPT)
             {
-                destroy_exit_dialog(instance);
+                hide_exit_dialog(instance);
                 return CLOSE_ON_EXIT_DIALOG;
             }
 
@@ -137,7 +137,7 @@ gint show_exit_dialog(ExitDialog *instance)
 
             if (result == GTK_RESPONSE_ACCEPT)
             {
-                destroy_exit_dialog(instance);
+                hide_exit_dialog(instance);
                 return CLOSE_ON_EXIT_DIALOG;
             }
 

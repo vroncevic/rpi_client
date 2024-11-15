@@ -32,13 +32,13 @@ RPIHome *app = NULL;
 gchar *resource_dir_path = NULL;
 gchar *config_dir_path = NULL;
 
-static gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data);
-static void on_option_connect(void);
-static void on_option_disconnect(void);
-static void on_show_settings_general(void);
-static void on_show_settings_network(void);
-static void on_show_help(void);
-static void on_show_about(void);
+static void on_exit(GtkWidget *widget, gpointer data);
+static void on_option_connect(GtkWidget *widget, gpointer data);
+static void on_option_disconnect(GtkWidget *widget, gpointer data);
+static void on_show_settings_general(GtkWidget *widget, gpointer data);
+static void on_show_settings_network(GtkWidget *widget, gpointer data);
+static void on_show_help(GtkWidget *widget, gpointer data);
+static void on_show_about(GtkWidget *widget, gpointer data);
 
 int main(int argc, char *argv[])
 {
@@ -52,54 +52,14 @@ int main(int argc, char *argv[])
     app = new_rpi_home();
     show_rpi_home(app);
 
-    g_signal_connect(
-        G_OBJECT(get_window_from_rpi_home(app)),
-        "delete_event",
-        G_CALLBACK(on_exit),
-        NULL
-    );
-    g_signal_connect(
-        G_OBJECT(get_exit_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
-        "activate",
-        G_CALLBACK(on_exit),
-        NULL
-    );
-    g_signal_connect(
-        G_OBJECT(get_connect_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
-        "activate",
-        G_CALLBACK(on_option_connect),
-        NULL
-    );
-    g_signal_connect(
-        G_OBJECT(get_disconnect_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
-        "activate",
-        G_CALLBACK(on_option_disconnect),
-        NULL
-    );
-    g_signal_connect(
-        G_OBJECT(get_general_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
-        "activate",
-        G_CALLBACK(on_show_settings_general),
-        NULL
-    );
-    g_signal_connect(
-        G_OBJECT(get_network_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
-        "activate",
-        G_CALLBACK(on_show_settings_network),
-        NULL
-    );
-    g_signal_connect(
-        G_OBJECT(get_help_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
-        "activate",
-        G_CALLBACK(on_show_help),
-        NULL
-    );
-    g_signal_connect(
-        G_OBJECT(get_about_item_from_rpi_menu(get_menu_bar_from_rpi_home(app))),
-        "activate",
-        G_CALLBACK(on_show_about),
-        NULL
-    );
+    g_signal_connect(G_OBJECT(get_window_from_rpi_home(app)), "delete_event", G_CALLBACK(on_exit), NULL);
+    rpi_menu_connect_signal(get_menu_bar_from_rpi_home(app), on_exit, "Exit");
+    rpi_menu_connect_signal(get_menu_bar_from_rpi_home(app), on_option_connect, "Connect");
+    rpi_menu_connect_signal(get_menu_bar_from_rpi_home(app), on_option_disconnect, "Disconnect");
+    rpi_menu_connect_signal(get_menu_bar_from_rpi_home(app), on_show_settings_general, "General");
+    rpi_menu_connect_signal(get_menu_bar_from_rpi_home(app), on_show_settings_network, "Network");
+    rpi_menu_connect_signal(get_menu_bar_from_rpi_home(app), on_show_help, "Help");
+    rpi_menu_connect_signal(get_menu_bar_from_rpi_home(app), on_show_about, "About");
 
     // yes_tid = g_thread_create(readSocket, NULL, FALSE, NULL);
 
@@ -110,37 +70,36 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-static gint on_exit(GtkWidget *widget, GdkEvent *event, gpointer data)
+static void on_exit(GtkWidget *widget, gpointer data)
 {
     ExitDialog *exit_dialog = new_exit_dialog(get_window_from_rpi_home(app));
     gint exit_code = show_exit_dialog(exit_dialog);
 
     if (exit_code == CLOSE_ON_EXIT_DIALOG)
     {
+        destroy_exit_dialog(exit_dialog);
+        exit_dialog = NULL;
         destroy_rpi_home(app);
         app = NULL;
         gtk_main_quit();
-        return FALSE;
+        return;
     }
 
-    hide_exit_dialog(exit_dialog);
     destroy_exit_dialog(exit_dialog);
     exit_dialog = NULL;
-
-    return TRUE;
 }
 
-static void on_option_connect(void)
+static void on_option_connect(GtkWidget *widget, gpointer data)
 {
-    g_info("%s", "connect\n");
+    g_warning("%s", "connect\n");
 }
 
-static void on_option_disconnect(void)
+static void on_option_disconnect(GtkWidget *widget, gpointer data)
 {
-    g_info("%s", "disconnect\n");
+    g_warning("%s", "disconnect\n");
 }
 
-static void on_show_settings_general(void)
+static void on_show_settings_general(GtkWidget *widget, gpointer data)
 {
     SettingsGeneralWindow *settings_general_window = new_settings_general_window();
 
@@ -150,7 +109,7 @@ static void on_show_settings_general(void)
     }
 }
 
-static void on_show_settings_network(void)
+static void on_show_settings_network(GtkWidget *widget, gpointer data)
 {
     SettingsNetworkWindow *settings_network_window = new_settings_network_window();
 
@@ -160,7 +119,7 @@ static void on_show_settings_network(void)
     }
 }
 
-static void on_show_help(void)
+static void on_show_help(GtkWidget *widget, gpointer data)
 {
     HelpWindow *help_window = new_help_window();
 
@@ -170,7 +129,7 @@ static void on_show_help(void)
     }
 }
 
-static void on_show_about(void)
+static void on_show_about(GtkWidget *widget, gpointer data)
 {
     AboutDialog *about_dialog = new_about_dialog();
 
