@@ -281,116 +281,42 @@ GtkWidget *get_menu_bar_from_rpi_menu(RPIMenu *instance)
     return NULL;
 }
 
-GtkWidget* get_exit_item_from_rpi_menu(RPIMenu *instance)
+void rpi_menu_connect_signal(RPIMenu *instance, void (*on_callback)(GtkWidget *, gpointer), const gchar* submenu)
 {
-    if (instance)
+    if (g_strcmp0(TEXT_MENU_FILE_SUBMENU_EXIT_RPI_MENU, submenu) == 0)
     {
-        gboolean is_menu_bar = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_menu_item_exit = GTK_IS_MENU_ITEM(instance->menu_file_submenu_exit);
-
-        if (is_menu_bar && is_menu_item_exit)
-        {
-            return instance->menu_file_submenu_exit;
-        }
+        g_signal_connect(G_OBJECT(instance->menu_file_submenu_exit), "activate", G_CALLBACK(on_callback), NULL);
     }
 
-    return NULL;
-}
-
-GtkWidget* get_connect_item_from_rpi_menu(RPIMenu *instance)
-{
-    if (instance)
+    if (g_strcmp0(TEXT_MENU_OPTION_SUBMENU_CONNECT_RPI_MENU, submenu) == 0)
     {
-        gboolean is_menu_bar = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_menu_item_connect = GTK_IS_MENU_ITEM(instance->menu_option_submenu_connect);
-
-        if (is_menu_bar && is_menu_item_connect)
-        {
-            return instance->menu_option_submenu_connect;
-        }
+        g_signal_connect(G_OBJECT(instance->menu_option_submenu_connect), "activate", G_CALLBACK(on_callback), NULL);
     }
 
-    return NULL;
-}
-
-GtkWidget* get_disconnect_item_from_rpi_menu(RPIMenu *instance)
-{
-    if (instance)
+    if (g_strcmp0(TEXT_MENU_OPTION_SUBMENU_DISCONNECT_RPI_MENU, submenu) == 0)
     {
-        gboolean is_menu_bar = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_menu_item_disconnect = GTK_IS_MENU_ITEM(instance->menu_option_submenu_disconnect);
-
-        if (is_menu_bar && is_menu_item_disconnect)
-        {
-            return instance->menu_option_submenu_disconnect;
-        }
+        g_signal_connect(G_OBJECT(instance->menu_option_submenu_disconnect), "activate", G_CALLBACK(on_callback), NULL);
     }
 
-    return NULL;
-}
-
-GtkWidget* get_general_item_from_rpi_menu(RPIMenu *instance)
-{
-    if (instance)
+    if (g_strcmp0(TEXT_MENU_SETTINGS_SUBMENU_GENERAL_RPI_MENU, submenu) == 0)
     {
-        gboolean is_menu_bar = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_menu_item_general = GTK_IS_MENU_ITEM(instance->menu_settings_submenu_general);
-
-        if (is_menu_bar && is_menu_item_general)
-        {
-            return instance->menu_settings_submenu_general;
-        }
+        g_signal_connect(G_OBJECT(instance->menu_settings_submenu_general), "activate", G_CALLBACK(on_callback), NULL);
     }
 
-    return NULL;
-}
-
-GtkWidget* get_network_item_from_rpi_menu(RPIMenu *instance)
-{
-    if (instance)
+    if (g_strcmp0(TEXT_MENU_SETTINGS_SUBMENU_NETWORK_RPI_MENU, submenu) == 0)
     {
-        gboolean is_menu_bar = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_menu_item_network = GTK_IS_MENU_ITEM(instance->menu_settings_submenu_network);
-
-        if (is_menu_bar && is_menu_item_network)
-        {
-            return instance->menu_settings_submenu_network;        
-        }
+        g_signal_connect(G_OBJECT(instance->menu_settings_submenu_network), "activate", G_CALLBACK(on_callback), NULL);
     }
 
-    return NULL;
-}
-
-GtkWidget* get_help_item_from_rpi_menu(RPIMenu *instance)
-{
-    if (instance)
+    if (g_strcmp0(TEXT_MENU_HELP_SUBMENU_HELP_RPI_MENU, submenu) == 0)
     {
-        gboolean is_menu_bar = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_menu_item_help = GTK_IS_MENU_ITEM(instance->menu_help_submenu_help);
-
-        if (is_menu_bar && is_menu_item_help)
-        {
-            return instance->menu_help_submenu_help;        
-        }
+        g_signal_connect(G_OBJECT(instance->menu_help_submenu_help), "activate", G_CALLBACK(on_callback), NULL);
     }
 
-    return NULL;
-}
-
-GtkWidget* get_about_item_from_rpi_menu(RPIMenu *instance)
-{
-    if (instance)
+    if (g_strcmp0(TEXT_MENU_HELP_SUBMENU_ABOUT_RPI_MENU, submenu) == 0)
     {
-        gboolean is_menu_bar = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_menu_item_about = GTK_IS_MENU_ITEM(instance->menu_help_submenu_about);
-
-        if (is_menu_bar && is_menu_item_about)
-        {
-            return instance->menu_help_submenu_about;
-        }
+        g_signal_connect(G_OBJECT(instance->menu_help_submenu_about), "activate", G_CALLBACK(on_callback), NULL);
     }
-
-    return NULL;
 }
 
 void destroy_rpi_menu(RPIMenu *instance)
