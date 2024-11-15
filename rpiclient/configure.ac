@@ -27,7 +27,7 @@ AC_SUBST([SQLITE3_CFLAGS])
 AC_SUBST([SQLITE3_LIBS])
 
 AC_CONFIG_COMMANDS_PRE([
-  sed -i 's/#define RPI_USE_SETTINGS_PLAIN_CONFIG 0/#define RPI_USE_SETTINGS_PLAIN_CONFIG 1/' src/settings/rpi_client_config.h
+  sed -i 's/#define RPI_USE_SETTINGS_SQLITE3 0/#define RPI_USE_SETTINGS_SQLITE3 1/' src/settings/rpi_client_config.h
 ])
 
 AC_OUTPUT([

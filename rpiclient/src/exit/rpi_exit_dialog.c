@@ -103,6 +103,28 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
 gint show_exit_dialog(ExitDialog *instance)
 {
+#if GTK_MAJOR_VERSION == 4
+    if (instance)
+    {
+        gboolean is_dialog = GTK_IS_DIALOG(instance->dialog);
+        gboolean is_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+
+        if (is_dialog && is_dialog_hidden)
+        {
+            gtk_widget_show(GTK_WIDGET(instance->dialog));
+            // TODO: gtk_dialog_run is depricated move to signal slot
+            gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
+
+            if (result == GTK_RESPONSE_ACCEPT)
+            {
+                destroy_exit_dialog(instance);
+                return CLOSE_ON_EXIT_DIALOG;
+            }
+
+            hide_exit_dialog(instance);
+        }
+    }
+#elif GTK_MAJOR_VERSION == 3
     if (instance)
     {
         gboolean is_dialog = GTK_IS_DIALOG(instance->dialog);
@@ -122,6 +144,9 @@ gint show_exit_dialog(ExitDialog *instance)
             hide_exit_dialog(instance);
         }
     }
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
     return NOT_CLOSE_ON_EXIT_DIALOG;
 }
@@ -131,8 +156,13 @@ void hide_exit_dialog(ExitDialog *instance)
     if (instance)
     {
         gboolean is_dialog = GTK_IS_DIALOG(instance->dialog);
+#if GTK_MAJOR_VERSION == 4
+        gboolean is_dialog_visible = gtk_widget_is_visible(GTK_WIDGET(instance->dialog));
+#elif GTK_MAJOR_VERSION == 3
         gboolean is_dialog_visible = gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
-
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
         if (is_dialog && is_dialog_visible)
         {
             gtk_widget_hide(GTK_WIDGET(instance->dialog));

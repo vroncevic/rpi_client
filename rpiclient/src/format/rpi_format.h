@@ -21,27 +21,31 @@
 #include <glib.h>
 
 //////////////////////////////////////////////////////////////////////////////
+/// @brief Number of RPI channels
+#define USED_CHANNELS_FORMAT (8)
+
+//////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channels complex structure
 typedef struct _RPIChannels RPIChannels;
 
 //////////////////////////////////////////////////////////////////////////////
-/// @brief Encrypt input data sequence
+/// @brief Init RPI channels complex structure
 /// @param instance is pointer to RPI channels structure
 void rpi_format_init(RPIChannels *instance);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Prepares PIN operation in string format
-/// @param pin_operation is PIN operation
+/// @param op is PIN operation
 /// @param pin_id is PIN ID
 /// @return PIN operation in string format | NULL
-gchar* pin_operation(const gchar* pin_operation, guint pin_id);
+gchar* pin_operation(const gchar* op, guint pin_id);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Prepares channel operation in string format
-/// @param channel_operation is channel operation
+/// @param op is channel operation
 /// @param channel_id is channel ID
 /// @return Channel operation in string format | NULL
-gchar* channel_operation(const gchar* channel_operation, guint channel_id);
+gchar* channel_operation(const gchar* op, guint channel_id);
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Encrypt input data sequence
@@ -56,3 +60,8 @@ gchar* rpi_format_encrypt(const gchar* in, guint shift);
 /// @param shift is shift value
 /// @return decrypted data sequence | NULL
 gchar* rpi_format_decrypt(const gchar* in, guint shift);
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Free allocated memory for RPI channels structure
+/// @param instance is pointer to RPI channels structure
+void rpi_format_free(RPIChannels *instance);

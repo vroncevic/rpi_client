@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdio.h>
 #include <sqlite3.h>
 #include "rpi_client_config.h"
 #include "rpi_settings_user.h"
@@ -296,6 +295,29 @@ static gint rpi_settings_sqlite_exec(const gchar* query, gchar** result)
             "no_exit TEXT);";
         gchar *error_message = NULL;
         status = sqlite3_exec(db, sql_create_table, 0, 0, &error_message);
+
+        if (status != SQLITE_OK)
+        {
+            if (error_message)
+            {
+                g_critical(FAILED_SQL_ERROR_SETTINGS_SQLITE, error_message);
+            }
+
+            rpi_settings_sqlite_close();
+            g_free(error_message);
+            error_message = NULL;
+            g_free(db_name);
+            db_name = NULL;
+            return status;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+        /// Insert default values if table is empty
+        const char *sql_insert_default =
+            "INSERT INTO settings (no_prompt, ip_address, port_number, no_exit) "
+            "SELECT 'false', '192.168.1.100', '8888', 'true' "
+            "WHERE NOT EXISTS (SELECT 1 FROM settings);";
+        status = sqlite3_exec(db, sql_insert_default, 0, 0, &error_message);
 
         if (status != SQLITE_OK)
         {

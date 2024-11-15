@@ -18,19 +18,15 @@
  */
 #include "rpi_format.h"
 
-#define USED_CHANNELS (8)
+#define MISSING_IN_SEQ_ENC_FORMAT "Missing input sequence for encrypt.\n"
+#define MISSING_IN_SEQ_DEC_FORMAT "Missing input sequence for decrypt.\n"
 
-// TODO: move to functions and variables
-#define CHECK_TYPE(typeOne, typeTwo) {#typeOne == #typeTwo ? 0 : 1}
-#define START_REQ "start:"
-#define END_REQ ":end"
-#define SEPARATOR ":"
+#define FAILED_MALLOC_ENC_FORMAT "Failed to allocate memory for encrypt output.\n"
+#define FAILED_MALLOC_DEC_FORMAT "Failed to allocate memory for decrypt output.\n"
 
-#define MISSING_IN_SEQ_ENC_ENCRYPT "Missing input sequence for encrypt.\n"
-#define MISSING_IN_SEQ_DEC_ENCRYPT "Missing input sequence for decrypt.\n"
-
-#define FAILED_MALLOC_ENC_ENCRYPT "Failed to allocate memory for encrypt output.\n"
-#define FAILED_MALLOC_DEC_ENCRYPT "Failed to allocate memory for decrypt output.\n"
+static const gchar* START_REQ_FORMAT = "start:";
+static const gchar* END_REQ_FORMAT = ":end";
+static const gchar* SEPARATOR_FORMAT = ":";
 
 //////////////////////////////////////////////////////////////////////////////
 /// @brief RPI channels complex structure
@@ -39,14 +35,14 @@
 ///   channel_data - TODO
 struct _RPIChannels
 {
-	gchar *pins[USED_CHANNELS];
-	gchar *channels[USED_CHANNELS];
-	gchar channel_data[USED_CHANNELS];
+	gchar *pins[USED_CHANNELS_FORMAT];
+	gchar *channels[USED_CHANNELS_FORMAT];
+	gchar channel_data[USED_CHANNELS_FORMAT];
 };
 
 void rpi_format_init(RPIChannels *instance)
 {
-    for (guint i = 0; i < USED_CHANNELS; i++) 
+    for (guint i = 0; i < USED_CHANNELS_FORMAT; i++) 
     {
         instance->pins[i] = pin_operation("DP", i);
         instance->channels[i] = channel_operation("DC", i);
@@ -56,25 +52,25 @@ void rpi_format_init(RPIChannels *instance)
 
 gchar* pin_operation(const gchar* op, guint pin_id)
 {
-    if (!op || pin_id > USED_CHANNELS)
+    if (!op || pin_id > USED_CHANNELS_FORMAT)
     {
         return NULL;
     }
 
     gchar* operation = g_malloc(g_utf8_strlen(op, -1) + 2);
-    snprintf(operation, g_utf8_strlen(op, -1) + 2, "%s%d", op, pin_id);
+    g_snprintf(operation, g_utf8_strlen(op, -1) + 2, "%s%d", op, pin_id);
     return operation; 
 }
 
 gchar* channel_operation(const gchar* op, guint channel_id)
 {
-    if (!op || channel_id > USED_CHANNELS)
+    if (!op || channel_id > USED_CHANNELS_FORMAT)
     {
         return NULL;
     }
 
     gchar* operation = g_malloc(g_utf8_strlen(op, -1) + 2);
-    snprintf(operation, g_utf8_strlen(op, -1) + 2, "%s%d", op, channel_id);
+    g_snprintf(operation, g_utf8_strlen(op, -1) + 2, "%s%d", op, channel_id);
     return operation; 
 }
 
@@ -82,7 +78,7 @@ gchar *rpi_format_encrypt(const gchar *in, guint shift)
 {
     if (!in)
     {
-        g_critical(MISSING_IN_SEQ_ENC_ENCRYPT);
+        g_critical(MISSING_IN_SEQ_ENC_FORMAT);
         return NULL;
     }
 
@@ -91,7 +87,7 @@ gchar *rpi_format_encrypt(const gchar *in, guint shift)
 
     if (!out)
     {
-        g_critical(FAILED_MALLOC_ENC_ENCRYPT);
+        g_critical(FAILED_MALLOC_ENC_FORMAT);
         return NULL;
     }
 
@@ -118,7 +114,7 @@ gchar *rpi_format_decrypt(const gchar *in, guint shift)
 {
     if (!in)
     {
-        g_critical(MISSING_IN_SEQ_DEC_ENCRYPT);
+        g_critical(MISSING_IN_SEQ_DEC_FORMAT);
         return NULL;
     }
 
@@ -127,7 +123,7 @@ gchar *rpi_format_decrypt(const gchar *in, guint shift)
 
     if (!out)
     {
-        g_critical(FAILED_MALLOC_DEC_ENCRYPT);
+        g_critical(FAILED_MALLOC_DEC_FORMAT);
         return NULL;
     }
 
@@ -155,4 +151,27 @@ gchar *rpi_format_decrypt(const gchar *in, guint shift)
 
     out[input_length] = '\0';
     return out;
+}
+
+void rpi_format_free(RPIChannels *instance)
+{
+    if (instance)
+    {
+        for (guint i = 0; i < USED_CHANNELS_FORMAT; i++)
+        {
+            if (instance->pins[i])
+            {
+                g_free(instance->pins[i]);
+                instance->pins[i] = NULL;
+            }
+            
+            if (instance->channels[i])
+            {
+                g_free(instance->channels[i]);
+                instance->channels[i] = NULL;
+            }
+        }
+
+        g_free(instance);
+    }
 }
