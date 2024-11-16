@@ -392,6 +392,6 @@ Lets help and support Raspberry PI && GNOME.
 
 <p align="center">
   <a href="https://www.raspberrypi.org/donate/">
-    <img src="https://raw.githubusercontent.com/vroncevic/rpi-client-gtk/master/docs/fondations.png" alt="GNOME&&RPi" width="381" height="221">
+    <img src="https://raw.githubusercontent.com/vroncevic/rpi_client_gtk/refs/heads/master/docs/fondations.png" alt="GNOME&&RPi" width="381" height="221">
   </a>
 </p>
