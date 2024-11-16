@@ -20,9 +20,13 @@
 #include "../resource/rpi_resource.h"
 #include "rpi_about_dialog.h"
 
+#if RPI_VERBOSE == 1
+#define LOGO_FILE_PATH_ABOUT_DIALOG "About logo file path: %s.\n"
+#endif
+
 #define FAILED_MALLOC_ABOUT_DIALOG "Failed to allocate memory for about dialog.\n"
-#define FAILED_PIXBUF_ABOUT_DIALOG "Failed to create pixbuf from about logo_file_path.\n"
-#define FAILED_RESOURCE_ABOUT_DIALOG "Failed to get resource path for about logo_file_path.\n"
+#define FAILED_RESOURCE_ABOUT_DIALOG "Failed to get media resource path for about logo.\n"
+#define FAILED_PIXBUF_ABOUT_DIALOG "Failed to create about pixbuf from media resource path.\n"
 
 static const gchar* TEXT_NAME_ABOUT_DIALOG = "About RPIClient";
 static const gchar* TEXT_VERSION_ABOUT_DIALOG = RPI_CLIENT_VERSION;
@@ -72,6 +76,11 @@ AboutDialog *new_about_dialog(void)
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(instance->dialog), pixbuf);
+
+#if RPI_VERBOSE == 1
+            g_debug(LOGO_FILE_PATH_ABOUT_DIALOG, logo_file_path);
+#endif
+
             g_object_unref(pixbuf);
             pixbuf = NULL;
         }
@@ -102,7 +111,13 @@ void show_about_dialog(AboutDialog *instance)
     if (instance)
     {
         gboolean is_about_dialog = GTK_IS_ABOUT_DIALOG(instance->dialog);
+#if GTK_MAJOR_VERSION == 4
+        gboolean is_about_dialog_hidden = !gtk_widget_is_visible(GTK_WIDGET(instance->dialog));
+#elif GTK_MAJOR_VERSION == 3
         gboolean is_about_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
         if (is_about_dialog && is_about_dialog_hidden)
         {
@@ -116,7 +131,13 @@ void hide_about_dialog(AboutDialog *instance)
     if (instance)
     {
         gboolean is_about_dialog = GTK_IS_ABOUT_DIALOG(instance->dialog);
+#if GTK_MAJOR_VERSION == 4
+        gboolean is_about_dialog_visible = gtk_widget_is_visible(GTK_WIDGET(instance->dialog));
+#elif GTK_MAJOR_VERSION == 3
         gboolean is_about_dialog_visible = gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
         if (is_about_dialog && is_about_dialog_visible)
         {
@@ -131,7 +152,13 @@ void destroy_about_dialog(AboutDialog *instance)
     {
         if (GTK_IS_ABOUT_DIALOG(instance->dialog))
         {
+#if GTK_MAJOR_VERSION == 4
+            gtk_window_close(GTK_WINDOW(instance->dialog));
+#elif GTK_MAJOR_VERSION == 3
             gtk_widget_destroy(GTK_WIDGET(instance->dialog));
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
             instance->dialog = NULL;
         }
 
