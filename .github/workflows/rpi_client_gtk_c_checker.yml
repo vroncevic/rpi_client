@@ -2,8 +2,12 @@ name: rpi_client_gtk_c_checker
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'rpiclient/**'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'rpiclient/**'
 jobs:
   build:
     runs-on: ubuntu-latest

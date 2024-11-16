@@ -1,6 +1,6 @@
 # GTK TCP/IP RPI Client
 
-<img align="right" src="https://raw.githubusercontent.com/vroncevic/rpi_client_gtk/dev/docs/rpi_client_gtk_logo.png" width="25%">
+<img align="right" src="https://raw.githubusercontent.com/vroncevic/rpi_client_gtk/refs/heads/master/docs/rpi_client_logo.png" width="25%">
 
 **rpi_client_gtk** is application for controlling RPI node.
 
