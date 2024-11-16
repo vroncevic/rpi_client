@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <sqlite3.h>
-#include "rpi_client_config.h"
+#include "rpi_settings.h"
 #include "rpi_settings_user.h"
 #include "rpi_settings_sqlite.h"
 
