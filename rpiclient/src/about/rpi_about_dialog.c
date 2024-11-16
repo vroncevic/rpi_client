@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_about_dialog.h"
 
@@ -24,7 +25,7 @@
 #define FAILED_RESOURCE_ABOUT_DIALOG "Failed to get resource path for about logo_file_path.\n"
 
 static const gchar* TEXT_NAME_ABOUT_DIALOG = "About RPIClient";
-static const gchar* TEXT_VERSION_ABOUT_DIALOG = "1.0.0";
+static const gchar* TEXT_VERSION_ABOUT_DIALOG = RPI_CLIENT_VERSION;
 static const gchar* TEXT_COPYRIGHT_ABOUT_DIALOG = "2025 (c) elektron.ronca@gmail.com";
 static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistribute it and/or modify it.";
 static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";

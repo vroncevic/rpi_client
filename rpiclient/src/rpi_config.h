@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpi_settings_user.c
+ * rpi_config.h
  * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -16,37 +16,4 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <unistd.h>
-#include <pwd.h>
-#include "rpi_settings.h"
-#include "rpi_settings_user.h"
-
-#if RPI_VERBOSE == 1
-#define USERNAME_SETTINGS_USER "Successfully get username: %s.\n"
-#endif
-
-#define FAILED_GET_USERNAME_SETTINGS_USER "Unable to retrieve the username.\n"
-
-gchar* rpi_get_username_settings_user(void)
-{
-    gchar* username = NULL;
-    uid_t uid = geteuid();
-    struct passwd *pw = getpwuid(uid);
-
-    if (!pw)
-    {
-        g_critical(FAILED_GET_USERNAME_SETTINGS_USER);
-        return NULL;
-    }
-
-    if (pw && pw->pw_name)
-    {
-        username = g_strdup(pw->pw_name);
-    }
-
-#if RPI_VERBOSE == 1
-    g_debug(USERNAME_SETTINGS_USER, username);
-#endif
-
-    return username;
-}
+#define RPI_CLIENT_VERSION "1.0.0-b61b448"

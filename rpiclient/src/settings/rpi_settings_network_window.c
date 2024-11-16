@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "rpi_client_config.h"
+#include "rpi_settings.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_settings_config.h"
 #include "rpi_settings_network_window.h"

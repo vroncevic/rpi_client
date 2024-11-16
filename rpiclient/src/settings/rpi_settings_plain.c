@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
-#include "rpi_client_config.h"
+#include "rpi_settings.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_settings_user.h"
 #include "rpi_settings_plain.h"

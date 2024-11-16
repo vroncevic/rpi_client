@@ -3,7 +3,7 @@ dnl @info   gengtkpro ver.1.0
 dnl @author Vladimir Roncevic <elektron.ronca@gmail.com>
 dnl @brief  Process this file with autoconf to produce a configure script.
 dnl ***************************************************************************
-AC_INIT(rpiclient, 1.0.0)
+AC_INIT([rpiclient], [1.0.0])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
@@ -27,7 +27,23 @@ AC_SUBST([SQLITE3_CFLAGS])
 AC_SUBST([SQLITE3_LIBS])
 
 AC_CONFIG_COMMANDS_PRE([
-  sed -i 's/#define RPI_USE_SETTINGS_SQLITE3 0/#define RPI_USE_SETTINGS_SQLITE3 1/' src/settings/rpi_client_config.h
+  if test -f src/settings/rpi_settings.h; then
+    sed -i 's/#define RPI_USE_SETTINGS_SQLITE3 0/#define RPI_USE_SETTINGS_SQLITE3 1/' src/settings/rpi_settings.h
+  else
+    AC_MSG_ERROR([src/settings/rpi_settings.h does not exist. Ensure it is available.])
+  fi
+])
+
+GIT_REVISION=$(git -C .. rev-parse --short HEAD 2>/dev/null || echo "unknown")
+RPI_CLIENT_VERSION_WITH_REV="${PACKAGE_VERSION}-${GIT_REVISION}"
+AC_MSG_NOTICE([RPI_CLIENT_VERSION_WITH_REV is $RPI_CLIENT_VERSION_WITH_REV])
+
+AC_CONFIG_COMMANDS_PRE([
+  if test -f src/rpi_config.h; then
+    sed -i "s|^#define RPI_CLIENT_VERSION \".*\"|#define RPI_CLIENT_VERSION \"${RPI_CLIENT_VERSION_WITH_REV}\"|" src/rpi_config.h
+  else
+    AC_MSG_ERROR([src/rpi_config.h does not exist. Ensure it is available.])
+  fi
 ])
 
 AC_OUTPUT([
