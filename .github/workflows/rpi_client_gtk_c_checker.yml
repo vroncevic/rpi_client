@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: install env
+      id: install_env
+      run: |
+        sudo apt-get install -y libtool-bin
     - name: autogen
       run: |
         cd rpiclient
