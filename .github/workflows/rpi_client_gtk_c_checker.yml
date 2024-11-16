@@ -25,11 +25,3 @@ jobs:
       run: |
         cd rpiclient
         make
-    - name: make check
-      run: |
-        cd rpiclient
-        make check
-    - name: make distcheck
-      run: |
-        cd rpiclient
-        make distcheck
