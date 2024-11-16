@@ -16,10 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include "rpi_settings.h"
+#include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
+#include "rpi_settings.h"
 #include "rpi_settings_config.h"
 #include "rpi_settings_network_window.h"
+
+#if RPI_VERBOSE == 1
+#define ICON_FILE_PATH_NETWORK_WINDOW "Icon file path: %s.\n"
+#endif
 
 #define FAILED_MALLOC_SETTINGS_NETWORK_WINDOW "Failed to allocate memory for settings network window.\n"
 #define FAILED_PIXBUF_SETTINGS_NETWORK_WINDOW "Failed to create pixbuf from settings network icon.\n"
@@ -130,6 +135,11 @@ SettingsNetworkWindow *new_settings_network_window(void)
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
+
+#if RPI_VERBOSE == 1
+            g_debug(ICON_FILE_PATH_NETWORK_WINDOW, icon_file_path);
+#endif
+
             g_object_unref(pixbuf);
             pixbuf = NULL;
         }

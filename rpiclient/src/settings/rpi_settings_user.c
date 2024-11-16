@@ -18,6 +18,7 @@
  */
 #include <unistd.h>
 #include <pwd.h>
+#include "../rpi_config.h"
 #include "rpi_settings.h"
 #include "rpi_settings_user.h"
 

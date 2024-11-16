@@ -16,7 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "rpi_menu.h"
+
+#if RPI_VERBOSE == 1
+#define CONNECT_SIGNAL_RPI_MENU "Connect signal to submenu: %s.\n"
+#endif
 
 #define FAILED_MALLOC_RPI_MENU "Failed to allocate memory for menu bar.\n"
 
@@ -317,6 +322,10 @@ void rpi_menu_connect_signal(RPIMenu *instance, void (*on_callback)(GtkWidget *,
     {
         g_signal_connect(G_OBJECT(instance->menu_help_submenu_about), "activate", G_CALLBACK(on_callback), NULL);
     }
+
+#if RPI_VERBOSE == 1
+    g_debug(CONNECT_SIGNAL_RPI_MENU, submenu);
+#endif
 }
 
 void destroy_rpi_menu(RPIMenu *instance)

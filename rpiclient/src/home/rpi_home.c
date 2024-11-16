@@ -16,10 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_menu.h"
 #include "rpi_home_frame.h"
 #include "rpi_home.h"
+
+#if RPI_VERBOSE == 1
+#define ICON_PATH_RPI_HOME "Icon file path: %s.\n"
+#endif
 
 #define FAILED_MALLOC_RPI_HOME "Failed to allocate memory for home.\n"
 #define FAILED_MALLOC_WINDOW_RPI_HOME "Failed to allocate memory for home window.\n"
@@ -80,6 +85,11 @@ RPIHome *new_rpi_home(void)
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
+
+#if RPI_VERBOSE == 1
+            g_debug(ICON_PATH_RPI_HOME, icon_file_path);
+#endif
+
             g_object_unref(pixbuf);
             pixbuf = NULL;
         }

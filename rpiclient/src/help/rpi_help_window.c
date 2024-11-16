@@ -16,9 +16,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_image_slider.h"
 #include "rpi_help_window.h"
+
+#if RPI_VERBOSE == 1
+#define ICON_PATH_HELP_WINDOW "Icon image path: %s.\n"
+#endif
 
 #define FAILED_MALLOC_HELP_WINDOW "Failed to allocate memory for help window.\n"
 #define FAILED_PIXBUF_HELP_WINDOW "Failed to create pixbuf from help icon.\n"
@@ -80,6 +85,11 @@ HelpWindow *new_help_window(void)
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_window_set_icon(GTK_WINDOW(instance->window), pixbuf);
+
+#if RPI_VERBOSE == 1
+            g_debug(ICON_PATH_HELP_WINDOW, icon_file_path);
+#endif
+
             g_object_unref(pixbuf);
             pixbuf = NULL;
         }

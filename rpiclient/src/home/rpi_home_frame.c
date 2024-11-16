@@ -16,9 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "rpi_channel_status.h"
 #include "rpi_channel_control.h"
 #include "rpi_home_frame.h"
+
+#if RPI_VERBOSE == 1
+#define SETUP_STATUS_CHANNEL_HOME_FRAME "Setup status channel id: %d.\n"
+#define SETUP_CONTROL_CHANNEL_HOME_FRAME "Setup control channel id: %d.\n"
+#endif
 
 #define FAILED_MALLOC_HOME_FRAME "Failed to allocate memory for home frame.\n"
 
@@ -161,6 +167,11 @@ RPIHomeFrame *new_rpi_home_frame(void)
             Y_POSITION_LABEL_STATUS_HOME_FRAME
         );
         x_pos_label += SHIFT_X_POSITION_STATUS_HOME_FRAME;
+
+#if RPI_VERBOSE == 1
+        g_debug(SETUP_STATUS_CHANNEL_HOME_FRAME, i);
+#endif
+
     }
 
     x_pos_vbar = START_X_POSITION_VERTICAL_BAR_CONTROL_HOME_FRAME;
@@ -199,6 +210,11 @@ RPIHomeFrame *new_rpi_home_frame(void)
             Y_POSITION_ACTIVATE_GPIO_CONTROL_HOME_FRAME
         );
         x_pos_control_channel_gpio_check_box += SHIFT_X_POSITION_CONTROL_HOME_FRAME;
+
+#if RPI_VERBOSE == 1
+        g_debug(SETUP_CONTROL_CHANNEL_HOME_FRAME, i);
+#endif
+
     }
 
     gtk_paned_add1(GTK_PANED(instance->vpaned), GTK_WIDGET(instance->frame_control));

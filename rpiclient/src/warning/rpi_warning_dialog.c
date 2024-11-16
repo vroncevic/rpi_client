@@ -16,12 +16,17 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "rpi_warning_dialog.h"
 
-#define MISSING_PARENT_WARNINGS_DIALOG "Missing parent widget parameter.\n"
-#define MISSING_MESSAGE_WARNINGS_DIALOG "Missing message parameter.\n"
+#if RPI_VERBOSE == 1
+#define CLOSE_WARNING_DIALOG "Close info dialog.\n"
+#endif
 
-#define FAILED_MALLOC_WARNINGS_DIALOG "Failed to allocate memory for warning dialog.\n"
+#define MISSING_PARENT_WARNING_DIALOG "Missing parent widget parameter.\n"
+#define MISSING_MESSAGE_WARNING_DIALOG "Missing message parameter.\n"
+
+#define FAILED_MALLOC_WARNING_DIALOG "Failed to allocate memory for warning dialog.\n"
 
 static const gchar* TEXT_TITLE_WARNING_DIALOG = "Warning!";
 static const gchar* TEXT_SETUP_CONNECTION_SETTINGS_WARNING_DIALOG = "Please set ip address, port of server !";
@@ -40,13 +45,13 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
 {
     if (!parent)
     {
-        g_critical(MISSING_PARENT_WARNINGS_DIALOG);
+        g_critical(MISSING_PARENT_WARNING_DIALOG);
         return NULL;
     }
 
     if (!msg)
     {
-        g_critical(MISSING_MESSAGE_WARNINGS_DIALOG);
+        g_critical(MISSING_MESSAGE_WARNING_DIALOG);
         return NULL;
     }
 
@@ -54,7 +59,7 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
 
     if (!instance)
     {
-        g_critical(FAILED_MALLOC_WARNINGS_DIALOG);
+        g_critical(FAILED_MALLOC_WARNING_DIALOG);
         return NULL;
     }
 
@@ -69,7 +74,7 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
 
     if (!GTK_IS_MESSAGE_DIALOG(instance->dialog))
     {
-        g_critical(FAILED_MALLOC_WARNINGS_DIALOG);
+        g_critical(FAILED_MALLOC_WARNING_DIALOG);
         destroy_warning_dialog(instance);
         return NULL;
     }
@@ -96,6 +101,11 @@ void show_warning_dialog(WarningDialog *instance)
             if (result == GTK_RESPONSE_CLOSE)
             {
                 hide_warning_dialog(instance);
+
+#if RPI_VERBOSE == 1
+                g_debug(CLOSE_WARNING_DIALOG);
+#endif
+
             }
         }
     }
