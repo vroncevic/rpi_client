@@ -1,14 +1,39 @@
 # GTK TCP/IP RPI Client
 
+<img align="right" src="https://raw.githubusercontent.com/vroncevic/rpi_client_gtk/dev/docs/rpi_client_gtk_logo.png" width="25%">
+
+**rpi_client_gtk** is application for controlling RPI node.
+
+Developed in **[C](https://en.wikipedia.org/wiki/C_(programming_language))** code.
+
 The README is used to introduce the modules and provide instructions on
-how to install the modules, any machine dependencies it may have and any 
+how to install the modules, any machine dependencies it may have and any
 other information that should be provided before the modules are installed.
 
-### INSTALLATION
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Installation](#installation)
+    - [Autogeneration](#autogeneration)
+    - [Compile](#compile)
+    - [Install](#install)
+- [Dependencies](#dependencies)
+- [Docs](#docs)
+- [Contributing](#contributing)
+- [Copyright and Licence](#copyright-and-licence)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+[![GitHub issues open](https://img.shields.io/github/issues/vroncevic/rpi_client_gtk.svg)](https://github.com/vroncevic/rpi_client_gtk/issues) [![GitHub contributors](https://img.shields.io/github/contributors/vroncevic/rpi_client_gtk.svg)](https://github.com/vroncevic/rpi_client_gtk/graphs/contributors)
+
+### Installation
+
+![Debian Linux OS](https://raw.githubusercontent.com/vroncevic/rpi_client_gtk/master/docs/debtux.png)
 
 To install this App type the following:
 
-#### AUTOGENERATION
+#### Autogeneration
 
 ```bash
 ./autogen.sh
@@ -210,7 +235,7 @@ config.status: executing po/stamp-it commands
 Now type `make' to compile.
 ```
 
-#### COMPILE
+#### Compile
 
 ```bash
 make
@@ -263,7 +288,7 @@ make[2]: Leaving directory '/home/jenkins/Downloads/rpiclient'
 make[1]: Leaving directory '/home/jenkins/Downloads/rpiclient'
 ```
 
-#### INSTALL
+#### Install
 
 ```bash
 sudo make install  
@@ -336,15 +361,37 @@ make[2]: Leaving directory '/home/jenkins/Downloads/rpiclient'
 make[1]: Leaving directory '/home/jenkins/Downloads/rpiclient'
 ```
 
-### DEPENDENCIES
+### Dependencies
 
 This module requires these other modules and libraries
 
 * [gtk+ - docs.gtk.org/gtk3](https://docs.gtk.org/gtk3/)
 * [sqlite - www.sqlite.org](https://www.sqlite.org/)
 
-### COPYRIGHT AND LICENCE
+### Docs
+
+[![Documentation Status](https://readthedocs.org/projects/rpi-client-gtk/badge/?version=master)](https://rpi-client-gtk.readthedocs.io/?badge=master)
+
+More documentation and info at
+
+* [rpi-client-gtk.readthedocs.io](https://rpi-client-gtk.readthedocs.io/)
+* [gtk+ - docs.gtk.org/gtk3](https://docs.gtk.org/gtk3/)
+* [sqlite - www.sqlite.org](https://www.sqlite.org/)
+
+### Contributing
+
+[Contributing to rpi_client_gtk](CONTRIBUTING.md)
+
+### Copyright and Licence
 
 Copyright (C) 2016 - 2025 by https://github.com/vroncevic/rpi_client_gtk
 
 **rpiclient** is free software; you can redistribute it and/or modify it.
+
+Lets help and support Raspberry PI && GNOME.
+
+<p align="center">
+  <a href="https://www.raspberrypi.org/donate/">
+    <img src="https://raw.githubusercontent.com/vroncevic/rpi-client-gtk/master/docs/fondations.png" alt="GNOME&&RPi" width="381" height="221">
+  </a>
+</p>
