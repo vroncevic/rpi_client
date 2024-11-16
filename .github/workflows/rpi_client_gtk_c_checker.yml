@@ -10,10 +10,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: autogen
-      run: ./autogen.sh
+      run: |
+        cd rpiclient
+        ./autogen.sh
     - name: make
-      run: make
+      run: |
+        cd rpiclient
+        make
     - name: make check
-      run: make check
+      run: |
+        cd rpiclient
+        make check
     - name: make distcheck
-      run: make distcheck
+      run: |
+        cd rpiclient
+        make distcheck
