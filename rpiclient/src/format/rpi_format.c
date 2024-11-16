@@ -16,7 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "rpi_format.h"
+
+#if RPI_VERBOSE == 1
+#define ENCRYPTED_FORMAT "Input sequence: %s encrypted: %s.\n"
+#define DECRYPTED_FORMAT "Input sequence: %s decrypted: %s.\n"
+#endif
 
 #define MISSING_IN_SEQ_ENC_FORMAT "Missing input sequence for encrypt.\n"
 #define MISSING_IN_SEQ_DEC_FORMAT "Missing input sequence for decrypt.\n"
@@ -107,6 +113,11 @@ gchar *rpi_format_encrypt(const gchar *in, guint shift)
     }
 
     out[input_length] = '\0';
+
+#if RPI_VERBOSE == 1
+        g_debug(ENCRYPTED_FORMAT, in, out);
+#endif
+
     return out;
 }
 
@@ -150,6 +161,11 @@ gchar *rpi_format_decrypt(const gchar *in, guint shift)
     }
 
     out[input_length] = '\0';
+
+#if RPI_VERBOSE == 1
+        g_debug(DECRYPTED_FORMAT, in, out);
+#endif
+
     return out;
 }
 

@@ -16,4 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#define RPI_CLIENT_VERSION "1.0.0-b61b448"
+#pragma once
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Enables verbose log messages
+#define RPI_CLIENT_VERSION "1.0.0-fd73110"
+
+//////////////////////////////////////////////////////////////////////////////
+/// @brief Enables verbose log messages
+#define RPI_VERBOSE 0

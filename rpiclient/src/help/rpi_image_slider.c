@@ -16,8 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_image_slider.h"
+
+#if RPI_VERBOSE == 1
+#define IMAGE_PATH_IMAGE_SLIDER "Media resource: %s.\n"
+#endif
 
 #define FAILED_MALLOC_IMAGE_SLIDER "Failed to allocate memory for image slider.\n"
 #define FAILED_RESOURCE_IMAGE_SLIDER "Failed to get resource path for image slider.\n"
@@ -86,6 +91,10 @@ ImageSlider *new_image_slider(void)
     }
 
     instance->image = gtk_image_new_from_file(image_file_path);
+
+#if RPI_VERBOSE == 1
+    g_debug(IMAGE_PATH_IMAGE_SLIDER, image_file_path);
+#endif
 
     if (!GTK_IS_IMAGE(instance->image))
     {

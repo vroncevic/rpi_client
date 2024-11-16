@@ -16,10 +16,16 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "rpi_info_dialog.h"
 
-#define FAILED_PARENT_WARNINGS_DIALOG "Missing parent widget parameter.\n"
-#define FAILED_MESSAGE_WARNINGS_DIALOG "Missing message parameter.\n"
+#if RPI_VERBOSE == 1
+#define CLOSE_INFO_DIALOG "Close info dialog.\n"
+#endif
+
+#define MISSING_PARENT_INFO_DIALOG "Missing parent widget parameter.\n"
+#define MISSING_MESSAGE_INFO_DIALOG "Missing message parameter.\n"
+
 #define FAILED_MALLOC_INFO_DIALOG "Failed to allocate memory for info dialog.\n"
 
 //////////////////////////////////////////////////////////////////////////////
@@ -34,13 +40,13 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
 {
     if (!parent)
     {
-        g_critical(FAILED_PARENT_WARNINGS_DIALOG);
+        g_critical(MISSING_PARENT_INFO_DIALOG);
         return NULL;
     }
 
     if (!msg)
     {
-        g_critical(FAILED_MESSAGE_WARNINGS_DIALOG);
+        g_critical(MISSING_MESSAGE_INFO_DIALOG);
         return NULL;
     }
 
@@ -90,6 +96,11 @@ void show_info_dialog(InfoDialog *instance)
             if (result == GTK_RESPONSE_CLOSE)
             {
                 hide_info_dialog(instance);
+
+#if RPI_VERBOSE == 1
+                g_debug(CLOSE_INFO_DIALOG);
+#endif
+
             }
         }
     }

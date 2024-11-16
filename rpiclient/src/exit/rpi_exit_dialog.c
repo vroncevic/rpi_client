@@ -16,7 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../rpi_config.h"
 #include "rpi_exit_dialog.h"
+
+#if RPI_VERBOSE == 1
+#define EXIT_FROM_RPI_CLIENT_EXIT_DIALOG "Exit from RPIClient.\n"
+#define DO_NOT_EXIT_FROM_RPI_CLIENT_EXIT_DIALOG "Don't exit from RPIClient.\n"
+#endif
 
 #define MISSING_PARENT_EXIT_DIALOG "Missing parent widget parameter.\n"
 
@@ -138,6 +144,10 @@ gint show_exit_dialog(ExitDialog *instance)
             if (result == GTK_RESPONSE_ACCEPT)
             {
                 hide_exit_dialog(instance);
+
+#if RPI_VERBOSE == 1
+        g_debug(EXIT_FROM_RPI_CLIENT_EXIT_DIALOG);
+#endif
                 return CLOSE_ON_EXIT_DIALOG;
             }
 
@@ -146,6 +156,10 @@ gint show_exit_dialog(ExitDialog *instance)
     }
 #else
 #error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
+
+#if RPI_VERBOSE == 1
+        g_debug(DO_NOT_EXIT_FROM_RPI_CLIENT_EXIT_DIALOG);
 #endif
 
     return NOT_CLOSE_ON_EXIT_DIALOG;
