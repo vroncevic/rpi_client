@@ -65,6 +65,7 @@ rpiclient_SOURCES = \
 	help/rpi_help_window.c \
 	help/rpi_image_slider.c \
 	info/rpi_info_dialog.c \
+	misc/rpi_misc.c \
 	resource/rpi_cpixbuf.c \
 	resource/rpi_get_resource_dir.c \
 	resource/rpi_get_resource_file_path.c \

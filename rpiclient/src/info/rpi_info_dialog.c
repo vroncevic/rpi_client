@@ -17,14 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../rpi_config.h"
+#include "../misc/rpi_misc.h"
 #include "rpi_info_dialog.h"
 
 #if RPI_VERBOSE == 1
 #define CLOSE_INFO_DIALOG "Close info dialog.\n"
 #endif
 
-#define MISSING_PARENT_INFO_DIALOG "Missing parent widget parameter.\n"
-#define MISSING_MESSAGE_INFO_DIALOG "Missing message parameter.\n"
+#define MISSING_PARENT_INFO_DIALOG "Missing parent widget parameter for info dialog.\n"
+#define MISSING_MESSAGE_INFO_DIALOG "Missing message parameter for info dialog.\n"
 
 #define FAILED_MALLOC_INFO_DIALOG "Failed to allocate memory for info dialog.\n"
 
@@ -58,6 +59,9 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
         return NULL;
     }
 
+#if GTK_MAJOR_VERSION == 4
+    // TODO: prepare info dialog for gtk+-4.0
+#elif GTK_MAJOR_VERSION == 3
     instance->dialog = gtk_message_dialog_new(
         GTK_WINDOW(parent),
         GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -66,6 +70,9 @@ InfoDialog *new_info_dialog(GtkWidget *parent, const gchar *msg)
         "%s",
         msg
     );
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
     if (!GTK_IS_MESSAGE_DIALOG(instance->dialog))
     {
@@ -86,21 +93,25 @@ void show_info_dialog(InfoDialog *instance)
     if (instance)
     {
         gboolean is_message_dialog = GTK_IS_MESSAGE_DIALOG(instance->dialog);
-        gboolean is_message_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+        gboolean is_message_dialog_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->dialog));
 
-        if (is_message_dialog && is_message_dialog_hidden)
+        if (is_message_dialog && !is_message_dialog_visible)
         {
             gtk_widget_show(GTK_WIDGET(instance->dialog));
+#if GTK_MAJOR_VERSION == 4
+            // TODO: prepare run info dialog for gtk+-4.0
+#elif GTK_MAJOR_VERSION == 3
             gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
             if (result == GTK_RESPONSE_CLOSE)
             {
                 hide_info_dialog(instance);
-
 #if RPI_VERBOSE == 1
                 g_debug(CLOSE_INFO_DIALOG);
 #endif
-
             }
         }
     }
@@ -111,7 +122,7 @@ void hide_info_dialog(InfoDialog *instance)
     if (instance)
     {
         gboolean is_message_dialog = GTK_IS_MESSAGE_DIALOG(instance->dialog);
-        gboolean is_message_dialog_visible = gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
+        gboolean is_message_dialog_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->dialog));
 
         if (is_message_dialog && is_message_dialog_visible)
         {
@@ -126,7 +137,7 @@ void destroy_info_dialog(InfoDialog *instance)
     {
         if (GTK_IS_MESSAGE_DIALOG(instance->dialog))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->dialog));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->dialog));
             instance->dialog = NULL;
         }
 

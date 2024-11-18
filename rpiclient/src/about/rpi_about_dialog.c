@@ -17,6 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../rpi_config.h"
+#include "../misc/rpi_misc.h"
 #include "../resource/rpi_resource.h"
 #include "rpi_about_dialog.h"
 
@@ -32,7 +33,7 @@ static const gchar* TEXT_NAME_ABOUT_DIALOG = "About RPIClient";
 static const gchar* TEXT_VERSION_ABOUT_DIALOG = RPI_CLIENT_VERSION;
 static const gchar* TEXT_COPYRIGHT_ABOUT_DIALOG = "2025 (c) elektron.ronca@gmail.com";
 static const gchar* TEXT_COMMENTS_ABOUT_DIALOG = "Free Software you can redistribute it and/or modify it.";
-static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://github.com/vroncevic/rpiclient-gtk";
+static const gchar* TEXT_WEBSITE_ABOUT_DIALOG = "https://vroncevic.github.io/rpi_client_gtk/";
 static const gchar* LOGO_FILE_NAME_ABOUT_DIALOG = "logo.png";
 
 //////////////////////////////////////////////////////////////////////////////
@@ -53,7 +54,13 @@ AboutDialog *new_about_dialog(void)
         return NULL;
     }
 
+#if GTK_MAJOR_VERSION == 4
+    // TODO: prepare about dialog for gtk+-4.0
+#elif GTK_MAJOR_VERSION == 3
     instance->dialog = gtk_about_dialog_new();
+#else
+#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
     if (!GTK_IS_ABOUT_DIALOG(instance->dialog))
     {
@@ -76,11 +83,9 @@ AboutDialog *new_about_dialog(void)
         if (GDK_IS_PIXBUF(pixbuf))
         {
             gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(instance->dialog), pixbuf);
-
 #if RPI_VERBOSE == 1
             g_debug(LOGO_FILE_PATH_ABOUT_DIALOG, logo_file_path);
 #endif
-
             g_object_unref(pixbuf);
             pixbuf = NULL;
         }
@@ -111,15 +116,9 @@ void show_about_dialog(AboutDialog *instance)
     if (instance)
     {
         gboolean is_about_dialog = GTK_IS_ABOUT_DIALOG(instance->dialog);
-#if GTK_MAJOR_VERSION == 4
-        gboolean is_about_dialog_hidden = !gtk_widget_is_visible(GTK_WIDGET(instance->dialog));
-#elif GTK_MAJOR_VERSION == 3
-        gboolean is_about_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
-#else
-#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
-#endif
+        gboolean is_about_dialog_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->dialog));
 
-        if (is_about_dialog && is_about_dialog_hidden)
+        if (is_about_dialog && !is_about_dialog_visible)
         {
             gtk_widget_show(GTK_WIDGET(instance->dialog));
         }
@@ -131,13 +130,7 @@ void hide_about_dialog(AboutDialog *instance)
     if (instance)
     {
         gboolean is_about_dialog = GTK_IS_ABOUT_DIALOG(instance->dialog);
-#if GTK_MAJOR_VERSION == 4
-        gboolean is_about_dialog_visible = gtk_widget_is_visible(GTK_WIDGET(instance->dialog));
-#elif GTK_MAJOR_VERSION == 3
-        gboolean is_about_dialog_visible = gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
-#else
-#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
-#endif
+        gboolean is_about_dialog_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->dialog));
 
         if (is_about_dialog && is_about_dialog_visible)
         {
@@ -152,13 +145,7 @@ void destroy_about_dialog(AboutDialog *instance)
     {
         if (GTK_IS_ABOUT_DIALOG(instance->dialog))
         {
-#if GTK_MAJOR_VERSION == 4
-            gtk_window_close(GTK_WINDOW(instance->dialog));
-#elif GTK_MAJOR_VERSION == 3
-            gtk_widget_destroy(GTK_WIDGET(instance->dialog));
-#else
-#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
-#endif
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->dialog));
             instance->dialog = NULL;
         }
 
