@@ -21,7 +21,7 @@
 #include "rpi_warning_dialog.h"
 
 #if RPI_VERBOSE == 1
-#define CLOSE_WARNING_DIALOG "Close warning dialog.\n"
+    #define CLOSE_WARNING_DIALOG "Close warning dialog.\n"
 #endif
 
 #define MISSING_PARENT_WARNING_DIALOG "Missing parent widget parameter for warning dialog.\n"
@@ -71,7 +71,7 @@ WarningDialog *new_warning_dialog(GtkWidget *parent, const gchar *msg)
         msg
     );
 #else
-#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+    #error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
 #endif
 
     if (!GTK_IS_MESSAGE_DIALOG(instance->dialog))
@@ -97,13 +97,13 @@ void show_warning_dialog(WarningDialog *instance)
 
         if (is_message_dialog && !is_message_dialog_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->dialog));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->dialog), !is_message_dialog_visible);
 #if GTK_MAJOR_VERSION == 4
             // TODO: prepare run warning dialog for gtk+-4.0
 #elif GTK_MAJOR_VERSION == 3
             gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
 #else
-#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+    #error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
 #endif
             if (result == GTK_RESPONSE_CLOSE)
             {
@@ -125,7 +125,7 @@ void hide_warning_dialog(WarningDialog *instance)
 
         if (is_message_dialog && is_message_dialog_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->dialog));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->dialog), !is_message_dialog_visible);
         }
     }
 }

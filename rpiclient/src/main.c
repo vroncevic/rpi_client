@@ -27,15 +27,17 @@
 #include "about/rpi_about_dialog.h"
 
 #if RPI_VERBOSE == 1
-#define ON_EXIT_RPI_CLIENT "On exit RPIClient main thread.\n"
-#define ON_EXIT_CLOSE_RPI_CLIENT "On exit RPIClient quit from main thread.\n"
-#define ON_CONNECT_RPI_CLIENT "On connect RPIClient main thread.\n"
-#define ON_DISCONNECT_RPI_CLIENT "On disconnect RPIClient main thread.\n"
-#define ON_SETTINGS_GENERAL_RPI_CLIENT "On settings general RPIClient main thread.\n"
-#define ON_SETTINGS_NETWORK_RPI_CLIENT "On settings network RPIClient main thread.\n"
-#define ON_HELP_RPI_CLIENT "On help RPIClient main thread.\n"
-#define ON_ABOUT_RPI_CLIENT "On about RPIClient main thread.\n"
+    #define ON_EXIT_RPI_CLIENT "On exit RPIClient main thread.\n"
+    #define ON_EXIT_CLOSE_RPI_CLIENT "On exit RPIClient quit from main thread.\n"
+    #define ON_CONNECT_RPI_CLIENT "On connect RPIClient main thread.\n"
+    #define ON_DISCONNECT_RPI_CLIENT "On disconnect RPIClient main thread.\n"
+    #define ON_SETTINGS_GENERAL_RPI_CLIENT "On settings general RPIClient main thread.\n"
+    #define ON_SETTINGS_NETWORK_RPI_CLIENT "On settings network RPIClient main thread.\n"
+    #define ON_HELP_RPI_CLIENT "On help RPIClient main thread.\n"
+    #define ON_ABOUT_RPI_CLIENT "On about RPIClient main thread.\n"
 #endif
+
+#define FAILED_RPI_CLIENT "Runtime GTK version does not match compile-time version!\n"
 
 RPIHome *app = NULL;
 /*ServerParameters *server_parameters;*/
@@ -58,6 +60,13 @@ int main(int argc, char *argv[])
     // gdk_threads_enter();
 
     gtk_init(&argc, &argv);
+
+    if (gtk_get_major_version() != GTK_MAJOR_VERSION)
+    {
+        g_critical(FAILED_RPI_CLIENT);
+        return 1;
+    }
+
     resource_dir_path = rpi_get_resource_dir();
     config_dir_path = rpi_get_config_dir();
     app = new_rpi_home();

@@ -27,6 +27,12 @@
 gboolean rpi_is_widget_visible_misc(const GtkWidget* widget);
 
 //////////////////////////////////////////////////////////////////////////////
+/// @brief Sets gtk+ widget to be visible or not
+/// @param widget is pointer to gtk+ widget (GtkWidget)
+/// @param visible is flag for show/hide widget (TRUE - show, FALSE - hide)
+void rpi_set_visible_widget_misc(GtkWidget* widget, gboolean visible);
+
+//////////////////////////////////////////////////////////////////////////////
 /// @brief Destroy gtk+ widget (remove from UI and free resources)
 /// @param widget is pointer to gtk+ widget (GtkWidget)
 void rpi_destroy_widget_misc(GtkWidget* widget);
