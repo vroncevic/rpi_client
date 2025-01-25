@@ -38,48 +38,52 @@ gboolean rpi_is_widget_visible_misc(const GtkWidget* widget)
 
 void rpi_set_visible_widget_misc(GtkWidget* widget, gboolean visible)
 {
-    if (widget)
+    if (!widget)
     {
+        return;
+    }
+
 #if GTK_MAJOR_VERSION == 4
-        if (GTK_IS_WINDOW(widget))
-        {
-            gtk_window_present(GTK_WINDOW(widget));
-        }
-        else
-        {
-            gtk_widget_set_visible(GTK_WIDGET(widget), visible);
-        }
+    if (GTK_IS_WINDOW(widget))
+    {
+        gtk_window_present(GTK_WINDOW(widget));
+    }
+    else
+    {
+        gtk_widget_set_visible(GTK_WIDGET(widget), visible);
+    }
 #elif GTK_MAJOR_VERSION == 3
-        if (visible)
-        {
-            gtk_widget_show(GTK_WIDGET(widget));
-        }
-        else
-        {
-            gtk_widget_hide(GTK_WIDGET(widget));
-        }
+    if (visible)
+    {
+        gtk_widget_show(GTK_WIDGET(widget));
+    }
+    else
+    {
+        gtk_widget_hide(GTK_WIDGET(widget));
+    }
 #else
     #error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
 #endif
-    }
 }
 
 void rpi_destroy_widget_misc(GtkWidget* widget)
 {
-    if (widget)
+    if (!widget)
     {
-#if GTK_MAJOR_VERSION == 4
-        if (GTK_IS_WINDOW(widget))
-        {
-            gtk_window_close(GTK_WINDOW(widget));
-        }
+        return;
+    }
 
-        gtk_widget_unparent(GTK_WIDGET(widget));
-        g_object_unref(widget);
+#if GTK_MAJOR_VERSION == 4
+    if (GTK_IS_WINDOW(widget))
+    {
+        gtk_window_close(GTK_WINDOW(widget));
+    }
+
+    gtk_widget_unparent(GTK_WIDGET(widget));
+    g_object_unref(widget);
 #elif GTK_MAJOR_VERSION == 3
-        gtk_widget_destroy(GTK_WIDGET(widget));
+    gtk_widget_destroy(GTK_WIDGET(widget));
 #else
     #error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
 #endif
-    }
 }
