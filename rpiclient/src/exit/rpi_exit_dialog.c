@@ -17,14 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../rpi_config.h"
+#include "../misc/rpi_misc.h"
 #include "rpi_exit_dialog.h"
 
 #if RPI_VERBOSE == 1
-#define EXIT_FROM_RPI_CLIENT_EXIT_DIALOG "Exit from RPIClient.\n"
-#define DO_NOT_EXIT_FROM_RPI_CLIENT_EXIT_DIALOG "Don't exit from RPIClient.\n"
+    #define EXIT_FROM_RPI_CLIENT_EXIT_DIALOG "Exit action by exit dialog.\n"
+    #define DO_NOT_EXIT_FROM_RPI_CLIENT_EXIT_DIALOG "No exit action by exit dialog.\n"
 #endif
 
-#define MISSING_PARENT_EXIT_DIALOG "Missing parent widget parameter.\n"
+#define MISSING_PARENT_EXIT_DIALOG "Missing parent widget parameter for exit dialog.\n"
 
 #define FAILED_MALLOC_EXIT_DIALOG "Failed to allocate memory for exit dialog.\n"
 
@@ -62,6 +63,9 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
         return NULL;
     }
 
+#if GTK_MAJOR_VERSION == 4
+    // TODO: prepare exit dialog for gtk+-4.0
+#elif GTK_MAJOR_VERSION == 3
     instance->dialog = gtk_dialog_new_with_buttons(
         TITLE_EXIT_DIALOG,
         GTK_WINDOW(parent),
@@ -72,6 +76,9 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
         GTK_RESPONSE_REJECT,
         NULL
     );
+#else
+    #error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
     if (!GTK_IS_DIALOG(instance->dialog))
     {
@@ -109,44 +116,28 @@ ExitDialog *new_exit_dialog(GtkWidget *parent)
 
 gint show_exit_dialog(ExitDialog *instance)
 {
+    if (instance)
+    {
+        gboolean is_exit_dialog = GTK_IS_DIALOG(instance->dialog);
+        gboolean is_exit_dialog_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->dialog));
+
+        if (is_exit_dialog && !is_exit_dialog_visible)
+        {
 #if GTK_MAJOR_VERSION == 4
-    if (instance)
-    {
-        gboolean is_dialog = GTK_IS_DIALOG(instance->dialog);
-        gboolean is_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
-
-        if (is_dialog && is_dialog_hidden)
-        {
-            gtk_widget_show(GTK_WIDGET(instance->dialog));
-            // TODO: gtk_dialog_run is depricated move to signal slot
-            gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
-
-            if (result == GTK_RESPONSE_ACCEPT)
-            {
-                hide_exit_dialog(instance);
-                return CLOSE_ON_EXIT_DIALOG;
-            }
-
-            hide_exit_dialog(instance);
-        }
-    }
+            // TODO: prepare run exit dialog for gtk+-4.0
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->dialog), !is_exit_dialog_visible);
 #elif GTK_MAJOR_VERSION == 3
-    if (instance)
-    {
-        gboolean is_dialog = GTK_IS_DIALOG(instance->dialog);
-        gboolean is_dialog_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
-
-        if (is_dialog && is_dialog_hidden)
-        {
             gtk_widget_show_all(GTK_WIDGET(instance->dialog));
             gint result = gtk_dialog_run(GTK_DIALOG(instance->dialog));
+#else
+    #error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
+#endif
 
             if (result == GTK_RESPONSE_ACCEPT)
             {
                 hide_exit_dialog(instance);
-
 #if RPI_VERBOSE == 1
-        g_debug(EXIT_FROM_RPI_CLIENT_EXIT_DIALOG);
+                g_debug(EXIT_FROM_RPI_CLIENT_EXIT_DIALOG);
 #endif
                 return CLOSE_ON_EXIT_DIALOG;
             }
@@ -154,9 +145,6 @@ gint show_exit_dialog(ExitDialog *instance)
             hide_exit_dialog(instance);
         }
     }
-#else
-#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
-#endif
 
 #if RPI_VERBOSE == 1
         g_debug(DO_NOT_EXIT_FROM_RPI_CLIENT_EXIT_DIALOG);
@@ -169,17 +157,12 @@ void hide_exit_dialog(ExitDialog *instance)
 {
     if (instance)
     {
-        gboolean is_dialog = GTK_IS_DIALOG(instance->dialog);
-#if GTK_MAJOR_VERSION == 4
-        gboolean is_dialog_visible = gtk_widget_is_visible(GTK_WIDGET(instance->dialog));
-#elif GTK_MAJOR_VERSION == 3
-        gboolean is_dialog_visible = gtk_widget_get_visible(GTK_WIDGET(instance->dialog));
-#else
-#error "Supported GTK+ version: gtk+-3.0 gtk+-4.0!"
-#endif
-        if (is_dialog && is_dialog_visible)
+        gboolean is_exit_dialog = GTK_IS_DIALOG(instance->dialog);
+        gboolean is_exit_dialog_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->dialog));
+
+        if (is_exit_dialog && is_exit_dialog_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->dialog));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->dialog), !is_exit_dialog_visible);
         }
     }
 }
@@ -190,7 +173,7 @@ void destroy_exit_dialog(ExitDialog *instance)
     {
         if (GTK_IS_DIALOG(instance->dialog))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->dialog));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->dialog));
             instance->dialog = NULL;
         }
 

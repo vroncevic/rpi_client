@@ -20,6 +20,11 @@
 
 #include <gtk/gtk.h>
 
+// TODO: move to caller code location
+#define TEXT_SETUP_CONNECTION_SETTINGS_WARNING_DIALOG "Please set ip address, port of server !"
+#define TEXT_SETUP_CONNECTION_WARNING_DIALOG "Please make connection\nGo to Option > Connection"
+#define TEXT_ERROR_WARNING_DIALOG "There was an error !"
+
 //////////////////////////////////////////////////////////////////////////////
 /// @brief Warning dialog complex widget
 typedef struct _WarningDialog WarningDialog;

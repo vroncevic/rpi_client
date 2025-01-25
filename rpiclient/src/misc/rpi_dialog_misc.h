@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
- * rpi_config.h
+ * rpi_dialog_misc.h
  * Copyright (C) 2016 - 2025 Vladimir Roncevic <elektron.ronca@gmail.com>
  *
  * rpiclient-gtk is free software: you can redistribute it and/or modify it
@@ -18,10 +18,5 @@
  */
 #pragma once
 
-//////////////////////////////////////////////////////////////////////////////
-/// @brief RPIClient version
-#define RPI_CLIENT_VERSION "1.0.0-369c264"
+#include <gtk/gtk.h>
 
-//////////////////////////////////////////////////////////////////////////////
-/// @brief Enables verbose log messages
-#define RPI_VERBOSE 0
