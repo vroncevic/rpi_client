@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../misc/rpi_misc.h"
 #include "rpi_channel_control.h"
 
 #define FAILED_MALLOC_CHANNEL_CONTROL "Failed to allocate memory for channel control.\n"
@@ -152,43 +153,43 @@ void show_rpi_channel_control(RPIChannelControl *instance)
     if (instance)
     {
         gboolean is_vertical_bar = GTK_IS_VB(instance->control_channel_vertical_bar);
-        gboolean is_vertical_bar_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar));
+        gboolean is_vertical_bar_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_vertical_bar));
         
-        if (is_vertical_bar && is_vertical_bar_hidden)
+        if (is_vertical_bar && !is_vertical_bar_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->control_channel_vertical_bar));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_vertical_bar), !is_vertical_bar_visible);
         }
 
         gboolean is_scale = GTK_IS_SCALE(instance->control_channel_scale);
-        gboolean is_scale_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_scale));
+        gboolean is_scale_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_scale));
 
-        if (is_scale && is_scale_hidden)
+        if (is_scale && !is_scale_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->control_channel_scale));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_scale), !is_scale_visible);
         }
 
         gboolean is_adjustment = GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment);
-        gboolean is_adjustment_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment));
+        gboolean is_adjustment_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_spinner_adjustment));
 
-        if (is_adjustment && is_adjustment_hidden)
+        if (is_adjustment && !is_adjustment_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->control_channel_spinner_adjustment));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_spinner_adjustment), !is_adjustment_visible);
         }
 
         gboolean is_spin_button = GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button);
-        gboolean is_spin_button_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_button));
+        gboolean is_spin_button_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_spinner_button));
 
-        if (is_spin_button && is_spin_button_hidden)
+        if (is_spin_button && !is_spin_button_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->control_channel_spinner_button));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_spinner_button), !is_spin_button_visible);
         }
 
         gboolean is_check_button = GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box);
-        gboolean is_check_button_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_gpio_check_box));
+        gboolean is_check_button_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_gpio_check_box));
 
-        if (is_check_button && is_check_button_hidden)
+        if (is_check_button && !is_check_button_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->control_channel_gpio_check_box));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_gpio_check_box), !is_check_button_visible);
         }
     }
 }
@@ -198,43 +199,43 @@ void hide_rpi_channel_control(RPIChannelControl *instance)
     if (instance)
     {
         gboolean is_vertical_bar = GTK_IS_VB(instance->control_channel_vertical_bar);
-        gboolean is_vertical_bar_visible = gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_vertical_bar));
+        gboolean is_vertical_bar_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_vertical_bar));
         
         if (is_vertical_bar && is_vertical_bar_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->control_channel_vertical_bar));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_vertical_bar), !is_vertical_bar_visible);
         }
 
         gboolean is_scale = GTK_IS_SCALE(instance->control_channel_scale);
-        gboolean is_scale_visible = gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_scale));
+        gboolean is_scale_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_scale));
 
         if (is_scale && is_scale_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->control_channel_scale));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_scale), !is_scale_visible);
         }
 
         gboolean is_adjustment = GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment);
-        gboolean is_adjustment_visible = gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_adjustment));
+        gboolean is_adjustment_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_spinner_adjustment));
 
         if (is_adjustment && is_adjustment_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->control_channel_spinner_adjustment));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_spinner_adjustment), !is_adjustment_visible);
         }
 
         gboolean is_spin_button = GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button);
-        gboolean is_spin_button_visible = gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_spinner_button));
+        gboolean is_spin_button_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_spinner_button));
 
         if (is_spin_button && is_spin_button_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->control_channel_spinner_button));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_spinner_button), !is_spin_button_visible);
         }
 
         gboolean is_check_button = GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box);
-        gboolean is_check_button_visible = gtk_widget_get_visible(GTK_WIDGET(instance->control_channel_gpio_check_box));
+        gboolean is_check_button_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->control_channel_gpio_check_box));
 
         if (is_check_button && is_check_button_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->control_channel_gpio_check_box));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->control_channel_gpio_check_box), !is_check_button_visible);
         }
     }
 }
@@ -311,25 +312,25 @@ void destroy_rpi_channel_control(RPIChannelControl *instance)
 
         if (GTK_IS_SCALE(instance->control_channel_scale))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->control_channel_scale));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->control_channel_scale));
             instance->control_channel_scale = NULL;
         }
 
         if (GTK_IS_ADJUSTMENT(instance->control_channel_spinner_adjustment))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->control_channel_spinner_adjustment));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->control_channel_spinner_adjustment));
             instance->control_channel_spinner_adjustment = NULL;
         }
         
         if (GTK_IS_SPIN_BUTTON(instance->control_channel_spinner_button))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->control_channel_spinner_button));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->control_channel_spinner_button));
             instance->control_channel_spinner_button = NULL;
         }
 
         if (GTK_IS_CHECK_BUTTON(instance->control_channel_gpio_check_box))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->control_channel_gpio_check_box));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->control_channel_gpio_check_box));
             instance->control_channel_gpio_check_box = NULL;
         }
 

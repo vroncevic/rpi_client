@@ -18,6 +18,7 @@
  */
 #include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
+#include "../misc/rpi_misc.h"
 #include "rpi_image_slider.h"
 #include "rpi_help_window.h"
 
@@ -98,7 +99,7 @@ HelpWindow *new_help_window(void)
             g_critical(FAILED_PIXBUF_HELP_WINDOW);
             pixbuf = NULL;
         }
-            
+
         g_free(icon_file_path);
         icon_file_path = NULL;
     }
@@ -125,10 +126,11 @@ void show_help_window(HelpWindow *instance)
     if (instance)
     {
         gboolean is_window = GTK_IS_WINDOW(instance->window);
-        gboolean is_window_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+        gboolean is_window_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->window));
 
-        if (is_window && is_window_hidden)
+        if (is_window && !is_window_visible)
         {
+            // TODO: check gtk-4.0
             gtk_widget_show_all(GTK_WIDGET(instance->window));
         }
     }
@@ -139,11 +141,11 @@ void hide_help_window(HelpWindow *instance)
     if (instance)
     {
         gboolean is_window = GTK_IS_WINDOW(instance->window);
-        gboolean is_window_visible = gtk_widget_get_visible(GTK_WIDGET(instance->window));
+        gboolean is_window_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->window));
 
         if (is_window && is_window_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->window));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->window), !is_window_visible);
         }
     }
 }
@@ -160,7 +162,7 @@ void destroy_help_window(HelpWindow *instance)
 
         if (GTK_IS_WINDOW(instance->window))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->window));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->window));
             instance->window = NULL;
         }
 

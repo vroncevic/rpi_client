@@ -107,7 +107,7 @@ static void on_exit(GtkWidget *widget, gpointer data)
         app = NULL;
 
 #if RPI_VERBOSE == 1
-    g_debug(ON_EXIT_CLOSE_RPI_CLIENT);
+        g_debug(ON_EXIT_CLOSE_RPI_CLIENT);
 #endif
 
         gtk_main_quit();

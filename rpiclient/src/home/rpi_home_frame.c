@@ -17,6 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../rpi_config.h"
+#include "../misc/rpi_misc.h"
 #include "rpi_channel_status.h"
 #include "rpi_channel_control.h"
 #include "rpi_home_frame.h"
@@ -228,11 +229,11 @@ void show_rpi_home_frame(RPIHomeFrame *instance)
     if (instance)
     {
         gboolean is_frame = GTK_IS_FRAME(instance->frame_home);
-        gboolean is_frame_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->frame_home));
+        gboolean is_frame_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->frame_home));
 
-        if (is_frame && is_frame_hidden)
+        if (is_frame && !is_frame_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->frame_home));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->frame_home), !is_frame_visible);
         }
     }
 }
@@ -242,11 +243,11 @@ void hide_rpi_home_frame(RPIHomeFrame *instance)
     if (instance)
     {
         gboolean is_frame = GTK_IS_FRAME(instance->frame_home);
-        gboolean is_frame_visible = gtk_widget_get_visible(GTK_WIDGET(instance->frame_home));
+        gboolean is_frame_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->frame_home));
 
         if (is_frame && is_frame_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->frame_home));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->frame_home), !is_frame_visible);
         }
     }
 }
@@ -272,7 +273,7 @@ void destroy_rpi_home_frame(RPIHomeFrame *instance)
     {
         if (GTK_IS_FRAME(instance->frame_home))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->frame_home));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->frame_home));
             instance->frame_home = NULL;
         }
 
