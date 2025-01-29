@@ -18,6 +18,7 @@
  */
 #include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
+#include "../misc/rpi_misc.h"
 #include "rpi_image_slider.h"
 
 #if RPI_VERBOSE == 1
@@ -151,11 +152,11 @@ void show_image_slider(ImageSlider *instance)
     if (instance)
     {
         gboolean is_fixed = GTK_IS_FIXED(instance->fixed);
-        gboolean is_fixed_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->fixed));
+        gboolean is_fixed_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->fixed));
 
-        if (is_fixed && is_fixed_hidden)
+        if (is_fixed && !is_fixed_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->fixed));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->fixed), !is_fixed_visible);
         }
     }
 }
@@ -165,11 +166,11 @@ void hide_image_slider(ImageSlider *instance)
     if (instance)
     {
         gboolean is_fixed = GTK_IS_FIXED(instance->fixed);
-        gboolean is_fixed_visible = gtk_widget_get_visible(GTK_WIDGET(instance->fixed));
+        gboolean is_fixed_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->fixed));
 
         if (is_fixed && is_fixed_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->fixed));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->fixed), !is_fixed_visible);
         }
     }
 }
@@ -185,7 +186,7 @@ void destroy_image_slider(ImageSlider *instance)
     {
         if (GTK_IS_FIXED(instance->fixed))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->fixed));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->fixed));
             instance->fixed = NULL;
         }
 

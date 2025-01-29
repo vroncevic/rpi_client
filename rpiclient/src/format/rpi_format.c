@@ -115,7 +115,7 @@ gchar *rpi_format_encrypt(const gchar *in, guint shift)
     out[input_length] = '\0';
 
 #if RPI_VERBOSE == 1
-        g_debug(ENCRYPTED_FORMAT, in, out);
+    g_debug(ENCRYPTED_FORMAT, in, out);
 #endif
 
     return out;
@@ -163,7 +163,7 @@ gchar *rpi_format_decrypt(const gchar *in, guint shift)
     out[input_length] = '\0';
 
 #if RPI_VERBOSE == 1
-        g_debug(DECRYPTED_FORMAT, in, out);
+    g_debug(DECRYPTED_FORMAT, in, out);
 #endif
 
     return out;

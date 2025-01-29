@@ -18,6 +18,7 @@
  */
 #include "../rpi_config.h"
 #include "../resource/rpi_resource.h"
+#include "../misc/rpi_misc.h"
 #include "rpi_settings.h"
 #include "rpi_settings_config.h"
 #include "rpi_settings_general_window.h"
@@ -313,10 +314,11 @@ void show_settings_general_window(SettingsGeneralWindow *instance)
         }
 #elif GTK_MAJOR_VERSION == 3
         gboolean is_window = GTK_IS_WINDOW(instance->window);
-        gboolean is_window_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->window));
+        gboolean is_window_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->window));
 
-        if (is_window && is_window_hidden)
+        if (is_window && !is_window_visible)
         {
+            // TODO: prepare for misc
             gtk_widget_show_all(GTK_WIDGET(instance->window));
         }
 #else
@@ -330,11 +332,11 @@ void hide_settings_general_window(SettingsGeneralWindow *instance)
     if (instance)
     {
         gboolean is_window = GTK_IS_WINDOW(instance->window);
-        gboolean is_window_visible = gtk_widget_get_visible(GTK_WIDGET(instance->window));
+        gboolean is_window_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->window));
 
         if (is_window && is_window_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->window));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->window), !is_window_visible);
         }
     }
 }
@@ -371,7 +373,7 @@ void destroy_settings_general_window(SettingsGeneralWindow *instance)
 
         if (GTK_IS_WINDOW(instance->window))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->window));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->window));
             instance->window = NULL;
         }
 

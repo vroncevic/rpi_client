@@ -17,6 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../rpi_config.h"
+#include "../misc/rpi_misc.h"
 #include "rpi_menu.h"
 
 #if RPI_VERBOSE == 1
@@ -248,11 +249,11 @@ void show_rpi_menu(RPIMenu *instance)
     if (instance)
     {
         gboolean is_rpi_menu = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_rpi_menu_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->menu_bar));
+        gboolean is_rpi_menu_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->menu_bar));
 
-        if (is_rpi_menu && is_rpi_menu_hidden)
+        if (is_rpi_menu && !is_rpi_menu_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->menu_bar));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->menu_bar), !is_rpi_menu_visible);
         }
     }
 }
@@ -262,11 +263,11 @@ void hide_rpi_menu(RPIMenu *instance)
     if (instance)
     {
         gboolean is_rpi_menu = GTK_IS_MENU_BAR(instance->menu_bar);
-        gboolean is_rpi_menu_visible = gtk_widget_get_visible(GTK_WIDGET(instance->menu_bar));
+        gboolean is_rpi_menu_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->menu_bar));
 
         if (is_rpi_menu && is_rpi_menu_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->menu_bar));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->menu_bar), !is_rpi_menu_visible);
         }
     }
 }
@@ -334,7 +335,7 @@ void destroy_rpi_menu(RPIMenu *instance)
     {
         if (GTK_IS_MENU_ITEM(instance->menu_file_submenu_exit))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_file_submenu_exit));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_file_submenu_exit));
             instance->menu_file_submenu_exit = NULL;
         }
 
@@ -346,85 +347,85 @@ void destroy_rpi_menu(RPIMenu *instance)
 
         if (GTK_IS_MENU_ITEM(instance->menu_file_item))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_file_item));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_file_item));
             instance->menu_file_item = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_option_submenu_connect))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_option_submenu_connect));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_option_submenu_connect));
             instance->menu_option_submenu_connect = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_option_submenu_disconnect))
         {
-            gtk_widget_destroy(instance->menu_option_submenu_disconnect);
+            rpi_destroy_widget_misc(instance->menu_option_submenu_disconnect);
             instance->menu_option_submenu_disconnect = NULL;
         }
 
         if (GTK_IS_MENU(instance->menu_option))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_option));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_option));
             instance->menu_option = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_option_item))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_option_item));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_option_item));
             instance->menu_option_item = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_settings_submenu_general))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_settings_submenu_general));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_settings_submenu_general));
             instance->menu_settings_submenu_general = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_settings_submenu_network))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_settings_submenu_network));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_settings_submenu_network));
             instance->menu_settings_submenu_network = NULL;
         }
 
         if (GTK_IS_MENU(instance->menu_settings))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_settings));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_settings));
             instance->menu_settings = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_settings_item))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_settings_item));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_settings_item));
             instance->menu_settings_item = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_help_submenu_help))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_help_submenu_help));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_help_submenu_help));
             instance->menu_help_submenu_help = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_help_submenu_about))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_help_submenu_about));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_help_submenu_about));
             instance->menu_help_submenu_about = NULL;
         }
 
         if (GTK_IS_MENU(instance->menu_help))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_help));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_help));
             instance->menu_help = NULL;
         }
 
         if (GTK_IS_MENU_ITEM(instance->menu_help_item))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_help_item));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_help_item));
             instance->menu_help_item = NULL;
         }
 
         if (GTK_IS_MENU_BAR(instance->menu_bar))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->menu_bar));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->menu_bar));
             instance->menu_bar = NULL;
         }
 

@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "rpiclient-gtk C",
+            "name": "rpi_client C",
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/x86_64-linux-gnu",

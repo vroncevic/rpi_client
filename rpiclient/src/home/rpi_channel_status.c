@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../misc/rpi_misc.h"
 #include "rpi_channel_status.h"
 
 #define FAILED_MALLOC_CHANNEL_STATUS "Failed to allocate memory for channel status.\n"
@@ -88,27 +89,27 @@ void show_rpi_channel_status(RPIChannelStatus *instance)
     if (instance)
     {
         gboolean is_check_button = GTK_IS_CHECK_BUTTON(instance->activate_channel_check_box);
-        gboolean is_check_button_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->activate_channel_check_box));
+        gboolean is_check_button_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->activate_channel_check_box));
 
-        if (is_check_button && is_check_button_hidden)
+        if (is_check_button && !is_check_button_visible)
         {
-            gtk_widget_show(instance->activate_channel_check_box);
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->activate_channel_check_box), !is_check_button_visible);
         }
 
         gboolean is_check_label = GTK_IS_LABEL(instance->status_channel_label);
-        gboolean is_check_label_hidden = !gtk_widget_get_visible(instance->status_channel_label);
+        gboolean is_check_label_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->status_channel_label));
 
-        if (is_check_label && is_check_label_hidden)
+        if (is_check_label && !is_check_label_visible)
         {
-            gtk_widget_show(instance->status_channel_label);
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->status_channel_label), !is_check_label_visible);
         }
 
         gboolean is_verical_bar = GTK_IS_VB(instance->status_channel_vertical_bar);
-        gboolean is_verical_bar_hidden = !gtk_widget_get_visible(GTK_WIDGET(instance->status_channel_vertical_bar));
+        gboolean is_verical_bar_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->status_channel_vertical_bar));
 
-        if (is_verical_bar && is_verical_bar_hidden)
+        if (is_verical_bar && !is_verical_bar_visible)
         {
-            gtk_widget_show(GTK_WIDGET(instance->status_channel_vertical_bar));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->status_channel_vertical_bar), !is_verical_bar_visible);
         }
     }
 }
@@ -118,27 +119,27 @@ void hide_rpi_channel_status(RPIChannelStatus *instance)
     if (instance)
     {
         gboolean is_check_button = GTK_IS_CHECK_BUTTON(instance->activate_channel_check_box);
-        gboolean is_check_button_visible = gtk_widget_get_visible(GTK_WIDGET(instance->activate_channel_check_box));
+        gboolean is_check_button_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->activate_channel_check_box));
 
         if (is_check_button && is_check_button_visible)
         {
-            gtk_widget_hide(instance->activate_channel_check_box);
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->activate_channel_check_box), !is_check_button_visible);
         }
 
         gboolean is_check_label = GTK_IS_LABEL(instance->status_channel_label);
-        gboolean is_check_label_visible = gtk_widget_get_visible(instance->status_channel_label);
+        gboolean is_check_label_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->status_channel_label));
 
         if (is_check_label && is_check_label_visible)
         {
-            gtk_widget_hide(instance->status_channel_label);
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->status_channel_label), !is_check_label_visible);
         }
 
         gboolean is_verical_bar = GTK_IS_VB(instance->status_channel_vertical_bar);
-        gboolean is_verical_bar_visible = gtk_widget_get_visible(GTK_WIDGET(instance->status_channel_vertical_bar));
+        gboolean is_verical_bar_visible = rpi_is_widget_visible_misc(GTK_WIDGET(instance->status_channel_vertical_bar));
 
         if (is_verical_bar && is_verical_bar_visible)
         {
-            gtk_widget_hide(GTK_WIDGET(instance->status_channel_vertical_bar));
+            rpi_set_visible_widget_misc(GTK_WIDGET(instance->status_channel_vertical_bar), !is_verical_bar_visible);
         }
     }
 }
@@ -194,13 +195,13 @@ void destroy_rpi_channel_status(RPIChannelStatus *instance)
     {
         if (GTK_IS_LABEL(instance->status_channel_label))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->status_channel_label));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->status_channel_label));
             instance->status_channel_label = NULL;
         }
 
         if (GTK_IS_CHECK_BUTTON(instance->activate_channel_check_box))
         {
-            gtk_widget_destroy(GTK_WIDGET(instance->activate_channel_check_box));
+            rpi_destroy_widget_misc(GTK_WIDGET(instance->activate_channel_check_box));
             instance->activate_channel_check_box = NULL;
         }
 
